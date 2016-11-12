@@ -1,0 +1,105 @@
+\begin{equation}
+\Gamma_1=\frac{J_{xz}(J_x-J_y+J_z)}{\Gamma}
+\end{equation}
+\begin{equation}
+\Gamma_2=\frac{J_z(J_z-J_y)+J_{xz}^2}{\Gamma}
+\end{equation}
+\begin{equation}
+\Gamma_3=\frac{J_z}{\Gamma}
+\end{equation}
+\begin{equation}
+\Gamma_4=\frac{J_{xz}}{\Gamma}
+\end{equation}
+\begin{equation}
+\Gamma_5=\frac{J_z-J_x}{J_y}
+\end{equation}
+\begin{equation}
+\Gamma_6=\frac{J_{xz}}{J_y}
+\end{equation}
+\begin{equation}
+\Gamma_7=\frac{J_x(J_x-J_y)+J_{xz}^2}{\Gamma}
+\end{equation}
+\begin{equation}
+\Gamma_8=\frac{J_x}{\Gamma}
+\end{equation}
+
+\begin{equation}
+m = \frac{1}{2}\rho V_a^2ScC_M
+\end{equation}
+\begin{equation}
+m = \frac{1}{2}\rho V_a^2Sc[C_{M_0}+C_{M_\alpha}\alpha+C_{M_q}\frac{c}{2V_a}q+C_{M_{\delta_e}}\delta_e]
+\end{equation}
+
+\begin{equation}
+\dot{q} =\Gamma_5pr-\Gamma_6(p^2-r^2)+\frac{1}{J_y}m
+\end{equation}
+The following is a first order simplification of the pitch rate derivative.
+\begin{equation}
+\dot{q} =L_qq+L_{\delta_e}\delta_e
+\end{equation}
+Where $L_q$ is the pitch damping derivative and $L_{\delta_e}$ is the dimensional pitching moment derivative.
+
+The system can be modeled using the following standard notation:
+\begin{equation}
+\dot{x} =ax+bu
+\end{equation}
+where the first order approximation is at unity DC gain,
+
+\begin{equation}
+\dot{x} =-ax+au
+\end{equation}
+
+the error can be defined as
+\begin{equation}
+e=x-x_m
+\end{equation}
+therefore the derivative of the error becomes
+\begin{equation}
+\dot{e}=\dot{x}-\dot{x_m}
+\end{equation}
+where
+\begin{equation}
+\dot{q}_{ref}=-a_{ref}q_{ref}+a_{ref}q_{cmd}
+\end{equation}
+then
+\begin{equation}
+\dot{e}=L_qq+L_{\delta_e}\delta_e + a_{ref}(q_{ref}-q_{cmd})
+\end{equation}
+solving for $\delta_e$ when $\dot{e}=0$
+\begin{equation}
+\delta_e=\frac{-L_qq}{L_{\delta_e}} -  \frac{a_{ref}(q_{ref}-q_{cmd})}{L_{\delta_e}}
+\end{equation}
+
+
+\begin{equation}
+\delta_e=\left(\frac{a_{ref}-L_q}{L_{\delta_e}}\right)q+\left(\frac{b_{ref}}{L_{\delta_e}}\right)q_{cmd}
+\end{equation}
+simplifies to
+\begin{equation}
+\delta_e=(K_q)q+(K_{q_{cmd}})q_{cmd}
+\end{equation}
+
+\begin{equation}
+\tilde{q}=q-q_{ref}
+\end{equation}
+
+\begin{equation}
+\delta_e=(K_q)q+(K_{q_{cmd}})q_{cmd}-K_{\tilde{q}}(q-q_{ref})
+\end{equation}
+
+\begin{equation}
+\delta_e=(\hat{K_q})q+(\hat{K_{q_{cmd}}})q_{cmd}-K_{\tilde{q}}(q-q_{ref})
+\end{equation}
+
+where
+\begin{equation}
+\dot{\hat{K}}_q=-{{\gamma}_q}q\tilde{q}
+\end{equation}
+\begin{equation}
+\dot{\hat{K}}_{q_{cmd}}=-{\gamma}_{q_{cmd}}{q_{cmd}}\tilde{q}
+\end{equation}
+
+Projection Operator
+\begin{equation}
+f = \frac{2}{\delta}\frac{\frac{\hat{K_1}-(K_up+K_low)}{2}}{\frac{K_up-K_low}{2}^2}+1-\delta
+\end{equation}
