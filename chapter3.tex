@@ -22,10 +22,10 @@ Often times in this thesis, B will be set equal to A.  This is to ensure the DC 
   \label{fig:reference_frame}
 \end{figure}
 
-\section{$\mathcal{L}$1 Adaptive Control}
-The controller architecture was assumed to be \ac{SISO} for the pitch and roll channels.  This is a fairly gross assumption, but drastically simplifies the controller and for most aircraft will produce adequate rejection to aerodynamic coupling.  The desired channels to be controlled were pitch rate $(q)$ and roll rate $(p)$.  These values were measured by the \ac{IMU} and reported in radians per second.
+\section{\Lone Adaptive Control}
+The \Lone controller architecture was assumed to be \ac{SISO} for the pitch and roll channels.  This is a fairly gross assumption, but drastically simplifies the controller and for most aircraft will produce adequate rejection to aerodynamic coupling.  The desired channels to be controlled were pitch rate $(q)$ and roll rate $(p)$.  These values were measured by the \ac{IMU} and reported in radians per second.
 
-In this implementation of the $\mathcal{L}$1 adaptive controller, the desired state $x$ to be controlled will be and individual body rate (\eg $q$, $p$).
+In this implementation of the \Lone adaptive controller, the desired state $x$ to be controlled will be and individual body rate (\eg $q$, $p$).
 The following is an example of the controller implemented using a simplified pitch rate model.
 \begin{equation}
 \dot{q}=Aq+Bq_{cmd}
