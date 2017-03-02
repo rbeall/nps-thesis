@@ -1,5 +1,43 @@
-\chapter{UAV Avionics Trends and Problem Formulation}\label{ch:problem}
+\chapter{Background and Literature Review}\label{ch:problem}
+%---------------------------------------------------------
+\section{Preliminaries and Notation}\label{preliminaries}
+This thesis uses the following notation, nomenclature, and fundamental equations of motion for fixed wing rigid body aerodynamics.
 
-The start of chapter 2.
+\subsection{Kinematics}
+The following is the nomenclature that will be used to describe the kinematic equations.  Euler angles for pitch $(\theta)$, roll $(\phi)$, and yaw $(\psi)$ will have the units of radians.  The following Figure~\ref{fig:reference_frame} illustrates the \ac{NED} reference frame definitions used for body rotational rates about the $x$ axis $(p)$, $y$ axis $(q)$, and the $z$ axis $(r)$ as well as the body velocities in the $x$ axis $(u)$, $y$ axis $(v)$, and the $z$ axis $(w)$.
+
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.65\textwidth]{body_frame_rotations.png}
+  \caption{Reference frame - body rates and velocities}
+  \label{fig:reference_frame}
+\end{figure}
+
+\subsection{First Order Model}
+The following nomenclature will be used to illustrate the modeling of first order systems where $\dot{x}$ is the time derivative of the state, A is the Hurwitz matrix, B is the input matrix, and u is the input vector.
+\begin{equation}
+\dot{x}(t)=Ax(t)+Bu(t)
+\end{equation}
+
+
+%---------------------------------------------------------
+\section{Feedback vs Adaptive Control}
+
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.85\textwidth]{why_adaptive_control.png}
+  \caption{Determine if adaptive control should be used}
+  \label{fig:why_adaptive_control}
+\end{figure}
+
+
+%---------------------------------------------------------
+\section{MIT Rule}
+
+
+%---------------------------------------------------------
+\section{Lyapunov Stability Criteria}
+
+
 
 

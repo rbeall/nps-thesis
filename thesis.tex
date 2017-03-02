@@ -7,6 +7,7 @@
 \graphicspath{{figs/}}
 
 \newcommand{\Lone}{$\mathcal{L}_1$ }
+\newcommand{\degrees}{$^{\circ}$}
 
 %
 % For Example: you might find one of these useful:
@@ -116,7 +117,7 @@
 \begin{document}
 
 \NPScover                  	% Cover page
-\NPSsftne                  		% SF298 form
+%\NPSsftne                  		% SF298 form
 %\NPSsignature             	% Tech Report page (iii): signature page
 \NPSthesistitle            	% Thesis page (iii): title page
 \NPSabstractpage           	% Abstract Page
@@ -135,7 +136,7 @@
 \NPSlistOfAcronymsFromFile{acronyms}
 
 \NPSexecsummary{ 
-This research will focus on.....
+The field of adaptive control offers techniques for increasing performance and robustness in numerous settings and applications.  Adaptive control is different than traditional feedback in that it offers a mechanism for adjusting the controller's parameters to reduce plant uncertainty.  Traditional feedback control utilizes parameters, which are specified by the engineer to optimize an ideal use case, which often times requires extensive tuning and testing.  Adaptive controllers adjust their control parameters using various intelligent mechanisms designed to   increase robustness to plant variation or unanticipated disturbances.  Adaptive control has many applications in the aerospace domain to include control strategies when aerodynamic coefficients are unknown or are non-constant, actuator failure, airframe damage, etc.   This research evaluates fixed wing \ac{UAS} controller performance and robustness using the \Lone adaptive control architecture. 
 }
 
 \NPSacknowledgements{
