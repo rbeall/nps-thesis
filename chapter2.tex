@@ -19,6 +19,8 @@ The following nomenclature will be used to illustrate the modeling of first orde
 \dot{x}(t)=Ax(t)+Bu(t)
 \end{equation}
 
+\subsection{Second Order Model}
+
 
 %---------------------------------------------------------
 \section{Feedback vs Adaptive Control}
@@ -38,6 +40,11 @@ The following nomenclature will be used to illustrate the modeling of first orde
 %---------------------------------------------------------
 \section{Lyapunov Stability Criteria}
 
+Aerospace controllers tend to use linear controllers for their simplicity and well understood robustness characteristics.  This is despite the fact that the applications of these linear controllers are applied to non-linear control solutions such as attitude control with varying dynamic pressure.  Adaptive Controllers are non-linear and may offer performance benefits to non-linear systems as seen in aerospace applications.  However, non-linear controller's robustness properties need to be evaluated.  The Lyapunov stability criteria offers methods of evaluating these controller's boundedness and robustness behavior.  
 
+Lyapunov was a Russian mathematician who's work was published in 1892 concerning the behavior of non-linear systems around equilibrium without having to find the unique solutions to often difficult differential equations used to model the system.  His work was largely overlooked until the Cold War when aerospace solutions required a more rigorous approach to analyzing non-linear control robustness.  Modern non-linear control engineers exclusively utilize Lyapunov's techniques to design non-linear controllers and evaluate their contributions to non-linear dynamical systems.
+
+\subsection{Lyapunov's Second Method}
+ 
 
 
