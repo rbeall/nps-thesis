@@ -1,11 +1,7 @@
-\chapter{Adaptive Control Derivation}\label{ch:derivation}
+\chapter{\Lone Adaptive Control Derivation}\label{ch:derivation}
 Intro Here !!!!!! 
 
 Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  As paralleled in the X-15's robustness issues, Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
-
-\section{Model Reference Adaptive Control}
-
-
 
 \section{\Lone Adaptive Control}
 The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to model a \ac{LTI} system with unknown constant parameters.  These parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architectures.  The indirect architecture attempts to estimate the system's parameters, which could be considered similar to  system identification.  Alternately the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
