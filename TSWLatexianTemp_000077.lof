@@ -1,0 +1,22 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Reference frame - body rates and velocities\relax }}{5}{figure.caption.13}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Determine if adaptive control should be used\relax }}{7}{figure.caption.14}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Traditional \ac {MRAC} architecture \relax }}{8}{figure.caption.16}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Direct \ac {MRAC} architecture \relax }}{15}{figure.caption.20}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Indirect \ac {MRAC} architecture \relax }}{16}{figure.caption.21}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Direct \ac {MRAC} architecture with low-pass filter \relax }}{16}{figure.caption.22}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Indirect \ac {MRAC} architecture with low-pass filter \relax }}{17}{figure.caption.23}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces $\mathcal {L}_1$ Architecture with Matched Uncertainty Block Diagram \cite {hovakimyan2010l1} \relax }}{18}{figure.caption.26}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Spear Airframe\relax }}{21}{figure.caption.27}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Spear Cargo Capacity\relax }}{22}{figure.caption.28}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Spear Build Process\relax }}{22}{figure.caption.29}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Reverse Linear Chirp Example\relax }}{24}{figure.caption.30}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Roll Model Regression with Manual Inputs\relax }}{26}{figure.caption.33}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Roll Model Regression with Reverse Linear Chirp\relax }}{26}{figure.caption.34}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsfinish 
