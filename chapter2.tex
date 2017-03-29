@@ -14,7 +14,7 @@ The following is the nomenclature that will be used to describe the kinematic eq
 \end{figure}
 
 \subsection{Transfer Functions}
-The modeling technique chosen for this research was the transfer function form.  Transfer functions are used to describe the relationship between inputs and outputs of systems.  This is accomplished using a series of polynomials.  These polynomials are unknown for the aircraft and regression tools will be utilized to solve for them.  
+This research utilizes \ac{TF} representation of aircraft flight dynamics that is typical of \ac{LTI} systems.  A transfer function is a very effective approach to describe the relationship between inputs and outputs of \ac{LTI} systems.  Both analytically and numerically, the \ac{TF} approach has significant benefits in continuous and discrete time domains as its construct is based on well-developed properties and primitives of polynomials.  These polynomial representation of various aerodynamic, flight dynamics, and control properties of aircraft are well-developed.  What is unknown or partially known a priori, are the numerical values  of coefficients for those polynomials, therefore the tools from the areas of online estimation such as regression are utilized to solve for them.
 
 Transfer functions take the form:
 
@@ -61,7 +61,7 @@ The modeling of a system can also be converted to a system of first order differ
 
 \section{Feedback vs Adaptive Control}
 
-
+%I would not spend too much time here. What  critical is to demonstrate the fundamental difference. In the case of classical feedback the error is calculated between the command and the feedback of the plant. In adaptive control (in general) the error is calculated between the outputs of the reference model and real plant.
 
 
 \begin{figure}[h!]
@@ -74,7 +74,7 @@ The modeling of a system can also be converted to a system of first order differ
 
 %---------------------------------------------------------
 \section{Model Reference Adaptive Control}
-\ac{MRAC} establishes the foundation for most of modern robust adaptive control.  Its structure is intuitive in nature and seeks to define a system's response to a command signal with a reference model.  Unlike traditional feedback where the error signal is generated with respect to state error, \ac{MRAC} attempts to achieve a system response with respect to some reference model performance. \ac{MRAC} assumes there there is some nominal response of the system which can be characterized with a model of unknown parameters.  The error between the model response and the system response generates the error for an 'adjustment mechanism' to learn the unknown model parameters.  
+\ac{MRAC} establishes the foundation for most of modern robust adaptive control.  Its structure is intuitive in nature and seeks to define a system's response to a command signal with a reference model.  Unlike traditional feedback where the error signal is generated with respect to state error, \ac{MRAC} attempts to achieve a system response with respect to some reference model performance. \ac{MRAC} assumes there there is some nominal response of the system which can be characterized with a model of unknown parameters.  The error between the model response and the system response generates the error for an 'adjustment mechanism' to learn the unknown model parameters.
 
 \begin{figure}[h!]
  \centering
@@ -112,7 +112,7 @@ The stability of this method is very system dependent and heavily relies on tria
 
 \subsection{Lyapunov Stability Criteria}
 
-Aerospace controllers tend to use linear controllers for their simplicity and well understood robustness characteristics.  This is despite the fact that the applications of these linear controllers are applied to a non-linear dynamical system such as attitude control with varying dynamic pressure.  Adaptive Controllers are non-linear and may offer performance benefits to non-linear systems as seen in aforementioned aerospace applications.  However, non-linear controller's robustness properties need to be evaluated.  The Lyapunov stability criteria offers methods of evaluating these controller's boundedness and robustness behavior.  
+Aerospace controllers tend to use linear controllers for their simplicity and well understood robustness characteristics.  This is despite the fact that the applications of these linear controllers are applied to a non-linear dynamical system such as attitude control with varying dynamic pressure.  Adaptive Controllers are non-linear and may offer performance benefits to non-linear systems as seen in aforementioned aerospace applications.  However, non-linear controller's robustness properties need to be evaluated.  The Lyapunov stability criteria offers methods of evaluating these controller's boundedness and robustness behavior.
 
 Aleksandr Lyapunov was a Russian mathematician who's work was published in 1892 \cite{lyapunov1892general} concerning the behavior of non-linear systems close to equilibrium without having to rigorously find the unique solutions to difficult differential equations used to model the system.  His work was largely overlooked until the Cold War when aerospace solutions required a more rigorous approach to analyzing non-linear control robustness.  Modern non-linear control engineers extensively utilize Lyapunov's techniques to design and evaluate non-linear controllers.
 
