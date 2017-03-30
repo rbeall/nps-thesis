@@ -59,7 +59,7 @@ The above result demonstrates the utility of this technique even with poorly str
   \label{fig:chirp_model}
 \end{figure}
 
-The reverse linear chirp, starting at high frequency and chirping down, clearly illustrates that this regression method has an underlying problem that was not evidently clear in the previous example.  In the chirp analysis, it is clear that the high frequency modeling is in error.  After reviewing this result, it was clear that the sampling rate of the input channel was aliased.  The chirp response was physically observed on pre-flight, in actual flight, and in the actual body rate of the aircraft.  However, the aliased input channel was arbitrarily biasing the regression result.  The data was logged at 50 Hz with the assumption that 50 Hz was 10 times higher than the expected natural frequency of the aircraft and at least five times higher than the Nyquist criterion.  The Nyquist criterion is the theoretical minimum frequency $(2f_0)$ to sample a signal and recover a given frequency.  This result clearly illustrates that 50 Hz data sampling rate was not high enough to properly capture the input channel without biasing.  The recommendation going forward is to increase the sampling rate to as high as reasonably achievable (200Hz).
+The reverse linear chirp, starting at high frequency and chirping down, clearly illustrates that this regression method has an underlying problem that was not evidently clear in the previous example.  In the chirp analysis, it is clear that the high frequency modeling is in error.  After reviewing this result, it was clear that the sampling rate of the input channel was aliased.  The chirp response was physically observed on pre-flight, in actual flight, and in the actual body rate of the aircraft.  However, the aliased input channel was arbitrarily biasing the regression result.  The data was logged at 50 Hz with the assumption that 50 Hz was 10 times higher than the expected natural frequency of the aircraft and at least five times higher than the Nyquist criterion.  The Nyquist criterion is the theoretical minimum frequency $(2f_0)$ to sample a signal and recover a given frequency.  The autopilot is capable of logging data at 200Hz, but in this case, the servo output loop is still at 50Hz due to it being the hardware bandwidth limit of standard \ac{RC} servos.  Some high performance servos are capable of higher input frequencies, but this still wouldn't solve the specific issue found when running this analysis.  The specific aliasing issue is hardware specific to the Pixhawk 1 autopilot in how the main CPU sends servo commands to the auxiliary I/O  CPU.  The most recent version of firmware at the time of this test improperly logs the \ac{PWM} through an aliased prone signal path.  The main and I/O CPU both run at 50Hz with some appreciable clock drift.  This generates a noticeable beat frequency and delay when the actual values in registry are saved for \ac{PWM} values are sent back round trip to the main CPU.  The implication of logging the pwm values at the very end of the digital transmission line seems valuable in principle because the values being logged are the undeniable values being sent to the actuators.  However, the cost of logging these values in this manner on the the Pixhawk architecture incurs significant aliasing at almost all frequencies.  Logging the commanded \ac{PWM} values prior to being sent to I/O cpu solved the aliasing discrepancy and produced very frequency rich models.
 
 The manually piloted acquired data was selected as the most viable data source for the models.  There were two separate tests run on the same aircraft on the same flight and the following is the results using this regression technique to model a second order system.
 
@@ -73,16 +73,16 @@ and
 H(s)=\frac{10.61}{s^2+29.77s+498.7}\
 \end{equation}
 
-Converting to standard form as described in equation 2.3:
+Converting to standard form as described in equation~\ref{eq:second_order_model}:
 
 \begin{equation}
-H(s)=\frac{0.0206*22.47^2}{s^2+2*0.69s+22.47^2}\
+H(s)=\frac{0.0206*22.47^2}{s^2+2*0.69*22.47s+22.47^2}\
 \end{equation}
 
 and
 
 \begin{equation}
-H(s)=\frac{0.0213*22.33^2}{s^2+2*0.67s+22.33^2}\
+H(s)=\frac{0.0213*22.33^2}{s^2+2*0.67*22.33s+22.33^2}\
 \end{equation}
 
 It is important to note that this system identification technique run on separate sets of data has produced two models with very similar values for $\omega_n$ and $\zeta$.
@@ -92,6 +92,43 @@ This produces the average values of:
 $\omega_n=22.4 rad/s$ \newline
 $k = 0.0209$ \newline
 $\zeta=0.681$ \newline
+
+With the aliasing removed from the chirped input command signals the model is drastically improved and produces the following results:
+
+\begin{equation}
+H(s)=\frac{4.409}{s^2+27.11s+430.6}\
+\end{equation}
+
+and
+
+\begin{equation}
+H(s)=\frac{3.295}{s^2+18.82s+2.96.5}\
+\end{equation}
+
+Converting to standard form as described in equation~\ref{eq:second_order_model}:
+
+\begin{equation}
+H(s)=\frac{0.0102*20.75^2}{s^2+2*0.65*20.75s+20.75^2}\
+\end{equation}
+
+and
+
+\begin{equation}
+H(s)=\frac{0.0111*17.21^2}{s^2+2*0.54*17.21s+17.21^2}\
+\end{equation}
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.75\textwidth]{reverse_chirp_roll.png}
+  \caption{Non-Aliased Reverse Chirp model example}
+  \label{fig:reverse_chirp_model}
+\end{figure}
+
+This produces the average values of:
+
+$\omega_n=18.98 rad/s$ \newline
+$k = 0.010$ \newline
+$\zeta=0.598$ \newline
 
 In the author's experience, these values are reasonable values for this size and weight of airframe.  This regression technique has shown potential to create realistic models from actual flight test data.  The data must be properly shaped and improved models would result if the data logging rate was increased.  The chirp method has the potential to increase the fidelity of the high frequency response of the aircraft if the aliasing issue can be resolved on the command input channel.
 
