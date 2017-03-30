@@ -59,7 +59,15 @@ The modeling of a system can also be converted to a system of first order differ
 
 
 
-\section{Feedback vs Adaptive Control}
+\section{Classical Feedback vs Adaptive Control}
+Control of a system can be broken into two required elements.  There is the requirement to control the system from:
+\begin{enumerate}
+	\item disturbances which affect the controlled states 
+	\item disturbances which affect the performance of the system as a whole
+\end{enumerate}
+Classical feedback control seeks to solve the first type of disturbance.  This form of control is meticulously tuned to achieve the desired overshoot and settling time for example.  The important assumption that is made by classical feedback controllers is that the underlying plant/system performance is not changing.  For example the cruise control that maintains a vehicles speed assumes that the available horse power of the car is fixed.  This is a fairly good assumption as the horsepower with respect to rpm available at sea level and at 5,000 feet for an internal combustion engine is constant enough that a fixed gain feedback controller would perform well at maintaining the speed of the vehicle in both environments.  In the case of an airplane, the dynamic pressure is proportional to velocity squared and can drastically change the performance of the aircraft.  In this case, the constant system performance assumption can cause a fixed gain classical feedback controller to go unstable at higher dynamic pressures (higher airspeeds).   Conversely, adaptive controllers assume that the system performance is unknown and is likely to vary with time.  Adaptive control seeks to ensure a systems performance in terms of characteristics like damping ratio and settling time are kept constant regardless of a plant dynamics that may be unknown and time varying.  For both classical and adaptive control there exists some form of error which drives the controller.  In the case of classical feedback, the error is calculated between the command and the feedback state of the plant. In adaptive control (in general), the error is calculated between the outputs of the desired reference model and real plant's measured performance.
+
+Figure~\ref{fig:why_adaptive_control} outlines the decision making process a controls engineer makes when deciding the type of controller needed for a given circumstance.
 
 %I would not spend too much time here. What  critical is to demonstrate the fundamental difference. In the case of classical feedback the error is calculated between the command and the feedback of the plant. In adaptive control (in general) the error is calculated between the outputs of the reference model and real plant.
 
