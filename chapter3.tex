@@ -1,6 +1,6 @@
 \chapter{\Lone Adaptive Control Derivation}\label{ch:derivation}
 
-Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  As paralleled in the X-15's robustness issues, Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.   
+Introduction here!!!
 
 \section{\Lone Adaptive Control}
 The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to model a \ac{LTI} system with unknown constant parameters.  These parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architectures.  The indirect architecture attempts to estimate the system's parameters, which could be considered similar to  system identification.  Alternately the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
@@ -91,6 +91,90 @@ where $\omega_n$ is the natural frequency in rad/s for the companion model in di
 
 %---------------------------------------------------
 \section{\Lone Discrete Time Implementation}
+Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and many more.  In the case of the Pixhawk autopilot, you can run the main loop up to 400 Hz.  At 400 Hz, there is a significant insurance that the vehicle's full frequency domain of importance will be achievable.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.   
+
+\subsection{Digital Bi-Quad Filter}
+
+The L1 adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straight forward method for accurately implementing the companion model and the low pass filter discretely using it's recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring 4 total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc) simply by choosing appropriate coefficients.  If a first order filter is needed then the two higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
+
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=1.0\textwidth]{bi-quad_filter.png}
+  \caption{Digital Bi-quad Filter Architecture }
+  \label{fig:bi-quad}
+\end{figure}
+
+To determine the structure of the coefficients, a bi-linear Z transform is used to convert a desired S-domain (continuous time domain) filter/model into the Z-domain (discrete time domain).  
+
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=1.0\textwidth]{bi-linear_transform.png}
+  \caption{Bi-linear Transform }
+  \label{fig:bi-linear_transform}
+\end{figure}
+
+This derivation can be seen below for the second order low pass model:
+
+\begin{equation}
+	H(s) = \frac{1}{s^2+\frac{s}{Q}+1}
+\end{equation}
+
+where the bi-linear transform converts s to z via:
+
+\begin{equation}
+	s = \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)
+\end{equation}
+
+$K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in figure~\ref{fig:bi-linear_transform}.
+
+\begin{equation}
+	K = tan\left(\frac{\omega T}{2}\right) = tan\left(\pi\frac{F_c}{F_s}\right)
+\end{equation}
+
+where $\omega T$ is:
+
+\begin{equation}
+	\omega T = 2\pi\left(\frac{F_c}{F_s}\right)
+\end{equation}
+
+$F_c$ is the desired corner frequency of the filter and $F_s$ is the sampling rate (or loop rate of the autopilot).
+This 'pre-warping' is critical to ensure that the continuous time cutoff frequency desired is correctly established in the discrete implementation.  It is the engineer's discretion if pre-warping is required for the appropriate application, but the general guidance is to pre-warp the Z-domain coefficients if the desired cut-off frequency is close to Nyquist.  It was chosen for this application to always pre-warp the coefficients even though the error is small for corner frequencies which are fairly distant from Nyquist.  This was chosen simply because calculating the tan() function real time on the CPU adds negligible computational strain but offers ease of tuning for the engineer.
+
+Applying the bi-linear transform to the continuous time second order low pass filter results in:
+
+\begin{equation}\label{eq:bi-linear}
+	H(z) = \frac{1}{ \left[\left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)\right]^2+\frac{ \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)}{Q}+1}
+\end{equation}
+
+The desired form is:
+
+\begin{equation}\label{eq:bi-quad}
+	H(z) = \frac{b_0 + b_1 z^-1 + b_2 z^-2}{a_0 + a_1 z^-1 + a_2 z^-2}
+\end{equation}
+
+Reducing equation~\ref{eq:bi-linear} to match the form in equation~\ref{eq:bi-quad} results in the following coefficients:
+
+\begin{itemize}
+	\item[] $b_0 = \frac{K^2}{K^2+\frac{K}{Q}+1}$
+	\item[] $b_1 = 2b_0$
+	\item[] $b_2 = b_0$
+	\item[] $a_0 = 1$
+	\item[] $a_1 = \frac{2(K^2-1)}{K^2+\frac{K}{Q}+1}$
+	\item[] $a_2 = \frac{K^2-\frac{K}{Q}+1}{K^2+\frac{K}{Q}+1}$
+\end{itemize}
+
+The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
