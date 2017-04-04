@@ -109,7 +109,7 @@ To determine the structure of the coefficients, a bi-linear Z transform is used 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{bi-linear_transform.png}
-  \caption{Bi-linear Transform }
+  \caption{Bi-linear Transform}
   \label{fig:bi-linear_transform}
 \end{figure}
 
@@ -128,7 +128,10 @@ where the bi-linear transform converts s to z via:
 $K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in figure~\ref{fig:bi-linear_transform}.
 
 \begin{equation}
-	K = tan\left(\frac{\omega T}{2}\right) = tan\left(\pi\frac{F_c}{F_s}\right)
+\begin{split}
+	K &= tan\left(\frac{\omega T}{2}\right) \\
+	&= tan\left(\pi\frac{F_c}{F_s}\right)
+\end{split}
 \end{equation}
 
 where $\omega T$ is:
@@ -154,21 +157,84 @@ The desired form is:
 
 Reducing equation~\ref{eq:bi-linear} to match the form in equation~\ref{eq:bi-quad} results in the following coefficients:
 
-\begin{itemize}
-	\item[] $b_0 = \frac{K^2}{K^2+\frac{K}{Q}+1}$
-	\item[] $b_1 = 2b_0$
-	\item[] $b_2 = b_0$
-	\item[] $a_0 = 1$
-	\item[] $a_1 = \frac{2(K^2-1)}{K^2+\frac{K}{Q}+1}$
-	\item[] $a_2 = \frac{K^2-\frac{K}{Q}+1}{K^2+\frac{K}{Q}+1}$
-\end{itemize}
+\begin{equation}
+\begin{split}
+	a_0 &= 1 \\
+	a_1 &= \frac{2(K^2-1)}{K^2+\frac{K}{Q}+1} \\
+	a_2 &= \frac{K^2-\frac{K}{Q}+1}{K^2+\frac{K}{Q}+1} \\
+	b_0 &= \frac{K^2}{K^2+\frac{K}{Q}+1} \\
+	b_1 &= 2b_0 \\
+	b_2 &= b_0 	
+\end{split}
+\end{equation}
 
-The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.
+The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.  For this research the following C++ code segments were used to explicitly calculate the bi-quad low-pass filter implementation: \newline
 
+\begin{lstlisting}
+void DigitalBiquadFilter<T>::compute_params(float sample_freq, 
+float cutoff_freq, biquad_params &ret) {
+    ret.cutoff_freq = cutoff_freq;
+    ret.sample_freq = sample_freq;
 
+    float fr = sample_freq/cutoff_freq;
+    float K = tanf(M_PI/fr);  //Pre-Warp calculation
+    float c = 1.0f+2.0f*cosf(M_PI/4.0f)*K + K*K;
 
+    ret.b0 = K*K/c;
+    ret.b1 = 2.0f*ret.b0;
+    ret.b2 = ret.b0;
+    ret.a1 = 2.0f*(K*K-1.0f)/c;
+    ret.a2 = (1.0f-2.0f*cosf(M_PI/4.0f)*K+K*K)/c;
+}
+\end{lstlisting}
 
+\begin{lstlisting}
+T DigitalBiquadFilter<T>::apply(const T &sample, 
+const struct biquad_params &params) {
+    
+    T delay_element_0 = sample - _delay_element_1 * params.a1 
+	    - _delay_element_2 * params.a2;
+    
+    T output = delay_element_0 * params.b0 
+	    + _delay_element_1 * params.b1 
+	    + _delay_element_2 * params.b2;
 
+    _delay_element_2 = _delay_element_1;
+    _delay_element_1 = delay_element_0;
+
+    return output;
+}
+
+\end{lstlisting}
+
+This implementation can be used as the \Lone low-pass filter and as the companion model.  It can be seen in the above code segment that $K$, the pre-warp factor, is explicitly calculated every iteration.
+
+\subsection{Euler vs Trapezoid Rule}
+
+The model estimate as well as the parameter estimates for the \Lone algorithm are both derived using discrete integration.  The Euler method is a numerical procedure for solving ordinary differential equations. The Euler method as applied to discrete integration, is the fundamental method for recursively integrating a digital signal.  The algorithm takes the form: \newline
+where $h$ is the uniform step size,
+\begin{equation}
+y_{i+1}=y_i+hf(t_i,y_i)
+\end{equation}
+
+The recursive trapezoidal method (Heun's method) takes the form:
+\begin{equation}\label{eq:trapezoidal_integration}
+\begin{split}
+\tilde{y}_{i+1}&=y_i+hf(t_i,y_i) \\
+y_{i+1}&=y_i+\frac{h}{2}[f(t_i,y_i)+f(t_{i+1},\tilde{y}_{i+1})]
+\end{split}
+\end{equation}
+
+Comparing the accuracy of the two numerical methods for discretely calculating the integral of $y=e^t$ can be seen in figure~\ref{fig:trapezoidal_integration}:
+
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.75\textwidth]{trapezoidal_integration.png}
+  \caption{Euler vs Trapezoidal Integration error}
+  \label{fig:trapezoidal_integration}
+\end{figure}
+
+As seen in equation~\ref{eq:trapezoidal_integration}, the recursive trapezoidal integration method only adds one more line of complexity to the algorithm for a significant gain in accuracy and therefore will be the chosen method applied for all discrete numerical integration in this research.
 
 
 
