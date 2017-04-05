@@ -86,7 +86,7 @@ In this case, $Pb$ reduces to:
 Pb = \frac{1}{2\omega_n}
 \end{equation}
 
-where $\omega_n$ is the natural frequency in rad/s for the companion model in discrete recursive form assuming DC gain of 1. 
+where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1. 
 
 
 %---------------------------------------------------
@@ -127,6 +127,12 @@ where the bi-linear transform converts s to z via:
 
 $K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in figure~\ref{fig:bi-linear_transform}.
 
+where $\omega T$ is:
+
+\begin{equation}
+	\omega T = 2\pi\left(\frac{F_c}{F_s}\right)
+\end{equation}
+
 \begin{equation}
 \begin{split}
 	K &= tan\left(\frac{\omega T}{2}\right) \\
@@ -134,14 +140,10 @@ $K$ is the 'pre-warping' factor which accounts for the transition of the vertica
 \end{split}
 \end{equation}
 
-where $\omega T$ is:
 
-\begin{equation}
-	\omega T = 2\pi\left(\frac{F_c}{F_s}\right)
-\end{equation}
 
 $F_c$ is the desired corner frequency of the filter and $F_s$ is the sampling rate (or loop rate of the autopilot).
-This 'pre-warping' is critical to ensure that the continuous time cutoff frequency desired is correctly established in the discrete implementation.  It is the engineer's discretion if pre-warping is required for the appropriate application, but the general guidance is to pre-warp the Z-domain coefficients if the desired cut-off frequency is close to Nyquist.  It was chosen for this application to always pre-warp the coefficients even though the error is small for corner frequencies which are fairly distant from Nyquist.  This was chosen simply because calculating the tan() function real time on the CPU adds negligible computational strain but offers ease of tuning for the engineer.
+This 'pre-warping' is critical to ensure that the continuous time cutoff frequency desired is correctly established in the discrete implementation.  It is the engineer's discretion if pre-warping is required for the appropriate application, but the general guidance is to pre-warp the Z-domain coefficients if the desired cut-off frequency is close to Nyquist.  It was chosen for this application to always pre-warp the coefficients even though the error is small for corner frequencies which are fairly distant from Nyquist.  This was chosen simply because calculating the $tan()$ function real time on the CPU adds negligible computational strain but offers ease of tuning for the engineer.
 
 Applying the bi-linear transform to the continuous time second order low pass filter results in:
 
@@ -152,7 +154,7 @@ Applying the bi-linear transform to the continuous time second order low pass fi
 The desired form is:
 
 \begin{equation}\label{eq:bi-quad}
-	H(z) = \frac{b_0 + b_1 z^-1 + b_2 z^-2}{a_0 + a_1 z^-1 + a_2 z^-2}
+	H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2}}{a_0 + a_1 z^{-1} + a_2 z^{-2}}
 \end{equation}
 
 Reducing equation~\ref{eq:bi-linear} to match the form in equation~\ref{eq:bi-quad} results in the following coefficients:
@@ -209,9 +211,42 @@ const struct biquad_params &params) {
 
 This implementation can be used as the \Lone low-pass filter and as the companion model.  It can be seen in the above code segment that $K$, the pre-warp factor, is explicitly calculated every iteration.
 
+\subsection{Simplified Bi-quad First Order Model}
+
+In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in figure~\ref{fig:bi-quad_first_order}.  It can be seen that on the first two coefficients of the \ac{FIR} filter are kept from this topology.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=1.0\textwidth]{bi-quad_first_order.png}
+  \caption{Digital Bi-quad Simplified First Order Low-pass Filter }
+  \label{fig:bi-quad_first_order}
+\end{figure}
+
+The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady state) or its -3dB corner frequency.  The system takes the form as seen in equation~\ref{eq:first_order_corner_model} when defined by its corner frequency.
+
+\begin{equation}\label{eq:first_order_corner_model}
+H(s)&=\frac{\omega_n}{s+\omega_n}
+\end{equation}
+
+therefore the explicit calculation of the Bi-quad coefficients in this case becomes:
+
+\begin{equation}\label{eq:first_order_coeffieicnts}
+\begin{split}
+b_1&=e^\left(\frac{-\omega_n}{F_s}\right)\\
+b_0&=1-b_1\\
+\end{split}
+\end{equation}
+
+where $\omega_n$ is the -3dB corner frequency in radians per second and $F_s$ is the sampling frequency in Hz.
+
+Therefore the discrete recursive form of the first order model becomes:
+
+\begin{equation}
+y_{i+1}=b_1y_{i-1}+b_0y_i
+\end{equation}
+
 \subsection{Euler vs Trapezoid Rule}
 
-The model estimate as well as the parameter estimates for the \Lone algorithm are both derived using discrete integration.  The Euler method is a numerical procedure for solving ordinary differential equations. The Euler method as applied to discrete integration, is the fundamental method for recursively integrating a digital signal.  The algorithm takes the form: \newline
+The model estimate as well as the parameter estimates for the \Lone algorithm are both numerically estimated using discrete integration.  The Euler method is a numerical procedure for solving ordinary differential equations. The Euler method as applied to discrete integration, is the fundamental method for recursively integrating a digital signal.  The algorithm takes the form: \newline
 where $h$ is the uniform step size,
 \begin{equation}
 y_{i+1}=y_i+hf(t_i,y_i)

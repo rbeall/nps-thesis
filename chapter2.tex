@@ -13,6 +13,32 @@ The following is the nomenclature that will be used to describe the kinematic eq
   \label{fig:reference_frame}
 \end{figure}
 
+The body rates of a fixed wing airframe take the form \cite{beard2012small}:
+\begin{equation}
+\begin{split}
+\dot{p}&=\Gamma_1pq-\Gamma_2qr+\frac{1}{2}\rho V_a^2Sb\left[C_{p_0}+C_{p_\beta}\beta+C_{p_p}\frac{bp}{2V_a}+C_{p_r}\frac{br}{2V_a}+C_{p_{\delta_a}}\delta_a+C_{p_{\delta_r}}\delta_r\right]\\
+\dot{q}&=\Gamma_5pr-\Gamma_6(p^2-r^2)+\fract{\rho V_a^2Sc}{2J_y}\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{cq}{2V_a}+C_{m_\delta_e}\delta_e\right]\\
+\dot{r}&=\Gamma_7pq-\Gamma_1qr+\frac{1}{2}\rho V_a^2Sb\left[C_{r_0}+C_{r_\beta}\beta+C_{r_p}\frac{bp}{2V_a}+C_{r_r}\frac{br}{2V_a}+C_{r_{\delta_a}}\delta_a+C_{r_{\delta_r}}\delta_r\right]\\
+\end{split}
+\end{equation}
+
+These equations are highly non-linear with numerous coupled responses as factors of multiple aerodynamic coefficients.  For this research, the model will be simplified by assuming each axis is not coupled and the aerodynamic coefficients can be consolidated.  This model takes the form:
+
+\begin{equation}
+\begin{split}
+\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_pu+\hat{\theta}_p\hat{p}+\hat{\sigma}_p\right)\\
+\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_qu+\hat{\theta}_q\hat{q}+\hat{\sigma}_q\right)\\
+\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_ru+\hat{\theta}_r\hat{r}+\hat{\sigma}_r\right)
+\end{split}
+\end{equation}
+
+where,
+\begin{itemize}
+	\item[] $\hat{\omega}$ - estimated input gain coefficient
+	\item[] $\hat{\theta}$ - estimated constant state coefficient
+	\item[] $\hat{\sigma}$ - estimated disturbance estimate
+\end{itemize}
+
 \subsection{Transfer Functions}
 This research utilizes \ac{TF} representation of aircraft flight dynamics that is typical of \ac{LTI} systems.  A transfer function is a very effective approach to describe the relationship between inputs and outputs of \ac{LTI} systems.  Both analytically and numerically, the \ac{TF} approach has significant benefits in continuous and discrete time domains as its construct is based on well-developed properties and primitives of polynomials.  These polynomial representation of various aerodynamic, flight dynamics, and control properties of aircraft are well-developed.  What is unknown or partially known a priori, are the numerical values  of coefficients for those polynomials, therefore the tools from the areas of online estimation such as regression are utilized to solve for them.
 
@@ -30,7 +56,7 @@ where:
 
 Standard physics models of first and second order form are well understood and seen in many model derivations.  The first order model takes the form:
 
-\begin{equation}
+\begin{equation}\label{eq:first_order_model}
 H(s)=\frac{k_{dc}}{\tau s+1}\
 \end{equation}
 
@@ -53,7 +79,7 @@ where:
 \end{itemize}
 
 The modeling of a system can also be converted to a system of first order differential equations also known as state space modeling.  The following nomenclature will be used to illustrate the modeling of first order systems where $\dot{x}$ is the time derivative of the state, A is the Hurwitz matrix, B is the input matrix, and u is the input vector.
-\begin{equation}
+\begin{equation}\label{eq:state_space_model}
 \dot{x}(t)=Ax(t)+Bu(t)
 \end{equation}
 
