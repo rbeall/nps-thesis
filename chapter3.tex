@@ -231,8 +231,8 @@ therefore the explicit calculation of the Bi-quad coefficients in this case beco
 
 \begin{equation}\label{eq:first_order_coeffieicnts}
 \begin{split}
-b_1&=e^\left(\frac{-\omega_n}{F_s}\right)\\
-b_0&=1-b_1\\
+a_1&=e^\left(\frac{-\omega_n}{F_s}\right)\\
+b_0&=1-a_1\\
 \end{split}
 \end{equation}
 
@@ -241,8 +241,15 @@ where $\omega_n$ is the -3dB corner frequency in radians per second and $F_s$ is
 Therefore the discrete recursive form of the first order model becomes:
 
 \begin{equation}
-y_{i+1}=b_1y_{i-1}+b_0y_i
+y_{i+1}=a_1y_{i-1}+b_0y_i
 \end{equation}
+
+Another form commonly seen in software form which is designed to optimize for speed takes the form:
+
+\begin{lstlisting}
+float b_0=exp(-f_c/f_s);
+float out+=(in-out)*b_0;
+\end{lstlisting}
 
 \subsection{Euler vs Trapezoid Rule}
 
