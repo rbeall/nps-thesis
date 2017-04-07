@@ -224,15 +224,15 @@ In the case of the companion model, a first order response may be desired.  As d
 The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady state) or its -3dB corner frequency.  The system takes the form as seen in equation~\ref{eq:first_order_corner_model} when defined by its corner frequency.
 
 \begin{equation}\label{eq:first_order_corner_model}
-H(s)&=\frac{\omega_n}{s+\omega_n}
+H(s)=\frac{\omega_n}{s+\omega_n}
 \end{equation}
 
 therefore the explicit calculation of the Bi-quad coefficients in this case becomes:
 
 \begin{equation}\label{eq:first_order_coeffieicnts}
 \begin{split}
-a_1&=e^\left(\frac{-\omega_n}{F_s}\right)\\
-b_0&=1-a_1\\
+	a_1&=e^{\left(\frac{-\omega_n}{F_s}\right)}  \\
+	b_0&=1-a_1
 \end{split}
 \end{equation}
 

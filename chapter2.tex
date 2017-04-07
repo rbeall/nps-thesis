@@ -16,43 +16,66 @@ The following is the nomenclature that will be used to describe the kinematic eq
 The primary goal of this research is to implement an algorithm which controls fixed wing attitude.  Therefore, the focus of the following kinematic and dynamics equations will primarily focus on deriving only rotational motion from first principles.  
 
 Newton's second law as it pertains to rotational motion can be stated as
-\begin{equation}
-\frac{dh}{dt}=m
+\begin{equation}\label{eq:rotational_inertia}
+\tau=J\frac{d\omega}{dt_i}
 \end{equation}
 
-where $h$ is the fixed body's angular momentum and $m$ is the applied moment.
+where $\tau$ is the torques applied to the body, $J$ is the moment of inertia, and $ \frac{d\omega}{dt_i}$ is the angular acceleration of the body with respect to the inertial frame.
+
+Equation~\ref{eq:rotational_inertia} can be rewritten in the body reference frame as follows:
+
+\begin{equation}
+\tau^b=J\dot{\omega}_{b/i}^b+\omega_{b/i}^b\times\left(J\omega_{b/i}^b\right)
+\end{equation}
+
+The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body frame as viewed in the body frame:
+
+\begin{equation}
+\dot{\omega}_{b/i}^b=
+\begin{pmatrix}
+\dot{p}\\
+\dot{q}\\
+\dot{r}
+\end{pmatrix}
+\end{equation}
+
+The equation can then be rewritten with respect to $\dot{\omega}_{b/i}^b$:
+
+\begin{equation}
+\dot{\omega}_{b/i}^b=J^{-1}\left[-\omega_{b/i}^b\times\left(J\omega_{b/i}^b\right)+\tau^b\right]
+\end{equation}
 
 $J$ can be defined as the inertia matrix as follows
 
 \begin{equation}
 J=
-	\begin{bmatrix}
+	\begin{pmatrix}
 	J_x & -J_{xy} & -J_{xz}\\
 	-J_{xy} & J_y & -J_{yz}\\
 	-J_{xz} & -J_{yz} & J_z
-	\end{bmatrix}
+	\end{pmatrix}
 \end{equation}
 
 The moments of inertia, or the diagonal terms, must be non-zero.  The products of inertia, or the off-diagonal terms, are terms which describe the coupling between axis.  For a traditional fixed wing aircraft, the natural symmetry will simplify the inertia matrix in the off-diagonal terms as follows:
 
 \begin{equation}
 J=
-	\begin{bmatrix}
+	\begin{pmatrix}
 	J_x & 0 & -J_{xz}\\
 	0 & J_y & 0\\
 	-J_{xz} & 0 & J_z
-	\end{bmatrix}
+	\end{pmatrix}
 \end{equation}
 
 The inverse of $J$ can be found to be
 
 \begin{equation}
 J^{-1}=
-	\begin{bmatrix}
+	\begin{pmatrix}
 	\frac{J_z}{\Gamma} & 0 & \frac{J_{xz}}{\Gamma}\\
 	0 & \frac{1}{J_y} & 0\\
 	\frac{J_{xz}}{\Gamma} & 0 & \frac{J_x}{\Gamma}
-	\end{bmatrix}
+	\end{pmatrix}
 \end{equation}
 
 where,
@@ -61,18 +84,69 @@ where,
 \Gamma = J_xJ_z-J_{xz}^2
 \end{equation}
 
+Aircraft nomenclature for torques are defined $\tau\triangleq(l,m,n)^T$ and therefore the combined equations derived from first principles take the form:
 
-The only off-diagonal term that should be taken into consideration is $J_{xz}$ and for most aircraft this value is actually relatively low with respect to the moments of inertia.
-
-The body rates of a fixed wing airframe take the form \cite{beard2012small}:
 \begin{equation}
 \begin{split}
-\dot{p}&=\Gamma_1pq-\Gamma_2qr+\frac{1}{2}\rho V_a^2Sb\left[C_{p_0}+C_{p_\beta}\beta+C_{p_p}\frac{bp}{2V_a}+C_{p_r}\frac{br}{2V_a}+C_{p_{\delta_a}}\delta_a+C_{p_{\delta_r}}\delta_r\right]\\
-\dot{q}&=\Gamma_5pr-\Gamma_6(p^2-r^2)+\fract{\rho V_a^2Sc}{2J_y}\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{cq}{2V_a}+C_{m_\delta_e}\delta_e\right]\\
-\dot{r}&=\Gamma_7pq-\Gamma_1qr+\frac{1}{2}\rho V_a^2Sb\left[C_{r_0}+C_{r_\beta}\beta+C_{r_p}\frac{bp}{2V_a}+C_{r_r}\frac{br}{2V_a}+C_{r_{\delta_a}}\delta_a+C_{r_{\delta_r}}\delta_r\right]\\
-\end{split}
+	\begin{pmatrix}
+		\dot{p} \\
+		\dot{q} \\
+		\dot{r} 
+	\end{pmatrix}
+	&=
+	\begin{pmatrix}
+	\frac{J_z}{\Gamma} & 0 & \frac{J_{xz}}{\Gamma}\\
+	0 & \frac{1}{J_y} & 0\\
+	\frac{J_{xz}}{\Gamma} & 0 & \frac{J_x}{\Gamma}
+	\end{pmatrix}
+	\left[
+	\begin{pmatrix}
+		0& r& -q \\
+		-r& 0& p \\
+		q& -p& 0
+	\end{pmatrix}
+	\begin{pmatrix}
+	J_x & 0 & -J_{xz}\\
+	0 & J_y & 0\\
+	-J_{xz} & 0 & J_z
+	\end{pmatrix}
+	\begin{pmatrix}
+		p\\
+		q\\
+		r
+	\end{pmatrix} +
+	\begin{pmatrix}
+		l\\
+		m\\
+		n
+	\end{pmatrix}
+	\right] \\	
+	&=
+	\begin{pmatrix}
+		\frac{J_z}{\Gamma} & 0 & \frac{J_{xz}}{\Gamma}\\
+		0 & \frac{1}{J_y} & 0\\
+		\frac{J_{xz}}{\Gamma} & 0 & \frac{J_x}{\Gamma}
+	\end{pmatrix}
+	\left[
+	\begin{pmatrix}
+	J_{xz}pq+(J_y-J_z)qr\\
+	J_{xz}(r^2-p^2)+(J_z-J_x)pr\\
+	(J_x-J_y)pq-J_{xz}qr
+	\end{pmatrix}+
+	\begin{pmatrix}
+		l\\
+		m\\
+		n
+	\end{pmatrix}
+	\right]\\	
+	&=
+	\begin{pmatrix}
+		\Gamma_1pq-\Gamma_2qr+\Gamma_3l+\Gamma_4n\\
+		\Gamma_5pr-\Gamma_6(p^2-r^2)+\frac{1}{J_y}m\\
+		\Gamma_7pq-\Gamma_1qr+\Gamma_4l+\Gamma_8n
+	\end{pmatrix}
+	\end{split}		
 \end{equation}
-
 where,
 
 \begin{equation}
@@ -88,17 +162,25 @@ where,
 \end{split}
 \end{equation}
 
+Replacing the torques $(l,m,n)^T$ with the aerodynamics which generates them results in the following substitutions.
 
-These equations are highly non-linear with numerous coupled responses as factors of multiple aerodynamic coefficients.  For this research, the model will be simplified by assuming each axis is not coupled and the aerodynamic coefficients can be consolidated.  This model takes the form:
-
+The body rates of a fixed wing airframe take the form \cite{beard2012small}:
 \begin{equation}
 \begin{split}
-\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_pu+\hat{\theta}_p\hat{p}+\hat{\sigma}_p\right)\\
-\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_qu+\hat{\theta}_q\hat{q}+\hat{\sigma}_q\right)\\
-\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_ru+\hat{\theta}_r\hat{r}+\hat{\sigma}_r\right)
-\end{split}
+	\dot{p}&=\Gamma_1pq-\Gamma_2qr+\frac{1}{2}\rho V_a^2Sb\left[C_{p_0}+C_{p_\beta}\beta+C_{p_p}\frac{bp}{2V_a}+C_{p_r}\frac{br}{2V_a}+C_{p_{\delta_a}}\delta_a+C_{p_{\delta_r}}\delta_r\right]\\
+	\dot{q}&=\Gamma_5pr-\Gamma_6(p^2-r^2)+\frac{\rho V_a^2Sc}{2J_y}\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{cq}{2V_a}+C_{m_{\delta_e}}\delta_e\right]\\
+	\dot{r}&=\Gamma_7pq-\Gamma_1qr+\frac{1}{2}\rho V_a^2Sb\left[C_{r_0}+C_{r_\beta}\beta+C_{r_p}\frac{bp}{2V_a}+C_{r_r}\frac{br}{2V_a}+C_{r_{\delta_a}}\delta_a+C_{r_{\delta_r}}\delta_r\right]
+\end{split}	
 \end{equation}
 
+These equations are highly non-linear with numerous coupled responses as factors of multiple aerodynamic coefficients.  For this research, the model will be simplified by assuming each axis is not mass coupled or aerodynamically coupled.  This model takes the form:
+\begin{equation}
+\begin{split}
+\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_p\hat{p}+\hat{\sigma}_p\right)\\
+\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_q\hat{q}+\hat{\sigma}_q\right)\\
+\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_r\hat{r}+\hat{\sigma}_r\right)
+\end{split}
+\end{equation}
 where,
 \begin{itemize}
 	\item[] $\hat{\omega}$ - estimated input gain coefficient
