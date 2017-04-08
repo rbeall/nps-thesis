@@ -1063,7 +1063,7 @@
   %
   \centering
   \vspace*{0pt minus 100pt}                  % moves logo into margin if needed
-  \includegraphics{figs/nps_logo_3clr_cymk}
+  \includegraphics{figs/nps_logo_3clr_cymk.png}
   \vspace*{5pt plus 1fill minus 1pt}
   \textbf{\huge\ifclassified\Large\fi{}\\NAVAL\\POSTGRADUATE\\SCHOOL\\}
   \vspace{10pt plus 1fill minus 5pt}
