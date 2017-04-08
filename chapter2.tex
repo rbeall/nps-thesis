@@ -86,7 +86,7 @@ where,
 
 Aircraft nomenclature for torques are defined $\tau\triangleq(l,m,n)^T$ and therefore the combined equations derived from first principles take the form:
 
-\begin{equation}
+\begin{equation}\label{eq:body_rate_derivation}
 \begin{split}
 	\begin{pmatrix}
 		\dot{p} \\
@@ -162,23 +162,48 @@ where,
 \end{split}
 \end{equation}
 
-Replacing the torques $(l,m,n)^T$ with the aerodynamics which generates them results in the following substitutions.
+The aerodynamic torques (excluding propulsive torques) can be found to be:
 
-The body rates of a fixed wing airframe take the form \cite{beard2012small}:
-\begin{equation}
+\begin{equation}\label{eq:aero_torques}
+\begin{pmatrix}
+		l\\
+		m\\
+		n
+	\end{pmatrix}
+	=
+	\frac{1}{2}\rho V_a^2S
+	\begin{pmatrix}
+		b\left[C_{l_0}+C_{l_\beta}\beta+C_{l_p}\frac{b}{2Va}p+C_{l_r}\frac{b}{2V_a}r+C_{l_{\delta_a}}\delta_a+C_{l_{\delta_r}}\delta_r\right]\\
+		c\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{c}{2V_a}q+C_{m_{\delta_e}}\delta_e\right]\\
+		b\left[C_{n_0}+C_{n_\beta}\beta+C_{n_p}\frac{b}{2Va}p+C_{n_r}\frac{b}{2V_a}r+C_{n_{\delta_a}}\delta_a+C_{n_{\delta_r}}\delta_r\right]
+	\end{pmatrix}
+\end{equation}
+
+Substituting the aerodynamic torques found in equation~\ref{eq:aero_torques} into equation~\ref{eq:body_rate_derivation} results in \cite{beard2012small}:
+\begin{equation}\label{eq:body_rate_equations}
 \begin{split}
 	\dot{p}&=\Gamma_1pq-\Gamma_2qr+\frac{1}{2}\rho V_a^2Sb\left[C_{p_0}+C_{p_\beta}\beta+C_{p_p}\frac{bp}{2V_a}+C_{p_r}\frac{br}{2V_a}+C_{p_{\delta_a}}\delta_a+C_{p_{\delta_r}}\delta_r\right]\\
-	\dot{q}&=\Gamma_5pr-\Gamma_6(p^2-r^2)+\frac{\rho V_a^2Sc}{2J_y}\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{cq}{2V_a}+C_{m_{\delta_e}}\delta_e\right]\\
+	\dot{q}&=\Gamma_5pr-\Gamma_6(p^2-r^2)+\frac{1}{2}\rho V_a^2Sc\frac{1}{J_y}\left[C_{m_0}+C_{m_\alpha}\alpha+C_{m_q}\frac{cq}{2V_a}+C_{m_{\delta_e}}\delta_e\right]\\
 	\dot{r}&=\Gamma_7pq-\Gamma_1qr+\frac{1}{2}\rho V_a^2Sb\left[C_{r_0}+C_{r_\beta}\beta+C_{r_p}\frac{bp}{2V_a}+C_{r_r}\frac{br}{2V_a}+C_{r_{\delta_a}}\delta_a+C_{r_{\delta_r}}\delta_r\right]
 \end{split}	
 \end{equation}
 
-These equations are highly non-linear with numerous coupled responses as factors of multiple aerodynamic coefficients.  For this research, the model will be simplified by assuming each axis is not mass coupled or aerodynamically coupled.  This model takes the form:
+Simplifying equation~\ref{eq:body_rate_equations} assuming no inertial or aerodynamic coupling results in:
+
+\begin{equation}\label{eq:body_rate_simplified}
+\begin{split}
+	\dot{p}&=\frac{1}{2}\rho V_a^2Sb\left[C_{p_{\delta_a}}\delta_a+C_{p_p}\frac{bp}{2V_a}+C_{p_0}\right]\\
+	\dot{q}&=\frac{1}{2}\rho V_a^2Sc\frac{1}{J_y}\left[C_{m_{\delta_e}}\delta_e+C_{m_q}\frac{cq}{2V_a}+C_{m_0}\right]\\
+	\dot{r}&=\frac{1}{2}\rho V_a^2Sb\left[C_{r_{\delta_r}}\delta_r+C_{r_r}\frac{br}{2V_a}+C_{r_0}\right]
+\end{split}	
+\end{equation}
+
+The equations in equation~\ref{eq:body_rate_simplified} are then slightly modified to fit the first order \ac{ODE} model as described in the primary literature \cite{hovakimyan2010l1}.
 \begin{equation}
 \begin{split}
-\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_p\hat{p}+\hat{\sigma}_p\right)\\
-\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_q\hat{q}+\hat{\sigma}_q\right)\\
-\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_r\hat{r}+\hat{\sigma}_r\right)
+\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)\\
+\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_qq+\hat{\sigma}_q\right)\\
+\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_rr+\hat{\sigma}_r\right)
 \end{split}
 \end{equation}
 where,
