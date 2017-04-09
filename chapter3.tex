@@ -95,7 +95,7 @@ Implementing any algorithm on actual autopilot hardware will inevitably force so
 
 \subsection{Digital Bi-Quad Filter}
 
-The L1 adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straight forward method for accurately implementing the companion model and the low pass filter discretely using it's recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring 4 total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc) simply by choosing appropriate coefficients.  If a first order filter is needed then the two higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
+The L1 adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straight forward method for accurately implementing the companion model and the low pass filter discretely using it's recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring 4 total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc) simply by choosing appropriate coefficients.  If a first order filter is needed then the higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
 
 \begin{figure}[h!]
  \centering
@@ -213,7 +213,7 @@ This implementation can be used as the \Lone low-pass filter and as the companio
 
 \subsection{Simplified Bi-quad First Order Model}
 
-In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in figure~\ref{fig:bi-quad_first_order}.  It can be seen that on the first two coefficients of the \ac{FIR} filter are kept from this topology.
+In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in figure~\ref{fig:bi-quad_first_order}.  It can be seen that the first coefficient of the \ac{IIR} filter is kept from this topology.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{bi-quad_first_order.png}
