@@ -31,10 +31,10 @@ There may exists systems which need to have projection bounds which are not symm
 \newline
 where $\epsilon>0$,
 \begin{equation}\label{eq:parabolic_operator_offset}
-	f(\theta)=-\frac{(\theta_{\text{min}}-\theta)(\theta_{\text{max}}-\theta)}{\epsilon}\\
+	f(\theta)=-\frac{4(\theta_{\text{min}}-\theta)(\theta_{\text{max}}-\theta)}{\epsilon(\theta_{\text{max}}-\theta_{\text{min}})^2}\\
 \end{equation}
 \begin{equation}
-	\nabla f^\top=\frac{\theta_{\text{min}}+\theta_{\text{max}}-2\theta}{\epsilon}
+	\nabla f^\top=\frac{4(\theta_{\text{min}}+\theta_{\text{max}}-2\theta)}{\epsilon(\theta_{\text{max}}-\theta_{\text{min}})^2}
 \end{equation}
 
 
@@ -55,8 +55,10 @@ float theta_max,float theta_min)
 {
 	
 	// Calculate convex function
-	float f_theta = -(theta_min-theta)*(theta_max-theta)/epsilon;
-	float f_theta_dot = (theta_min+theta_max-(2*theta))/epsilon;	
+	float f_theta = (-4*(theta_min-theta)*(theta_max-theta))
+	/(epsilon*(theta_max-theta_min)^2);
+	float f_theta_dot = (4*(theta_min+theta_max-(2*theta)))
+	/(epsilon*(theta_max-theta_min)^2);	
 
 	float projection_out = y;
 
