@@ -7,38 +7,48 @@ The \Lone adaptive controller is an evolution of the concepts implemented by \ac
 
 \begin{figure}[h!]
  \centering
-  \includegraphics[width=0.65\textwidth]{Direct_MRAC.png}
+  \includegraphics[width=0.75\textwidth]{Direct_MRAC.png}
   \caption{Direct \ac{MRAC} architecture }
   \label{fig:direct_mrac}
 \end{figure}
 
 \begin{figure}[h!]
  \centering
-  \includegraphics[width=0.65\textwidth]{Indirect_MRAC.png}
+  \includegraphics[width=0.75\textwidth]{Indirect_MRAC.png}
   \caption{Indirect \ac{MRAC} architecture }
   \label{fig:indirect_mrac}
 \end{figure}
 
+\subsection{Reference Model versus Companion Model}
+Traditional \ac{MRAC} controllers often refer to the system objective function as the 'Reference Model.'  In this case, the engineer designs a reference model response, and it is from this model response that the error state is calculated directly.  Because the \Lone adaptive control implements the use of a low-pass filter in conjunction with a model objective function, the model is often referred to as the 'Companion Model.'  This subtle distinction is necessary, because the engineer must be aware that the system response will be the with respect to the low-pass filter and the companion model in series.  In other words, the plant will not mimic the companion model; it will mimic the companion model plus the low-pass filter.
+
+\subsection{\Lone Architecture}
 The \Lone adaptive control algorithm asserts that trying to estimate the plant uncertainties outside of the control actuators' bandwidth is overly ambitious.  The system's actuator bandwidth and the slow dynamics of the plant are most commonly the system's limiting factors, and the estimator's robustness/stability could be in question if un-modeled high frequency content exists in the plant.  % See RHORs example here? 
-The \Lone adaptive control constrains the objective function by using a low-pass filter (first or second order) to band the frequency response in order to meet robustness specifications.  This low-pass filter should be tuned to a frequency response commensurate with the actuator's frequency response.  When looking at examples of where to place the low-pass filter in the direct and indirect architectures, it becomes clear that the indirect architecture is the only candidate.  Figures~\ref{fig:direct_mrac_lowpass} and \ref{fig:indirect_mrac_lowpass} illustrate the placement of the low-pass filter and its implication on the closed loop model. 
+The \Lone adaptive control constrains the objective function by using a low-pass filter (first or second order) to band the frequency response in order to meet robustness specifications.  This low-pass filter should be tuned to a frequency response commensurate with the actuator's frequency response.  Through inspection the low-pass filter placement in the controller topology, it becomes clear that the indirect architecture is the only candidate as detailed below.  Figures~\ref{fig:direct_mrac_lowpass} and \ref{fig:indirect_mrac_lowpass} illustrate the placement of the low-pass filter and its implication on the closed loop model. 
 
 \begin{figure}[h!]
  \centering
-  \includegraphics[width=0.65\textwidth]{Direct_MRAC_lowpass.png}
+  \includegraphics[width=0.75\textwidth]{Direct_MRAC_lowpass.png}
   \caption{Direct \ac{MRAC} architecture with low-pass filter }
   \label{fig:direct_mrac_lowpass}
 \end{figure}
-
+ It can be seen in figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The low-pass filter cascades with the plant and effectively creates a new plant that is simply the plant plus a low-pass filter.  The aerodynamic and Lyapunov stability underpinnings become non-sensical in this implementation and are non-subtractable when the error state is calculated.
 \begin{figure}[h!]
  \centering
-  \includegraphics[width=0.65\textwidth]{Indirect_MRAC_lowpass.png}
+  \includegraphics[width=0.75\textwidth]{Direct_MRAC_lowpass_plant.png}
+  \caption{Non-Subtractable Lowpass Implementation - Direct Architecture}
+  \label{fig:direct_mrac_lowpass}
+\end{figure}
+
+Conversly, the indirect approach offers an implementation which ensures the low-pass filter is applied to both the companion model (state predictor) and the plant.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.75\textwidth]{Indirect_MRAC_lowpass.png}
   \caption{Indirect \ac{MRAC} architecture with low-pass filter }
   \label{fig:indirect_mrac_lowpass}
 \end{figure}
 
- It can be seen that the low-pass filter in the direct architecture inherently changes the structure of the model with the cascading of the low-pass filter and plant block diagrams.  This change mathematically is not mirrored in the state predictor and therefore is not subtractable.  However, in the indirect case, the structure of the model is kept intact and the low-pass filter is applied to both the plant and the state predictor.  This ensures that the low-pass filter is subtractable when calculating the error state and the model's structure is kept intact.
-
-In the primary literature for this research \cite{hovakimyan2010l1}, the author often refers to the state predictor as the reference model or companion model for the direct and indirect architectures respectively.  The reference model (direct architecture) intuitively maps the desired model response to the error feedback.  In the indirect architecture case, the error state is a result of the companion model plus the low-pass filter.  This subtle distinction is necessary because it must be accounted for when tuning the companion model with the included low-pass filter.
+ It can be seen that the low-pass filter in the direct architecture inherently changes the structure of the model with the cascading of the low-pass filter and plant block diagrams.  This change mathematically is not mirrored in the companion model (state predictor) and therefore is not subtractable.  However, in the indirect case, the structure of the model is kept intact and the low-pass filter is applied to both the plant and the state predictor.  This ensures that the low-pass filter is subtractable when calculating the error state and the model's structure is kept intact.
 
 Many slight variations of the \Lone adaptive architectures have been derived for various use cases \cite{hovakimyan2010l1}.  Some of the following forms were studied for viability in the fixed wing \ac{UAS} use case:
 \begin{itemize}
@@ -77,7 +87,7 @@ As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture 
 	\item[] $Pb$ - solution to the Lyapunov stability criterion	
 \end{itemize}
 
-It should also be noted that the architecture presented in Figure~\ref{fig:l1_architecture} includes the use of a projection operator.  The parameters for $\dot{\hat{\omega}}$, $\dot{\hat{\theta}}$, and $\dot{\hat{\sigma}}$ are all projection based adaptation laws.  This simply ensures that the adaptation stays bounded around the feasible region of parameter space.  The Lyapunov stability proofs for this architecture rely on this method to guarantee stability\cite{hovakimyan2010l1} .  More discussion on the specific application of this operator can be found in Appendix [???].
+It should also be noted that the architecture presented in Figure~\ref{fig:l1_architecture} includes the use of a projection operator.  The parameters for $\dot{\hat{\omega}}$, $\dot{\hat{\theta}}$, and $\dot{\hat{\sigma}}$ are all projection based adaptation laws.  This ensures that the adaptation stays bounded around the feasible region of parameter space.  The Lyapunov stability proofs for this architecture rely on this method to guarantee stability\cite{hovakimyan2010l1} .  More discussion on the specific application of this operator can be found in Appendix~\ref{appendix:projection_derivation}.
 
 One of the main benefits of using the \ac{SISO} architecture is that the solution to the Lyapunov stability criterion ($Pb$) used in the projection based adaptation laws is greatly simplified.  
 
@@ -86,7 +96,7 @@ In this case, $Pb$ reduces to:
 Pb = \frac{1}{2\omega_n}
 \end{equation}
 
-where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1. 
+where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1.  The proof for this can be found in Appendix~\ref{sec:projection_proof}.
 
 
 %---------------------------------------------------

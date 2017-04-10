@@ -1,3 +1,4 @@
+\label{appendix:projection_derivation}
 \section{$Proj(\theta,y)$ Derivation}
 
 In this section, the projection operator will be defined.  Adaptive controllers often use the projection operator in their adaptive laws to ensure uniform boundedness of the system error.  This can aid in faster adaptation and ensure controller closed-loop stability.  The projection operator attempts to mathematically achieve two objectives; ensure the Lyapunov function time derivative remains negative semi-definite, and to keep the estimated parameters uniformly bounded.  Using the projection operator ensures that $\theta$ is locally Lipchitz continuous even though the input $y$ is piecewise continuous.  The projection operator as utilized in this research is defined as:
