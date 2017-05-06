@@ -1109,11 +1109,11 @@
                 Dissertation Supervisor: & & \@thesisadvisor \\
             \else
                 \iftwoadvisors
-                    Thesis Co-Advisors: & \hspace{1in} & \@thesisadvisorone \\
+                    Thesis Advisors: & \hspace{1in} & \@thesisadvisorone \\
                                         & \hspace{1in} & \@thesisadvisortwo \\
                 \else
                   \iftwoadvisorsreader
-                    Thesis Co-Advisors: & \hspace{1in} & \@thesisadvisorone \\
+                    Thesis Advisors: & \hspace{1in} & \@thesisadvisorone \\
                                         & \hspace{1in} & \@thesisadvisortwo \\
                     \iftworeaders
                     Second Readers:     & \hspace{1in} & \@secondreader  \\
@@ -1370,10 +1370,10 @@
       \hspace{1.5in}\=\\       % Set the tabs
   
       Approved by:   \> \@@thesisadvisorone \\
-                     \> Thesis Co-Advisor \\[\sigspace]
+                     \> Thesis Advisor \\[\sigspace]
 
                      \> \@@thesisadvisortwo \\
-                     \> Thesis Co-Advisor \\[\sigspace]
+                     \> Thesis Advisor \\[\sigspace]
 
                      \> \@@departmentchair \\
                      \>  Chair, \@department
@@ -1393,7 +1393,7 @@
       \hspace{1.5in}\=\hspace{2.5in}\=\\    % Two tab columns
 
       Approved by:   \> \@@thesisadvisorone   \> \@@thesisadvisortwo \\
-                     \> Thesis Co-Advisor     \> Thesis Co-Advisor \\[\sigspace]
+                     \> Thesis Advisor     \> Thesis Advisor \\[\sigspace]
 
       \iftworeaders
                      \> \@@secondreader       \> \@@secondreadertwo \\
@@ -1417,10 +1417,10 @@
       \hspace{1.5in}\=\\       % Set the tabs
 
       Approved by:   \> \@@thesisadvisorone \\
-                     \> Thesis Co-Advisor \\[\sigspace]
+                     \> Thesis Advisor \\[\sigspace]
 
                      \> \@@thesisadvisortwo \\
-                     \> Thesis Co-Advisor \\[\sigspace]
+                     \> Thesis Advisor \\[\sigspace]
 
                      \> \@@secondreader \\
                      \> Second Reader \\[\sigspace]
