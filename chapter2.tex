@@ -199,14 +199,14 @@ Simplifying equation~\ref{eq:body_rate_equations} assuming no inertial or aerody
 \end{equation}
 
 The equations in equation~\ref{eq:body_rate_simplified} are then slightly modified to fit the first order \ac{ODE} model as described in the primary literature \cite{hovakimyan2010l1}.
-\begin{equation}
+\begin{equation}\label{eq:simplified_ac_model}
 \begin{split}
 \hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)\\
 \hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_qq+\hat{\sigma}_q\right)\\
 \hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_rr+\hat{\sigma}_r\right)
 \end{split}
 \end{equation}
-where,
+where the hat nomenclature $(\text{ }\hat{}\text{ })$ recognizes that the parameters are estimates as follows,
 \begin{itemize}
 	\item[] $\hat{\omega}$ - estimated input gain coefficient
 	\item[] $\hat{\theta}$ - estimated constant state coefficient
@@ -231,7 +231,7 @@ where:
 Standard physics models of first and second order form are well understood and seen in many model derivations.  The first order model takes the form:
 
 \begin{equation}\label{eq:first_order_model}
-H(s)=\frac{k_{dc}}{\tau s+1}\
+H(s)=\frac{k_{dc}}{\tau s+1}=\frac{\omega_n}{s+\omega_n}
 \end{equation}
 
 where:

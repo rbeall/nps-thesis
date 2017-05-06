@@ -58,9 +58,9 @@ Many slight variations of the \Lone adaptive architectures have been derived for
 	\item \ac{MIMO} with time variant and/or nonlinear unknown state parameters
 \end{itemize}
 
-\ac{MIMO} control algorithms would potentially afford the controller more ability to cope with system coupling if present.  A fixed wing \ac{UAS} would exhibit coupled behavior due to the coupling present in the aerodynamics but was not chosen due to the added architectural complexity.  Unknown state parameters that are assumed to be constant or time invariant are considered matched uncertainty.  Unknown state parameters that are non-constant (time variant) and/or exhibit non-linear behavior are considered unmatched uncertainty.  The unmatched uncertainty architecture offers a more appealing solution for fixed wing use cases (asymmetric actuator failure, aerodynamic coefficients scaled by dynamic pressure, etc.), but adds a significant amount of complexity to the architecture.  In summary, the \ac{SISO} architecture with matched uncertainty was chosen for this research.  
+\ac{MIMO} control algorithms would potentially afford the controller more ability to cope with system coupling if present.  A fixed wing \ac{UAS} would exhibit coupled behavior due to the coupling present in the aerodynamics as seen in equation~\ref{eq:aero_torques}, but was not chosen due to the added architectural complexity.  Unknown state parameters that are assumed to be constant or time invariant are considered matched uncertainty.  Unknown state parameters that are non-constant (time variant) and/or exhibit non-linear behavior are considered unmatched uncertainty.  The unmatched uncertainty architecture offers a more appealing solution for fixed wing use cases (asymmetric actuator failure, aerodynamic coefficients scaled by dynamic pressure, etc.), but adds a significant amount of complexity to the architecture.  In summary, the \ac{SISO} architecture with matched uncertainty was chosen for this research.  
 
-The \ac{SISO} controller with matched uncertainty was chosen to control pitch rate $(q)$ and roll rate $(p)$ of the aircraft using two separate but parallel controllers.  This meant that the controller could be generalized to a first principles physical point mass model similar to derivations found in rigid body equations of motion.  In this implementation of the \Lone adaptive controller, the desired state $x$ to be controlled was an individual body rate (\eg $q$, $p$). 
+The \ac{SISO} controller with matched uncertainty was chosen to control pitch rate $(q)$ and roll rate $(p)$ of the aircraft using two separate, but parallel controllers.  This meant that the controller could be generalized to a first principles physical point mass model similar to derivations found in rigid body equations of motion.  In this implementation of the \Lone adaptive controller, the desired state $x$ to be controlled was an individual body rate (\eg $q$, $p$). 
 
 \begin{figure}[h!]
  \centering
@@ -77,7 +77,8 @@ As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture 
 	\item[] $\dot{x}$ - first order differential equation of state model
 	\item[] $\hat{x}$ - state estimate
 	\item[] $\tilde{x}$ - state error
-	\item[] $u$ - reference objective
+	\item[] $u$ - controller output
+	\item[] $r$ - reference objective
 	\item[] $A_m$ - Hurwitz matrix
 	\item[] $b$ - input matrix
 	\item[] $\hat{\omega}$ - unknown input gain coefficient
@@ -87,7 +88,7 @@ As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture 
 	\item[] $Pb$ - solution to the Lyapunov stability criterion	
 \end{itemize}
 
-It should also be noted that the architecture presented in Figure~\ref{fig:l1_architecture} includes the use of a projection operator.  The parameters for $\dot{\hat{\omega}}$, $\dot{\hat{\theta}}$, and $\dot{\hat{\sigma}}$ are all projection based adaptation laws.  This ensures that the adaptation stays bounded around the feasible region of parameter space.  The Lyapunov stability proofs for this architecture rely on this method to guarantee stability\cite{hovakimyan2010l1} .  More discussion on the specific application of this operator can be found in Appendix~\ref{appendix:projection_derivation}.
+It should also be noted that the architecture presented in Figure~\ref{fig:l1_architecture} includes the use of a projection operator.  The parameters for $\dot{\hat{\omega}}$, $\dot{\hat{\theta}}$, and $\dot{\hat{\sigma}}$ are all projection based adaptation laws.  This ensures that the adaptation stays bounded around the feasible region of parameter space.  The Lyapunov stability proofs for this architecture rely on this method to guarantee stability\cite{hovakimyan2010l1}.  More discussion on the specific application of this operator can be found in Appendix~\ref{appendix:projection_derivation}.
 
 One of the main benefits of using the \ac{SISO} architecture is that the solution to the Lyapunov stability criterion ($Pb$) used in the projection based adaptation laws is greatly simplified.  
 
@@ -98,7 +99,42 @@ Pb = \frac{1}{2\omega_n}
 
 where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1.  The proof for this can be found in Appendix~\ref{sec:projection_proof}.
 
+%---------------------------------------------------
+\section{\Lone Parameter Estimation}
+Three Parameters are estimated in this research with increasing complexity both in architecture and in required stability proofs.  The following outlines the nomenclature for the estimation of a system with unknown constant parameters, input/output disturbances, and an unknown system input gain.
 
+The \Lone adaptive control algorithm is primarily used to estimate unknown constant system parameters.  These system parameters are defined as $\theta$ as seen in the following model:
+\begin{equation}
+\dot{x}(t)=Ax(t)+b(u(t)+\theta^{\top}(t)x(t))
+\end{equation}
+
+The second adaptive element is the estimation of the input/output disturbances $(\sigma)$.  This additional parameter is implemented in this research as any unmodeled transient dynamics such as aerodynamic/inertial coupling.  This model takes the form:
+\begin{equation}
+\dot{x}(t)=Ax(t)+b(u(t)+\theta^{\top}(t)x(t)+\sigma(t))
+\end{equation}
+
+The last adaptive element used for this research was the estimation of unknown system input gain $(\omega)$.  Estimating the unknown system input gain offers the controller the ability to estimate the actuator effectiveness for changes in dynamic pressure or failed control surfaces.  This model takes the form:
+\begin{equation}\label{eq:l_one_model}
+\dot{x}(t)=Ax(t)+b(\omega(t)u(t)+\theta^{\top}(t)x(t)+\sigma(t))
+\end{equation}  
+
+The above model in equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in equation~\ref{eq:simplified_ac_model} as follows for the roll rate model example below:
+
+\begin{equation}
+	\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)
+\end{eqaution}
+
+This final model, with the inclusion of all three estimated parameters $(\hat{\omega}, \hat{\theta}, \hat{\sigma})$, established the architecture tested in this research.  The fundamental assumption that the aerodynamic and inertial coupling was negligible and set to zero as outlined in equation~\ref{eq:body_rate_simplified} is agreeably a gross assumption which may prove to be inadequate for stable flight.  These assumptions presume that the estimated input/output disturbance $(\hat{\sigma})$ would be adequate to compensate for these unmodeled dynamics and were validated by successful flight test in section~\ref{sec:flight_test}.
+
+%---------------------------------------------------
+\section{\Lone Filter - $kD(s)$}
+One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  As seen in the architecture block diagram in figure~\ref{fig:l1_architecture}, the output simplifies to:
+
+\begin{equation}
+u(s)=-kD(s)(\hat{\eta}(s)-k_gr(s))
+\end{equation}
+
+where $D(s)$ is the user defined filter.  In order to ensure the system is strictly proper stable, the filter $D(s)$ must also be strictly proper.  The architecture outlined in figure~\ref{fig:l1_architecture} specifically adds the estimation of an uncertain system input gain $(\omega)$.  
 %---------------------------------------------------
 \section{\Lone Discrete Time Implementation}
 Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and many more.  In the case of the Pixhawk autopilot, you can run the main loop up to 400 Hz.  At 400 Hz, there is a significant insurance that the vehicle's full frequency domain of importance will be achievable.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.   
