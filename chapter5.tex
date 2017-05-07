@@ -52,12 +52,42 @@ The \Lone adaptive controller significantly reduces the attitude excursion due t
   \label{fig:gear_and_flaps}
 \end{figure}
 
+%---------------------------------------------
 \subsection{Roll Performance}
+Adaptive control offered little improvement to roll performance with respect to the nominal attitude retention.  The roll axis for multiple aircraft was typically seen to have higher cutoff frequencies with respect to pitch and therefore required higher values for the $D(s)$ cut off frequencies.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.85\textwidth]{roll_perf.png}
+  \caption{Roll Attittude Performance}
+  \label{fig:roll_perf}
+\end{figure}
 
-\subsection{Roll and Yaw Coupling}
+\subsection{Yaw to Roll Coupling}
+The roll dynamics are coupled to the yaw dynamics as seen in equation~\ref{eq:aero_torques}.  In the case of an actuator/servo hardover in the yaw channel, the coupling causes unwanted rolling moments.  Figure~\ref{fig:rudder_failure} compares a left and right yaw servo hard over for both \ac{PID} and the \Lone controller.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.85\textwidth]{rudder_failure.png}
+  \caption{Roll Response to Rudder Servo Hardover/Failure}
+  \label{fig:rudder_failure}
+\end{figure}
+The adaptive controller significantly outperforms the \ac{PID} controller in maintaining the desired roll.  It could be argued that the \ac{PID} controller's integrator time constant could be retuned to be comparable.  It was evident for each of the simulation tests that tuning the \ac{PID} for every scenario would likely have been possible individually to achieve similar performance to the \Lone.  However, the \Lone was not tuned between each of these tests and outperformed \ac{PID} in most, if not all cases.
 
 \subsection{Actuator Miscalibration}
+The \Lone adaptive control provided fast learning of airframe actuator miscalibrations.  The autopilot parameter SERVOX\_TRIM was used to offset the ailerons by 15\% of their travel to evaluate how quickly the controller was capable of adapting to the new offset.  This was tested first on the \ac{PID} controller and then on the \Lone as seen in figure~\ref{fig:trim_learn}.
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.85\textwidth]{trim_learn.png}
+  \caption{Roll Response to Miscalibrated Aileron Servo}
+  \label{fig:trim_learn}
+\end{figure}
+\begin{figure}[h!]
+ \centering
+  \includegraphics[width=0.65\textwidth]{trim_learn2.png}
+  \caption{\Lone Fast Adaptation to Unknown Miscalibration}
+  \label{fig:trim_learn2}
+\end{figure}
 
+It can be seen in figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the new trim value achieves the reference command in about 0.5 seconds for the \Lone.  The \Lone is slightly faster than \ac{PID} but the \Lone exhibits some overshoot.  It is important to note that this rate of learning is perfectly adequate for learning the miscalibrations in flight, but is insufficient for learning on take off.  In the takeoff circumstance, the algorithm saturates the actuator if biases exists between desired and achieved.  Because the aircraft has no dynamic pressure, the desired cannot be achieved.  This causes controller saturation, which cannot be un-wound fast enough for take-off (specifically for tail-dragger configuration).  This has to be handled with ad-hoc heuristics very delicately.  One could choose to speed scale the learned parameters to help with learning rate, but it was not chosen for this research because this controller is also utilized in tail-sitter configurations where the zero airspeed would cause the controller to refuse learning when in \ac{VTOL} mode.
 
 \section{Flight Test Results}\label{sec:flight_test}
 
