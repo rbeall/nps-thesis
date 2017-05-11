@@ -72,7 +72,8 @@ The \ac{SISO} controller with matched uncertainty was chosen to control pitch ra
 As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture in block diagram form and the following elements can be identified:
 \begin{itemize}
 	\item[] $k_g$ - feed forward input gain
-	\item[] $kD(s)$ - user described filter (second order low pass plus integrator)
+	\item[] $k$ - feedback gain
+	\item[] $D(s)$ - user described filter (second order low pass plus integrator)
 	\item[] $\hat{\eta}$ - \Lone controller state
 	\item[] $\dot{x}$ - first order differential equation of state model
 	\item[] $\hat{x}$ - state estimate
@@ -100,7 +101,7 @@ Pb = \frac{1}{2\omega_n}
 where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1.  The proof for this can be found in Appendix~\ref{sec:projection_proof}.
 
 %---------------------------------------------------
-\section{\Lone Parameter Estimation}
+\section{\Lone Parameter Estimation}\label{sec:param_estimation}
 Three Parameters are estimated in this research with increasing complexity both in architecture and in required stability proofs.  The following outlines the nomenclature for the estimation of a system with unknown constant parameters, input/output disturbances, and an unknown system input gain.
 
 The \Lone adaptive control algorithm is primarily used to estimate unknown constant system parameters.  These system parameters are defined as $\theta$ as seen in the following model:
@@ -127,14 +128,30 @@ The above model in equation~\ref{eq:l_one_model} can be paralleled to the aircra
 This final model, with the inclusion of all three estimated parameters $(\hat{\omega}, \hat{\theta}, \hat{\sigma})$, established the architecture tested in this research.  The fundamental assumption that the aerodynamic and inertial coupling was negligible and set to zero as outlined in equation~\ref{eq:body_rate_simplified} is agreeably a gross assumption which may prove to be inadequate for stable flight.  These assumptions presume that the estimated input/output disturbance $(\hat{\sigma})$ would be adequate to compensate for these unmodeled dynamics and were validated by successful flight test in section~\ref{sec:flight_test}.
 
 %---------------------------------------------------
-\section{\Lone Filter - $kD(s)$}
-One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  As seen in the architecture block diagram in figure~\ref{fig:l1_architecture}, the output simplifies to:
-
+\section{\Lone Filter - $C(s)$}
+One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  One of the elements that the guaranteed stability depends upon is that $C(s)$ is strictly-proper stable.  With the architecture that includes the system input gain $(\omega)$, one cannot simply apply a stand alone filter.  The inclusion of $\omega$ in the architecture block diagram in figure~\ref{fig:l1_architecture} slightly modifies the signal output and takes the following form:
 \begin{equation}
 u(s)=-kD(s)(\hat{\eta}(s)-k_gr(s))
 \end{equation}
+where $D(s)$ is the new user defined filter and $C(s)$ now takes the form:
+\begin{equation}
+\begin{split}
+\omega \in \Omega_0 \triangleq [\omega_{l_0},\omega_{u_0}]\\
+C(s)=\frac{\omega kD(s)}{1+\omega kD(s)}
+\end{split}
+\end{equation}
 
-where $D(s)$ is the user defined filter.  In order to ensure the system is strictly proper stable, the filter $D(s)$ must also be strictly proper.  The architecture outlined in figure~\ref{fig:l1_architecture} specifically adds the estimation of an uncertain system input gain $(\omega)$.  
+In the case where the user defined function $D(s)$ is a simple integrator, $C(s)$ takes the form:
+\begin{equation}\label{eq:l1_filter}
+\begin{split}
+D(s)&=\frac{1}{s}\\
+C(s)&=\frac{\omega k}{s+\omega k}
+\end{split}
+\end{equation}
+
+The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in equation~\ref{eq:l1_filter}, the $C(s)$ transfer function is a function of $k$ that can have significant influence on the controller output.  In actual implementation, $k$ was found to be one of the most influential gains in the architecture and extremely critical in specifying the transition between robustness and performance.
+
+
 %---------------------------------------------------
 \section{\Lone Discrete Time Implementation}
 Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and many more.  In the case of the Pixhawk autopilot, you can run the main loop up to 400 Hz.  At 400 Hz, there is a significant insurance that the vehicle's full frequency domain of importance will be achievable.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.   
