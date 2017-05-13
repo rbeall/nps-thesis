@@ -1,0 +1,135 @@
+%-------------------------------------------------------------------------------------
+%-------------------Setup Matlab Listings syntax---------------------------
+%-------------------------------------------------------------------------------------
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+%-------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------------
+\section{Euler vs Trapezoidal Method}
+%-------------------------------------------------------------------------------------
+\begin{lstlisting}[language=matlab]
+clear, format long, clc, close all
+dt = 1;
+
+t0 = [0:.01:4];
+
+y0 = exp(t0);
+
+%Euler integration
+
+t1 = [0:4];
+y1 = exp(0);
+for i=1:4
+    y1(i+1)=y1(i) + dt*exp(i-1);
+end
+
+%Trapezoidal integration
+t2 = [0:4];
+y2 = exp(0);
+
+for i=1:4
+    y2(i+1)=y2(i) + dt*exp(i-1);
+    y2(i+1)=y2(i) + (dt/2)*(exp(i-1)+y2(i+1));
+end
+
+plot(t0,y0,'k--',t1,y1,'b',t2,y2,'r')
+legend('y=e^t','Euler Method','Trapezoidal Method')
+\end{lstlisting}
+
+\section{SISO Lyapunov Solution Proof}
+%-------------------------------------------------------------------------------------
+\begin{lstlisting}[language=matlab]
+clear,clc, format compact, close all
+%% Find Pb
+wn = [5:0.1:10]; %rad/s
+for i=1:length(wn)
+    b = [wn(i)];
+    a = [1,wn(i)];
+    [A,B,C,D] = tf2ss(b,a)
+
+    Pb(i) = lyap(A,1);
+end
+Pb_test = 1./(2*wn);
+
+plot(wn,Pb_test,'o',wn,Pb)
+
+%in this simple 1x1 matrix case Pb is easy to calc by hand in code
+% Pb ends up being: Pb=1/2*wn;
+\end{lstlisting}
+
+\section{Reverse Linear Chirp}
+%-------------------------------------------------------------------------------------
+\begin{lstlisting}[language=matlab]
+clear, format compact, clc, close all
+
+fs = 1/200;
+t = [0:fs:7];
+f0= 0.01;%Hz
+f1= 10; %Hz
+k = (f1-f0)/(t(end));
+
+phi_0 = 0.0;
+
+sample_delay = 0.02;
+
+out = sin(phi_0+2*pi*(f0*(7-(t+sample_delay))+(k/2).*(7-(t+sample_delay)).^2));
+%out = 1500 + out*10;
+
+out = out*10;
+
+plot(t,out)
+\end{lstlisting}
+
+\section{Projection Operator Example Plots}\label{sec:projection_proof}
+%-------------------------------------------------------------------------------------
+\begin{lstlisting}[language=matlab]
+clear, clc, format compact, close all
+
+%% Plot Projection
+epsilon = [0.25,0.28,0.3,0.38];
+theta_max = 0.65;
+theta_min = 0.25;
+center = (theta_max+theta_min)/2;
+
+span = (theta_max-theta_min)*1.4;
+theta = [center-(span/2):0.01:center+(span/2)];
+
+for j=1:length(epsilon)
+    for i=1:length(theta)          
+        %f_theta(i,j) = -(theta(i).^2-theta_max^2)/(epsilon(j)*theta_max^2);
+        %f_theta_dot(i,j) = -(2*theta(i))/(epsilon(j)*theta_max^2);
+        f_theta(i,j) = -(theta_min-theta(i))*(theta_max-theta(i))./(epsilon(j));
+        f_theta_dot(i,j) = (theta_min+theta_max-(2*theta(i)))/(epsilon(j));
+    end
+end 
+
+figure
+for j=1:length(epsilon)   
+hold on
+plot(theta,f_theta(:,j))
+end
+line([min(theta),max(theta)],[0,0],'color','blue','linestyle','--')
+line([theta_min,theta_min],[min(f_theta(:,1)),max(f_theta(:,1))],'color','red','linestyle','--')
+line([theta_max,theta_max],[min(f_theta(:,1)),max(f_theta(:,1))],'color','red','linestyle','--')
+legend('\epsilon=0.25','\epsilon=0.28','\epsilon=0.30','\epsilon=0.38')
+ylabel('f(\theta)')
+xlabel('\theta')
+title('Projection Operator')
+hold off
+\end{lstlisting}
