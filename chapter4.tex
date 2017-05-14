@@ -1,7 +1,7 @@
 \chapter{Design of Experimental Platform}\label{ch:platform}
 
 \section{Pixhawk Autopilot}
-The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for numerous raspberry pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot can operate with two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
+The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high-performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for numerous raspberry pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot can operate with two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a Linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
 
 \begin{figure}[h!]
  \centering
@@ -69,7 +69,7 @@ The following are summaries which proved to be extremely useful for this researc
 \end{itemize}
 
 \section{Simulation}
-The \ac{APM} environment offers three versions of \ac{SITL} simulations.  The lowest fidelity \ac{SITL} is provided by MAVproxy, which is a simple 6-degree of freedom kinematics model with no environment or actuator modeling.  This proved to be adequate for initial testing, but resulted in poorly tuned algorithms when actual flight test were conducted.  The MAVproxy simulator was used for basic code debugging but nothing else.
+The \ac{APM} environment offers three versions of \ac{SITL} simulations.  The lowest fidelity \ac{SITL} is provided by MAVproxy, which is a simple 6-degree of freedom kinematics model with no environment or actuator modeling.  This proved to be adequate for initial testing but resulted in poorly tuned algorithms when actual flight tests were conducted.  The MAVproxy simulator was used for basic code debugging but nothing else.
 
 The second \ac{SITL} offered in the \ac{APM} environment is X-plane 10.  This is a much higher fidelity simulation, which includes actuator models and environmental modeling.  X-plane 10 is primarily used for simulating full-scale aircraft and therefore is difficult to find models, which accurately represent the dynamics of small fixed-wing \ac{UAS}.  The open-source community provided model called the "maxi-swift" was similar enough to the airframe in this research that it provided adequate \ac{SITL} modeling which ensured robust flight test.
 
@@ -103,7 +103,7 @@ The large blunt nose provides adequate space for two 2,200 mAh (12.6volts) lithi
   \label{fig:spear_cargo}
 \end{figure}
 
-This plane was constructed out of craft foam board.  The plans were downloaded from flitetest.com\cite{flitetest} and converted to CorelDraw vector files for use in a laser cutter.  These files were then cut out of four sheets of foam board using the laser cutter.  The wing halves were joined with standard box tape and hot-glue.  This provided a cheap and rapid construction process which was achievable under four hours of build time.
+This plane was constructed out of craft foam board.  The plans were downloaded from flitetest.com\cite{flitetest} and converted to CorelDraw vector files for use in a laser cutter.  These files were then cut out of four sheets of foam board using the laser cutter.  The wing halves were joined with standard box tape and hot glue.  This provided a cheap and rapid construction process which was achievable under four hours of build time.
 
 \begin{figure}[!h]
  \centering
@@ -114,15 +114,15 @@ This plane was constructed out of craft foam board.  The plans were downloaded f
 
 \subsection{Specifications}
 \begin{itemize}
-	\item Weight without battery: 1.45 lbs (658 g)
-	\item Center of gravity: 3 – 3.5” (76 – 89 mm) in front of firewall
-	\item Control surface throws: 16\degrees  deflection – Expo 30\%
-	\item Wingspan: 41 inches (1041 mm)
-	\item Recommended motor: 425 sized 1200 kv minimum
-	\item Recommended prop: 9 x 4.5 CW (reverse) prop
-	\item Recommended ESC: 30 amp minimum
-	\item Recommended Battery: (2) 2200 mAH 12.6 volt minimum
-	\item Recommended Servos: (2) 9 gram servos 
+ \item Weight without battery: 1.45 lbs (658 g)
+ \item Center of gravity: 3 – 3.5” (76 – 89 mm) in front of firewall
+ \item Control surface throws: 16\degrees  deflection – Expo 30\%
+ \item Wingspan: 41 inches (1041 mm)
+ \item Recommended motor: 425 sized 1200 kv minimum
+ \item Recommended prop: 9 x 4.5 CW (reverse) prop
+ \item Recommended ESC: 30 amp minimum
+ \item Recommended Battery: (2) 2200 mAH 12.6 volt minimum
+ \item Recommended Servos: (2) 9 gram servos 
 \end{itemize}
 
 
