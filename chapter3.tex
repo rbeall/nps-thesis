@@ -3,7 +3,7 @@
 Introduction here!!!
 
 \section{\Lone Adaptive Control}
-The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to model a \ac{LTI} system with unknown constant parameters.  These parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architectures.  The indirect architecture attempts to estimate the system's parameters, which could be considered similar to  system identification.  Alternately the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
+The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to model a \ac{LTI} system with unknown constant parameters.  These parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architecture.  The indirect architecture attempts to estimate the system's parameters, which could be considered similar to system identification.  Alternately the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
 
 \begin{figure}[h!]
  \centering
@@ -20,10 +20,10 @@ The \Lone adaptive controller is an evolution of the concepts implemented by \ac
 \end{figure}
 
 \subsection{Reference Model versus Companion Model}
-Traditional \ac{MRAC} controllers often refer to the system objective function as the 'Reference Model.'  In this case, the engineer designs a reference model response, and it is from this model response that the error state is calculated directly.  Because the \Lone adaptive control implements the use of a low-pass filter in conjunction with a model objective function, the model is often referred to as the 'Companion Model.'  This subtle distinction is necessary, because the engineer must be aware that the system response will be the with respect to the low-pass filter and the companion model in series.  In other words, the plant will not mimic the companion model; it will mimic the companion model plus the low-pass filter.
+Traditional \ac{MRAC} controllers often refer to the system objective function as the 'Reference Model.'  In this case, the engineer designs a reference model response, and it is from this model response that the error state is calculated directly.  Because the \Lone adaptive control implements the use of a low-pass filter in conjunction with a model objective function, the model is often referred to as the 'Companion Model.'  This subtle distinction is necessary because the engineer must be aware that the system response will be the with respect to the low-pass filter and the companion model in series.  In other words, the plant will not mimic the companion model; it will mimic the companion model plus the low-pass filter.
 
 \subsection{\Lone Architecture}
-The \Lone adaptive control algorithm asserts that trying to estimate the plant uncertainties outside of the control actuators' bandwidth is overly ambitious.  The system's actuator bandwidth and the slow dynamics of the plant are most commonly the system's limiting factors, and the estimator's robustness/stability could be in question if un-modeled high frequency content exists in the plant.  % See RHORs example here? 
+The \Lone adaptive control algorithm asserts that trying to estimate the plant uncertainties outside of the control actuators' bandwidth is overly ambitious.  The system's actuator bandwidth and the slow dynamics of the plant are most commonly the system's limiting factors, and the estimator's robustness/stability could be in question if unmodeled high-frequency content exists in the plant.  % See RHORs example here? 
 The \Lone adaptive control constrains the objective function by using a low-pass filter (first or second order) to band the frequency response in order to meet robustness specifications.  This low-pass filter should be tuned to a frequency response commensurate with the actuator's frequency response.  Through inspection the low-pass filter placement in the controller topology, it becomes clear that the indirect architecture is the only candidate as detailed below.  Figures~\ref{fig:direct_mrac_lowpass} and \ref{fig:indirect_mrac_lowpass} illustrate the placement of the low-pass filter and its implication on the closed loop model. 
 
 \begin{figure}[h!]
@@ -52,10 +52,10 @@ Conversly, the indirect approach offers an implementation which ensures the low-
 
 Many slight variations of the \Lone adaptive architectures have been derived for various use cases \cite{hovakimyan2010l1}.  Some of the following forms were studied for viability in the fixed wing \ac{UAS} use case:
 \begin{itemize}
-	\item \ac{SISO} with constant but unknown state parameters
-	\item \ac{SISO} with time variant and/or nonlinear unknown state parameters
-	\item \ac{MIMO} with constant but unknown state parameters
-	\item \ac{MIMO} with time variant and/or nonlinear unknown state parameters
+ \item \ac{SISO} with constant but unknown state parameters
+ \item \ac{SISO} with time variant and/or nonlinear unknown state parameters
+ \item \ac{MIMO} with constant but unknown state parameters
+ \item \ac{MIMO} with time variant and/or nonlinear unknown state parameters
 \end{itemize}
 
 \ac{MIMO} control algorithms would potentially afford the controller more ability to cope with system coupling if present.  A fixed wing \ac{UAS} would exhibit coupled behavior due to the coupling present in the aerodynamics as seen in equation~\ref{eq:aero_torques}, but was not chosen due to the added architectural complexity.  Unknown state parameters that are assumed to be constant or time invariant are considered matched uncertainty.  Unknown state parameters that are non-constant (time variant) and/or exhibit non-linear behavior are considered unmatched uncertainty.  The unmatched uncertainty architecture offers a more appealing solution for fixed wing use cases (asymmetric actuator failure, aerodynamic coefficients scaled by dynamic pressure, etc.), but adds a significant amount of complexity to the architecture.  In summary, the \ac{SISO} architecture with matched uncertainty was chosen for this research.  
@@ -71,22 +71,22 @@ The \ac{SISO} controller with matched uncertainty was chosen to control pitch ra
 
 As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture in block diagram form and the following elements can be identified:
 \begin{itemize}
-	\item[] $k_g$ - feed forward input gain
-	\item[] $k$ - feedback gain
-	\item[] $D(s)$ - user described filter (second order low pass plus integrator)
-	\item[] $\hat{\eta}$ - \Lone controller state
-	\item[] $\dot{x}$ - first order differential equation of state model
-	\item[] $\hat{x}$ - state estimate
-	\item[] $\tilde{x}$ - state error
-	\item[] $u$ - controller output
-	\item[] $r$ - reference objective
-	\item[] $A_m$ - Hurwitz matrix
-	\item[] $b$ - input matrix
-	\item[] $\hat{\omega}$ - unknown input gain coefficient
-	\item[] $\hat{\theta}$ - unknown constant state coefficient
-	\item[] $\hat{\sigma}$ - unknown disturbance estimate
-	\item[] $\Gamma$ - adaptation gain
-	\item[] $Pb$ - solution to the Lyapunov stability criterion	
+ \item[] $k_g$ - feed forward input gain
+ \item[] $k$ - feedback gain
+ \item[] $D(s)$ - user described filter (second order low pass plus integrator)
+ \item[] $\hat{\eta}$ - \Lone controller state
+ \item[] $\dot{x}$ - first order differential equation of state model
+ \item[] $\hat{x}$ - state estimate
+ \item[] $\tilde{x}$ - state error
+ \item[] $u$ - controller output
+ \item[] $r$ - reference objective
+ \item[] $A_m$ - Hurwitz matrix
+ \item[] $b$ - input matrix
+ \item[] $\hat{\omega}$ - unknown input gain coefficient
+ \item[] $\hat{\theta}$ - unknown constant state coefficient
+ \item[] $\hat{\sigma}$ - unknown disturbance estimate
+ \item[] $\Gamma$ - adaptation gain
+ \item[] $Pb$ - solution to the Lyapunov stability criterion 
 \end{itemize}
 
 It should also be noted that the architecture presented in Figure~\ref{fig:l1_architecture} includes the use of a projection operator.  The parameters for $\dot{\hat{\omega}}$, $\dot{\hat{\theta}}$, and $\dot{\hat{\sigma}}$ are all projection based adaptation laws.  This ensures that the adaptation stays bounded around the feasible region of parameter space.  The Lyapunov stability proofs for this architecture rely on this method to guarantee stability\cite{hovakimyan2010l1}.  More discussion on the specific application of this operator can be found in Appendix~\ref{appendix:projection_derivation}.
@@ -122,7 +122,7 @@ The last adaptive element used for this research was the estimation of unknown s
 The above model in equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in equation~\ref{eq:simplified_ac_model} as follows for the roll rate model example below:
 
 \begin{equation}
-	\hat{\dot{p}}=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)
+ \hat{\dot{p}}=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)
 \end{equation}
 
 This final model, with the inclusion of all three estimated parameters $(\hat{\omega}, \hat{\theta}, \hat{\sigma})$, established the architecture tested in this research.  The fundamental assumption that the aerodynamic and inertial coupling was negligible and set to zero as outlined in equation~\ref{eq:body_rate_simplified} is agreeably a gross assumption which may prove to be inadequate for stable flight.  These assumptions presume that the estimated input/output disturbance $(\hat{\sigma})$ would be adequate to compensate for these unmodeled dynamics and were validated by successful flight test in section~\ref{sec:flight_test}.
@@ -154,13 +154,13 @@ The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in eq
 
 %---------------------------------------------------
 \section{\Lone Discrete Time Implementation}
-Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and many more.  In the case of the Pixhawk autopilot, you can run the main loop up to 400 Hz.  At 400 Hz, there is a significant insurance that the vehicle's full frequency domain of importance will be achievable.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely impart due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
+Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and much more.  In the case of the Pixhawk autopilot, you can run the main loop up to 400 Hz.  At 400 Hz, there is a significant insurance that the vehicle's full frequency domain of importance will be achievable.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely in part due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
 
-The \Lone architecture does not require the algorithm to run in sync with the sensor measurements etc.  Ideally, the autopilot main loop rate would remain at it's default value (50Hz), and the adaptation section of the \Lone controller would run as fast as the CPU would allow.  However, the \ac{APM} architecture doesn't lend itself well to this scheme in it's current configuration without significant modification to the code base.  Therefore, the initial tests will presume that the \Lone algorithm is running at the same frequency as the main loop of the autopilot.  The fundamental derivation of the \Lone algorithm proves that performance and adaptation gain are maximized as the loop time (dt) approaches zero.  Increased performance would come from higher adaptation loop rates, but the primary focus was to implement the \Lone algorithm with minimal or no detrimental effects to the current \ac{APM} codebase.
+The \Lone architecture does not require the algorithm to run in sync with the sensor measurements etc.  Ideally, the autopilot main loop rate would remain at its default value (50Hz), and the adaptation section of the \Lone controller would run as fast as the CPU would allow.  However, the \ac{APM} architecture doesn't lend itself well to this scheme in its current configuration without significant modification to the code base.  Therefore, the initial tests will presume that the \Lone algorithm is running at the same frequency as the main loop of the autopilot.  The fundamental derivation of the \Lone algorithm proves that performance and adaptation gain are maximized as the loop time (dt) approaches zero.  Increased performance would come from higher adaptation loop rates, but the primary focus was to implement the \Lone algorithm with minimal or no detrimental effects to the current \ac{APM} codebase.
 
 \subsection{Digital Bi-Quad Filter}
 
-The \Lone adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straight forward method for accurately implementing the companion model and the low pass filter discretely using it's recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring 4 total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc) simply by choosing appropriate coefficients.  If a first order filter is needed then the higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
+The \Lone adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straightforward method for accurately implementing the companion model and the low pass filter discretely using its recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring 4 total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc) simply by choosing appropriate coefficients.  If a first order filter is needed then the higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
 
 \begin{figure}[h!]
  \centering
@@ -169,7 +169,7 @@ The \Lone adaptive control algorithm utilizes two specific elements that will re
   \label{fig:bi-quad}
 \end{figure}
 
-To determine the structure of the coefficients, a bi-linear Z transform is used to convert a desired S-domain (continuous time domain) filter/model into the Z-domain (discrete time domain).  
+To determine the structure of the coefficients, a bilinear Z transform is used to convert the desired S-domain (continuous time domain) filter/model into the Z-domain (discrete time domain).  
 
 \begin{figure}[h!]
  \centering
@@ -181,13 +181,13 @@ To determine the structure of the coefficients, a bi-linear Z transform is used 
 This derivation can be seen below for the second order low pass model:
 
 \begin{equation}
-	H(s) = \frac{1}{s^2+\frac{s}{Q}+1}
+ H(s) = \frac{1}{s^2+\frac{s}{Q}+1}
 \end{equation}
 
 where the bi-linear transform converts s to z via:
 
 \begin{equation}
-	s = \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)
+ s = \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)
 \end{equation}
 
 $K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in figure~\ref{fig:bi-linear_transform}.
@@ -195,13 +195,13 @@ $K$ is the 'pre-warping' factor which accounts for the transition of the vertica
 where $\omega T$ is:
 
 \begin{equation}
-	\omega T = 2\pi\left(\frac{F_c}{F_s}\right)
+ \omega T = 2\pi\left(\frac{F_c}{F_s}\right)
 \end{equation}
 
 \begin{equation}
 \begin{split}
-	K &= tan\left(\frac{\omega T}{2}\right) \\
-	&= tan\left(\pi\frac{F_c}{F_s}\right)
+ K &= tan\left(\frac{\omega T}{2}\right) \\
+ &= tan\left(\pi\frac{F_c}{F_s}\right)
 \end{split}
 \end{equation}
 
@@ -213,29 +213,29 @@ This 'pre-warping' is critical to ensure that the continuous time cutoff frequen
 Applying the bi-linear transform to the continuous time second order low pass filter results in:
 
 \begin{equation}\label{eq:bi-linear}
-	H(z) = \frac{1}{ \left[\left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)\right]^2+\frac{ \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)}{Q}+1}
+ H(z) = \frac{1}{ \left[\left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)\right]^2+\frac{ \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)}{Q}+1}
 \end{equation}
 
 The desired form is:
 
 \begin{equation}\label{eq:bi-quad}
-	H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2}}{a_0 + a_1 z^{-1} + a_2 z^{-2}}
+ H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2}}{a_0 + a_1 z^{-1} + a_2 z^{-2}}
 \end{equation}
 
 Reducing equation~\ref{eq:bi-linear} to match the form in equation~\ref{eq:bi-quad} results in the following coefficients:
 
 \begin{equation}
 \begin{split}
-	a_0 &= 1 \\
-	a_1 &= \frac{2(K^2-1)}{K^2+\frac{K}{Q}+1} \\
-	a_2 &= \frac{K^2-\frac{K}{Q}+1}{K^2+\frac{K}{Q}+1} \\
-	b_0 &= \frac{K^2}{K^2+\frac{K}{Q}+1} \\
-	b_1 &= 2b_0 \\
-	b_2 &= b_0 	
+ a_0 &= 1 \\
+ a_1 &= \frac{2(K^2-1)}{K^2+\frac{K}{Q}+1} \\
+ a_2 &= \frac{K^2-\frac{K}{Q}+1}{K^2+\frac{K}{Q}+1} \\
+ b_0 &= \frac{K^2}{K^2+\frac{K}{Q}+1} \\
+ b_1 &= 2b_0 \\
+ b_2 &= b_0  
 \end{split}
 \end{equation}
 
-The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.  For this research the following C++ code segments were used to explicitly calculate the bi-quad low-pass filter implementation: \newline
+The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.  For this research, the following C++ code segments were used to explicitly calculate the bi-quad low-pass filter implementation: \newline
 
 \begin{lstlisting}
 void DigitalBiquadFilter<T>::compute_params(float sample_freq, 
@@ -260,11 +260,11 @@ T DigitalBiquadFilter<T>::apply(const T &sample,
 const struct biquad_params &params) {
     
     T delay_element_0 = sample - _delay_element_1 * params.a1 
-	    - _delay_element_2 * params.a2;
+     - _delay_element_2 * params.a2;
     
     T output = delay_element_0 * params.b0 
-	    + _delay_element_1 * params.b1 
-	    + _delay_element_2 * params.b2;
+     + _delay_element_1 * params.b1 
+     + _delay_element_2 * params.b2;
 
     _delay_element_2 = _delay_element_1;
     _delay_element_1 = delay_element_0;
@@ -296,8 +296,8 @@ therefore the explicit calculation of the Bi-quad coefficients in this case beco
 
 \begin{equation}\label{eq:first_order_coeffieicnts}
 \begin{split}
-	a_1&=e^{\left(\frac{-\omega_n}{F_s}\right)}  \\
-	b_0&=1-a_1
+ a_1&=e^{\left(\frac{-\omega_n}{F_s}\right)}  \\
+ b_0&=1-a_1
 \end{split}
 \end{equation}
 
@@ -318,7 +318,7 @@ float out+=(in-out)*b_0;
 
 \subsection{Euler vs Trapezoid Rule}
 
-The model estimate as well as the parameter estimates for the \Lone algorithm are both numerically estimated using discrete integration.  The Euler method is a numerical procedure for solving ordinary differential equations. The Euler method as applied to discrete integration, is the fundamental method for recursively integrating a digital signal.  The algorithm takes the form: \newline
+The model estimate, as well as the parameter estimates for the \Lone algorithm, are both numerically estimated using discrete integration.  The Euler method is a numerical procedure for solving ordinary differential equations. The Euler method as applied to discrete integration is the fundamental method for recursively integrating a digital signal.  The algorithm takes the form: \newline
 where $h$ is the uniform step size,
 \begin{equation}
 y_{i+1}=y_i+hf(t_i,y_i)
