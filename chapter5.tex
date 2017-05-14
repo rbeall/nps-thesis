@@ -70,7 +70,7 @@ The roll dynamics are coupled to the yaw dynamics as seen in equation~\ref{eq:ae
   \caption{Roll Response to Rudder Servo Hardover/Failure}
   \label{fig:rudder_failure}
 \end{figure}
-The adaptive controller significantly outperforms the \ac{PID} controller in maintaining the desired roll.  It could be argued that the \ac{PID} controller's integrator time constant could be retuned to be comparable.  It was evident for each of the simulation tests that tuning the \ac{PID} for every scenario would likely have been possible individually to achieve similar performance to the \Lone.  However, the \Lone was not tuned between each of these tests and outperformed \ac{PID} in most, if not all cases.
+The adaptive controller significantly outperforms the \ac{PID} controller in maintaining the desired roll.  It could be argued that the \ac{PID} controller's integrator time constant could be re-tuned to be comparable.  It was evident for each of the simulation tests that tuning the \ac{PID} for every scenario would likely have been possible individually to achieve similar performance to the \Lone.  However, the \Lone was not tuned between each of these tests and outperformed \ac{PID} in most, if not all cases.
 
 \subsection{Actuator Miscalibration}
 The \Lone adaptive control provided fast learning of airframe actuator miscalibrations.  The autopilot parameter SERVOX\_TRIM was used to offset the ailerons by 15\% of their travel to evaluate how quickly the controller was capable of adapting to the new offset.  This was tested first on the \ac{PID} controller and then on the \Lone as seen in figure~\ref{fig:trim_learn}.
@@ -87,7 +87,7 @@ The \Lone adaptive control provided fast learning of airframe actuator miscalibr
   \label{fig:trim_learn2}
 \end{figure}
 
-It can be seen in figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the new trim value achieves the reference command in about 0.5 seconds for the \Lone.  The \Lone is slightly faster than \ac{PID} but the \Lone exhibits some overshoot.  It is important to note that this rate of learning is perfectly adequate for learning the miscalibrations in flight, but is insufficient for learning on take off.  In the takeoff circumstance, the algorithm saturates the actuator if biases exists between desired and achieved.  Because the aircraft has no dynamic pressure, the desired cannot be achieved.  This causes controller saturation, which cannot be un-wound fast enough for take-off (specifically for tail-dragger configuration).  This has to be handled with ad-hoc heuristics very delicately.  One could choose to speed scale the learned parameters to help with learning rate, but it was not chosen for this research because this controller is also utilized in tail-sitter configurations where the zero airspeed would cause the controller to refuse learning when in \ac{VTOL} mode.
+It can be seen in figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the new trim value achieves the reference command in about 0.5 seconds for the \Lone.  The \Lone is slightly faster than \ac{PID} but the \Lone exhibits some overshoot.  It is important to note that this rate of learning is perfectly adequate for learning the miscalibrations in flight, but is insufficient for learning on take off.  In the takeoff circumstance, the algorithm saturates the actuator if biases exist between desired and achieved.  Because the aircraft has no dynamic pressure, the desired cannot be achieved.  This causes controller saturation, which cannot be unwound fast enough for take-off (specifically for tail-dragger configuration).  This has to be handled with ad-hoc heuristics very delicately.  One could choose to speed scale the learned parameters to help with learning rate, but it was not chosen for this research because this controller is also utilized in tail-sitter configurations where the zero airspeed would cause the controller to refuse to learn when in \ac{VTOL} mode.
 
 \section{Flight Test Results}\label{sec:flight_test}
 
@@ -104,10 +104,10 @@ x(t)=sin\left[\phi_0+2\pi\left(f_0t+\frac{k}{2}t^2\right)\right]
 
 where:
 \begin{itemize}
-	\item[] $\phi_0$ is the initial phase of the chirp at t=0 (nominally zero degrees)
-	\item[] $f_0$ is the initial frequency at t=0
-	\item[] $k$ is the chirp rate
-	\item[] $t$  is time in seconds
+ \item[] $\phi_0$ is the initial phase of the chirp at t=0 (nominally zero degrees)
+ \item[] $f_0$ is the initial frequency at t=0
+ \item[] $k$ is the chirp rate
+ \item[] $t$  is time in seconds
 \end{itemize}
 
 An example of this formulation can be seen below:
