@@ -1,6 +1,35 @@
 \label{appendix:system_identification}
 \section{System Identification}
 
+\subsection{Data Collection}
+The Pixhawk autopilot was used to capture roll and pitch rates $(\dot{p},\dot{q})$ for the test vehicle as well as the pilot's command inputs.  These outputs and inputs were the essential building blocks for creating pitch rate and roll rate models for the test vehicle.  The autopilot is capable of logging data at 50-400 Hz and therefore is a discrete time domain signal.  This data should ultimately be manipulated into the s-domain.  The mathematics for this procedure are well defined, and numerous tools can be used to simplify this process.  
+
+It is crucial to ensure there is sufficient frequency content in the data recorded.  Exciting multiple frequencies in the time domain ensures the regression techniques have an adequate sample space to search for polynomial coefficients.  Exciting adequate frequency inputs is analogous to only sampling at one independent variable and expecting to get a regression fit from a non-changing dependent variable.  
+
+To ensure sufficient frequency content was obtained from the aircraft, a linear chirp was chosen and implemented into the Pixhawk source code as follows:
+
+\begin{equation}
+x(t)=sin\left[\phi_0+2\pi\left(f_0t+\frac{k}{2}t^2\right)\right]
+\end{equation}
+
+where:
+\begin{itemize}
+ \item[] $\phi_0$ is the initial phase of the chirp at t=0 (nominally zero degrees)
+ \item[] $f_0$ is the initial frequency at t=0
+ \item[] $k$ is the chirp rate
+ \item[] $t$  is time in seconds
+\end{itemize}
+
+An example of this formulation can be seen below:
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.50\textwidth]{chirp.png}
+  \caption{Reverse Linear Chirp Example}
+  \label{fig:chirp}
+\end{figure}
+
+\subsection{z-Domain to s-Domain}
 The logged input and output data in discrete form requires shaping to convert cleanly into an s-domain representation.  The first step is ensuring that the data is of constant sampling rate.  In other words, the time between samples is uniform from sample to sample.  The data provided from the Pixhawk autopilot does not have a uniform sampling rate.  The sample rate is a user-defined rate (50-400Hz) but has a slight amount of jitter $(\pm 0.1\%)$.  \ac{PCHIP} interpolation was used to interpolate the data into a uniform sampling rate.
 
 After the data is shaped correctly with a uniform sample rate, the discrete data is transformed into a continuous approximation using a \ac{ZOH} technique.  Taking the Laplace transform of the continuous input/output data will convert it into the s-domain, and finally, a non-linear least squares minimization algorithm can be run to find the polynomial coefficients which best fit the data.
