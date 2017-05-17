@@ -12,7 +12,6 @@ Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane1
 This plane did not afford proper testing of elevon mixing, but the fidelity in the model provided utilizing X-Plane10 was surprisingly accurate with respect to the FT-Spear aircraft used for actual flight test.  This drastically increased confidence that anything tested in \ac{SITL} would have a high probability of success in actual flight test.
 
 
-
 \subsection{Pitch Attitude Performance}
 
 It can be seen in figure~\ref{fig:pitch_perf} that there exists some steady state error when under \ac{PID} control.  This phenomenon is more pronounced when the desired pitch attitude is negative.  This steady state error is due to the increase in lift caused by the increasing airspeed.  The \ac{PID} controller underperforms in this regime.  However, the adaptive controller is able to compensate for these dynamics fast enough to track the desired attitude with no steady state error.
