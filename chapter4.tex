@@ -1,7 +1,7 @@
 \chapter{Design of Experimental Platform}\label{ch:platform}
 
 \section{Pixhawk Autopilot}
-The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high-performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for various raspberry pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot operates using two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a Linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
+The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high-performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for various Raspberry Pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot operates using two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a Linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
 
 \begin{figure}[h!]
  \centering
@@ -85,12 +85,12 @@ The last \ac{SITL} simulation tested under the \ac{APM} environment was the Real
 
 \section{Airframe}
 
-The aircraft used for this research was the Flitetest Spear \cite{flitetest}.  The Spear airframe was chosen for its endurance capability of greater than 45 minutes of flight time and its large capacity fuselage.  The flying-wing architecture keeps the actuation requirement to a minimum of two servos by utilizing an elevon configuration.  
+The aircraft used for this research was the Flitetest Spear and the Flitetest Explorer \cite{flitetest}.  The Spear airframe was chosen for its endurance capability of greater than 45 minutes of flight time and its large capacity fuselage.  The flying-wing architecture keeps the actuation requirement to a minimum of two servos by utilizing an elevon configuration.  
 
 \begin{figure}[!h]
  \centering
   \includegraphics[width=0.65\textwidth]{spear.png}
-  \caption{Spear Airframe}
+  \caption{Spear Airframe \cite{flitetest}}
   \label{fig:spear}
 \end{figure}
 
@@ -99,7 +99,7 @@ The large blunt nose provides adequate space for two 2,200 mAh (12.6volts) lithi
 \begin{figure}[!h]
  \centering
   \includegraphics[width=0.6\textwidth]{spear_cargo.png}
-  \caption{Spear Cargo Capacity}
+  \caption{Spear Cargo Capacity \cite{flitetest}}
   \label{fig:spear_cargo}
 \end{figure}
 
@@ -112,18 +112,56 @@ This plane was constructed out of craft foam board.  The plans were downloaded f
   \label{fig:spear_build}
 \end{figure}
 
-\subsection{Specifications}
+\subsection{Spear Specifications}
 \begin{itemize}
  \item Weight without battery: 1.45 lbs (658 g)
  \item Center of gravity: 3 – 3.5” (76 – 89 mm) in front of firewall
  \item Control surface throws: 16\degrees  deflection – Expo 30\%
  \item Wingspan: 41 inches (1041 mm)
- \item Recommended motor: 425 sized 1200 kv minimum
+ \item Recommended motor: 425 sized, 1200 kv minimum
  \item Recommended prop: 9 x 4.5 CW (reverse) prop
  \item Recommended ESC: 30 amp minimum
  \item Recommended Battery: (2) 2200 mAH 12.6 volt minimum
  \item Recommended Servos: (2) 9 gram servos 
 \end{itemize}
+
+The Explorer airframe was chosen because it is a conventional airframe with highly coupled aerodynamics which can be configured in multiple different failure modes.  The sport wing provided in the plans was modified to have independently actuated flaps, and ailerons for a combination of software enabled failure modes.  This aircraft was also configured with a rudder for testing the lateral aerodynamics coupling effects on the adaptive controller.  
+
+\subsection{Explorer Specifications}
+\begin{itemize}
+ \item Weight without battery: 1.08 lbs (493 g)
+ \item Center of gravity: 2.25” (57 mm) from leading edge of wing
+ \item Control surface throws: 12\degrees  deflection – Expo 30\%
+ \item Wingspan: 57 inches (1447 mm)
+ \item Recommended motor: 425 sized, 1000 kv minimum
+ \item Recommended prop: 9 x 6 CW (reverse) prop
+ \item Recommended ESC: 30 amp minimum
+ \item Recommended Battery: (1) 2200 mAH 12.6 volt minimum
+ \item Recommended Servos: (6) 9 gram servos 
+\end{itemize}
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.90\textwidth]{explorer.png}
+  \caption{FliteTest Explorer \cite{flitetest}}
+  \label{fig:explorer_parts}
+\end{figure}
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.85\textwidth]{explorer_parts.png}
+  \caption{Explorer Cut Foamboard Parts}
+  \label{fig:explorer_parts}
+\end{figure}
+
+\begin{figure}[!h]
+ \centering
+  \includegraphics[width=0.75\textwidth]{explorer_electronics.png}
+  \caption{Pixhawk autopilot installed on Explorer}
+  \label{fig:explorer_electronics}
+\end{figure}
+
+
 
 
 
