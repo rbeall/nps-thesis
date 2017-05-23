@@ -1,6 +1,6 @@
 \chapter{Recommendation}
 
-\section{\Lone Adaptive Control Algorithm Tuning}
+\section{\Lone Adaptive Control Algorithm Tuning}\label{sec:tuning}
 The primary goal of this research was to reduce the complexity of tuning expertise required to get an unknown airframe airborne successfully.  The amount of time required to get the adequate airframe performance using the \Lone algorithm is significantly reduced.  Three primary features need tuning: the adaptation gain, the controller filter, and the companion model.
 
 \subsection{Tuning the Adaptation gain}
@@ -18,7 +18,7 @@ System identification was conducted as seen in Appendix~\ref{appendix:system_ide
   \label{fig:bode_analysis}
 \end{figure}
 
-These rough approximations were used to then place the cutoff frequencies of the companion model with the expectation that the companion model cannot achieve higher bandwidths than that of the airframe.  Conservatively, the companion model cutoff frequency was typically set 2-5 radians per second lower than the expected max performance of the airframe.  After the other algorithm gains are tuned, and satisfactory performance is achieved, the companion model cutoff frequency can then be increased to achieve higher performance.
+These rough approximations were used to then place the cutoff frequencies of the companion model with the expectation that the companion model cannot achieve higher bandwidths than that of the airframe.  Conservatively, the companion model cutoff frequency was typically set 2-5 $rad/s$ lower than the expected max performance of the airframe.  After the other algorithm gains are tuned, and satisfactory performance is achieved, the companion model cutoff frequency can then be increased to achieve higher performance.
 
 \section{Improved Recursive Architecture}
 
