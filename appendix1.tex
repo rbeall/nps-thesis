@@ -1,7 +1,7 @@
 \label{appendix:transfer_functions}
 \section{Transfer Functions}
 
-This research utilizes the \ac{TF} representation of aircraft flight dynamics that is typical of \ac{LTI} systems.  A transfer function is a very useful approach to describe the relationship between inputs and outputs of \ac{LTI} systems.  Both analytically and numerically, the \ac{TF} approach has significant benefits in continuous and discrete time domains as its construct is based on well-developed properties and primitives of polynomials.  These polynomial representations of various aerodynamic, flight dynamics, and control properties of aircraft are well-developed.  What is unknown or partially known a priori, are the numerical values of coefficients for those polynomials. Therefore the tools from the areas of online estimation such as regression are utilized to solve for them.
+This research utilizes the \ac{TF} representation of aircraft flight dynamics that is typical of \ac{LTI} systems.  A transfer function is a very useful approach to describe the relationship between inputs and outputs of \ac{LTI} systems.  Both analytically and numerically, the \ac{TF} approach has significant benefits in continuous and discrete time domains as its construct is based on well-developed properties and primitives of polynomials.  These polynomial representations in the s or z domain map to aerodynamic and inertial coefficients through equations of motion.  What is unknown or partially known a priori, are the numerical values of coefficients for those polynomials. Therefore the tools from the areas of online estimation such as regression are utilized to solve for them.
 
 Transfer functions take the form:
 
@@ -25,6 +25,7 @@ where:
 \begin{itemize}
  \item[] $k_{dc}$ is the DC gain
  \item[] $\tau$ is the system time constant (time in seconds to reach 63\% of steady state)
+ \item[] $\omega_n$ is the natural frequency of the first order system
 \end{itemize}
 
 Similarly the standard form for a second order system takes the form:
@@ -39,7 +40,7 @@ where:
  \item[] $\zeta$ is the system damping ratio
 \end{itemize}
 
-The modeling of a system can also be converted to a system of first order differential equations also known as state-space modeling.  The following nomenclature will be used to illustrate the modeling of first order systems where $\dot{x}$ is the time derivative of the state, A is the Hurwitz matrix, B is the input matrix, and u is the input vector.
+The modeling of a system can also be converted to a system of first order differential equations also known as state-space modeling.  The following nomenclature will be used to illustrate the modeling of first order systems where $\dot{x}$ is the time derivative of the state, A is the state transition matrix with all its eigenvalues chosen negative (Hurwitz), B is the input matrix, and u is the input vector.
 \begin{equation}\label{eq:state_space_model}
 \dot{x}(t)=Ax(t)+Bu(t)
 \end{equation}
