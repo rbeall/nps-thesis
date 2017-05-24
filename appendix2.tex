@@ -10,7 +10,7 @@ The following is the nomenclature that will be used to describe the kinematic eq
   \label{fig:reference_frame}
 \end{figure}
 
-The primary goal of this research is to implement an algorithm which controls fixed wing attitude.  Therefore, the focus of the following kinematic and dynamics equations will primarily concentrate on deriving only rotational motion from first principles.  
+The primary goal of this research is to implement an algorithm which controls fixed wing aircraft attitude.  Therefore, the focus of the following kinematic and dynamics equations will primarily concentrate on deriving only rotational dynamics from first principles.  
 
 Newton's second law as it pertains to rotational motion can be stated as
 \begin{equation}\label{eq:rotational_inertia}
@@ -53,7 +53,7 @@ J=
  \end{pmatrix}
 \end{equation}
 
-The moments of inertia, or the diagonal terms, must be non-zero.  The products of inertia, or the off-diagonal terms, are terms which describe the coupling between axis.  For a traditional fixed wing aircraft, the natural symmetry will simplify the inertia matrix in the off-diagonal terms as follows:
+The moments of inertia, or the diagonal terms, are always non-zero for any rigid body.  The products of inertia, or the off-diagonal terms, are terms which describe the inertial coupling between axis.  For a traditional fixed wing aircraft, the natural symmetry will simplify the inertia matrix in the off-diagonal terms as follows:
 
 \begin{equation}
 J=
@@ -195,18 +195,18 @@ Simplifying equation~\ref{eq:body_rate_equations} assuming no inertial or aerody
 \end{split} 
 \end{equation}
 
-The equations in equation~\ref{eq:body_rate_simplified} are then slightly modified to fit the first order \ac{ODE} model as described in the primary literature \cite{hovakimyan2010l1}.
+The equations in equation~\ref{eq:body_rate_simplified} are then slightly modified to fit the first order \ac{ODE} model as described in equation~\ref{eq:state_space_model}.
 \begin{equation}\label{eq:simplified_ac_model}
 \begin{split}
-\hat{\dot{p}}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)\\
-\hat{\dot{q}}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_qq+\hat{\sigma}_q\right)\\
-\hat{\dot{r}}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_rr+\hat{\sigma}_r\right)
+\dot{p}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)\\
+\dot{q}&=A_q\hat{q}+b_q\left(\hat{\omega}_q\delta_e+\hat{\theta}_qq+\hat{\sigma}_q\right)\\
+\dot{r}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_rr+\hat{\sigma}_r\right)
 \end{split}
 \end{equation}
-where the hat nomenclature $(\text{ }\hat{}\text{ })$ recognizes that the parameters are estimates as follows,
+where the parameters are as follows,
 \begin{itemize}
- \item[] $\hat{\omega}$ - estimated input gain coefficient
- \item[] $\hat{\theta}$ - estimated constant state coefficient
- \item[] $\hat{\sigma}$ - estimated disturbance estimate
+ \item[] $\omega$ - input gain coefficient
+ \item[] $\theta$ - constant state coefficient
+ \item[] $\sigma$ - disturbance estimate
 \end{itemize}
 
