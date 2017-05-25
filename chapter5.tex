@@ -116,7 +116,7 @@ The \Lone adaptive controller performed well when compensating for the change in
 \end{figure}
 
 \subsection{Roll Induced Pitch Disturbance}
-The aircraft max roll angle was set to \pm 45\degrees to achieve rapid roll while trying to maintain a zero pitch attitude.  This rapid roll maneuver caused significant excursions in pitch when under \ac{PID}.  However, the \Lone controller maintains the pitch attitude within \pm 3\degrees.  It can be noticed in figure~\ref{fig:pitch_divergence_flight}, that the adaptive controller oscillates around zero pitch attitude, while the \ac{PID} has more random excursions.  The slight sinusoidal behavior or the \Lone controller is likely due to the cutoff frequency of the filter being slightly too low.  This maneuver may possibly be utilized to fine tune the \Lone's filter cutoff frequency for pitch.
+The aircraft max roll angle was set to $\pm$45\degrees to achieve rapid roll while trying to maintain a zero pitch attitude.  This rapid roll maneuver caused significant excursions in pitch when under \ac{PID}.  However, the \Lone controller maintains the pitch attitude within $\pm$3\degrees.  It can be noticed in figure~\ref{fig:pitch_divergence_flight}, that the adaptive controller oscillates around zero pitch attitude, while the \ac{PID} has more random excursions.  The slight sinusoidal behavior or the \Lone controller is likely due to the cutoff frequency of the filter being slightly too low.  This maneuver may possibly be utilized to fine tune the \Lone's filter cutoff frequency for pitch.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_divergence_flight.png}
