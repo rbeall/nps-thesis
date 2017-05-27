@@ -1,7 +1,7 @@
 \chapter{Flight Testing and Performance Evaluation}\label{ch:performance}
 
 \section{Simulation Results}
-Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in figure~\ref{fig:maxi-swift}.
+Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in Figure~\ref{fig:maxi-swift}.
 
 \begin{figure}[!h]
  \centering
@@ -14,7 +14,7 @@ This plane did not afford proper testing of elevon mixing, but the fidelity in t
 
 \subsection{Pitch Attitude Performance}
 
-It can be seen in figure~\ref{fig:pitch_perf} that there exists some steady state error when under \ac{PID} control.  This phenomenon is more pronounced when the desired pitch attitude is negative.  This steady state error is due to the increase in lift caused by the increasing airspeed.  The \ac{PID} controller underperforms in this regime.  However, the adaptive controller is able to compensate for these dynamics fast enough to track the desired attitude with no steady state error.
+It can be seen in Figure~\ref{fig:pitch_perf} that there exists some steady state error when under \ac{PID} control.  This phenomenon is more pronounced when the desired pitch attitude is negative.  This steady state error is due to the increase in lift caused by the increasing airspeed.  The \ac{PID} controller underperforms in this regime.  However, the adaptive controller is able to compensate for these dynamics fast enough to track the desired attitude with no steady state error.
 
 \begin{figure}[h!]
  \centering
@@ -24,7 +24,7 @@ It can be seen in figure~\ref{fig:pitch_perf} that there exists some steady stat
 \end{figure}
 
 \subsection{Roll Induced Pitch Disturbance}
-When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeable coupling in the pitch axis.  The \ac{PID} controller struggles to correct this discrepancy because the time constant of the integral error simply cannot be increased high enough to achieve satisfactory compensation.  As seen in figure~\ref{fig:pitch_divergence}, the \Lone adaptive controller significantly reduced the pitching disturbance due to rapid rolling.
+When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeable coupling in the pitch axis.  The \ac{PID} controller struggles to correct this discrepancy because the time constant of the integral error simply cannot be increased high enough to achieve satisfactory compensation.  As seen in Figure~\ref{fig:pitch_divergence}, the \Lone adaptive controller significantly reduced the pitching disturbance due to rapid rolling.
 
 \begin{figure}[h!]
  \centering
@@ -34,7 +34,7 @@ When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeab
 \end{figure}
 
 \subsection{Pitch due to Landing Gear and Flaps}
-Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see figure~\ref{fig:corsair})in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up. 
+Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see Figure~\ref{fig:corsair})in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up. 
 
 \begin{figure}[h!]
  \centering
@@ -62,7 +62,7 @@ Adaptive control offered little improvement to roll performance with respect to 
 \end{figure}
 
 \subsection{Yaw to Roll Coupling}
-The roll dynamics are coupled to the yaw dynamics as seen in equation~\ref{eq:aero_torques}.  In the case of an actuator/servo hardover in the yaw channel, the coupling causes unwanted rolling moments.  Figure~\ref{fig:rudder_failure} compares a left and right yaw servo hard over for both \ac{PID} and the \Lone controller.
+The roll dynamics are coupled to the yaw dynamics as seen in Equation~\ref{eq:aero_torques}.  In the case of an actuator/servo hardover in the yaw channel, the coupling causes unwanted rolling moments.  Figure~\ref{fig:rudder_failure} compares a left and right yaw servo hard over for both \ac{PID} and the \Lone controller.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{rudder_failure.png}
@@ -72,7 +72,7 @@ The roll dynamics are coupled to the yaw dynamics as seen in equation~\ref{eq:ae
 The adaptive controller significantly outperforms the \ac{PID} controller in maintaining the desired roll.  It could be argued that the \ac{PID} controller's integrator time constant could be re-tuned to be comparable.  It was evident for each of the simulation tests that tuning the \ac{PID} for every scenario would likely have been possible individually to achieve similar performance to the \Lone.  However, the \Lone was not tuned between each of these tests and outperformed \ac{PID} in most, if not all cases.
 
 \subsection{Actuator Miscalibration}
-The \Lone adaptive control provided fast learning of airframe actuator miscalibrations.  The autopilot parameter SERVOX\_TRIM was used to offset the ailerons by 15\% of their travel to evaluate how quickly the controller was capable of adapting to the new offset.  This was tested first on the \ac{PID} controller and then on the \Lone as seen in figure~\ref{fig:trim_learn}.
+The \Lone adaptive control provided fast learning of airframe actuator miscalibrations.  The autopilot parameter SERVOX\_TRIM was used to offset the ailerons by 15\% of their travel to evaluate how quickly the controller was capable of adapting to the new offset.  This was tested first on the \ac{PID} controller and then on the \Lone as seen in Figure~\ref{fig:trim_learn}.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.65\textwidth]{trim_learn.png}
@@ -86,7 +86,7 @@ The \Lone adaptive control provided fast learning of airframe actuator miscalibr
   \label{fig:trim_learn2}
 \end{figure}
 
-It can be seen in figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the new trim value achieves the reference command in about 0.5 seconds for the \Lone.  The \Lone is slightly faster than \ac{PID}, but the \Lone exhibits some overshoot.  It is important to note that this rate of learning is perfectly adequate for learning the miscalibrations in flight, but is insufficient for learning on take off.  In the takeoff circumstance, the algorithm saturates the actuator if biases exist between desired and achieved.  Because the aircraft has no dynamic pressure (it is not flying), the desired cannot be achieved.  This causes controller saturation, which cannot be unwound fast enough for take-off (specifically for tail-dragger configuration).  This has to be handled with ad-hoc heuristics very delicately.  One could choose to speed scale the learned parameters to help with learning rate, but it was not chosen for this research because this controller is also utilized in tail-sitter configurations where the zero airspeed would cause the controller to refuse to learn when in \ac{VTOL} mode.
+It can be seen in Figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the new trim value achieves the reference command in about 0.5 seconds for the \Lone.  The \Lone is slightly faster than \ac{PID}, but the \Lone exhibits some overshoot.  It is important to note that this rate of learning is perfectly adequate for learning the miscalibrations in flight, but is insufficient for learning on take off.  In the takeoff circumstance, the algorithm saturates the actuator if biases exist between desired and achieved.  Because the aircraft has no dynamic pressure (it is not flying), the desired cannot be achieved.  This causes controller saturation, which cannot be unwound fast enough for take-off (specifically for tail-dragger configuration).  This has to be handled with ad-hoc heuristics very delicately.  One could choose to speed scale the learned parameters to help with learning rate, but it was not chosen for this research because this controller is also utilized in tail-sitter configurations where the zero airspeed would cause the controller to refuse to learn when in \ac{VTOL} mode.
 
 %---------------------------------------------
 \section{Flight Test Results}\label{sec:flight_test}
@@ -98,7 +98,7 @@ The first observation was that the algorithm, even when poorly tuned, was bounde
 Once the algorithm was well understood and properly implemented in code, flight tests were then conducted on the FT Explorer aircraft.  This aircraft provided more test opportunities because multiple aircraft configurations could be tested with various combinations of flaps and rudder.  
 
 \subsection{Pitch Performance}
-As demonstrated in figure~\ref{fig:pitch_perf}, the simulation results almost identically matched the flight test results for pitch response.  As the aircraft pitches down, the airspeed builds and causes a building steady state error that the integrator time constant struggles to out pace.  This was observed both in simulation and in flight test.  The \Lone adaptive controller's fast adaptation was sufficient to counteract this unmodeled pitching moment.  These results drastically increased the confidence both in the \ac{SITL} fidelity as well as the \Lone adaptive controller.
+As demonstrated in Figure~\ref{fig:pitch_perf}, the simulation results almost identically matched the flight test results for pitch response.  As the aircraft pitches down, the airspeed builds and causes a building steady state error that the integrator time constant struggles to out pace.  This was observed both in simulation and in flight test.  The \Lone adaptive controller's fast adaptation was sufficient to counteract this unmodeled pitching moment.  These results drastically increased the confidence both in the \ac{SITL} fidelity as well as the \Lone adaptive controller.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_perf_flight_test.png}
@@ -116,7 +116,7 @@ The \Lone adaptive controller performed well when compensating for the change in
 \end{figure}
 
 \subsection{Roll Induced Pitch Disturbance}
-The aircraft max roll angle was set to $\pm$45\degrees to achieve rapid roll while trying to maintain a zero pitch attitude.  This rapid roll maneuver caused significant excursions in pitch when under \ac{PID}.  However, the \Lone controller maintains the pitch attitude within $\pm$3\degrees.  It can be noticed in figure~\ref{fig:pitch_divergence_flight}, that the adaptive controller oscillates around zero pitch attitude, while the \ac{PID} has more random excursions.  The slight sinusoidal behavior or the \Lone controller is likely due to the cutoff frequency of the filter being slightly too low.  This maneuver may possibly be utilized to fine tune the \Lone's filter cutoff frequency for pitch.
+The aircraft max roll angle was set to $\pm$45\degrees to achieve rapid roll while trying to maintain a zero pitch attitude.  This rapid roll maneuver caused significant excursions in pitch when under \ac{PID}.  However, the \Lone controller maintains the pitch attitude within $\pm$3\degrees.  It can be noticed in Figure~\ref{fig:pitch_divergence_flight}, that the adaptive controller oscillates around zero pitch attitude, while the \ac{PID} has more random excursions.  The slight sinusoidal behavior or the \Lone controller is likely due to the cutoff frequency of the filter being slightly too low.  This maneuver may possibly be utilized to fine tune the \Lone's filter cutoff frequency for pitch.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_divergence_flight.png}

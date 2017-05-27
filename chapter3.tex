@@ -30,7 +30,7 @@ The \Lone adaptive control constrains the objective function by using a low-pass
   \caption{Direct \ac{MRAC} architecture with low-pass filter }
   \label{fig:direct_mrac_lowpass}
 \end{figure}
- It can be seen in figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The companion model (state predictor) is defined using aerodynamic model and the stability is verified for a Lyapunov candidate function.  However, these underpinnings designed in the companion model become non-sensical in the implementation found in figure~\ref{fig:direct_mrac_lowpass} because of the the filter is applied to the plant while is not modeled in the companion model.  This specific filter placement is non-subtractable when the error state is calculated because it is not applied in both signal paths (plant and state predictor).
+ It can be seen in Figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The companion model (state predictor) is defined using aerodynamic model and the stability is verified for a Lyapunov candidate function.  However, these underpinnings designed in the companion model become non-sensical in the implementation found in Figure~\ref{fig:direct_mrac_lowpass} because of the the filter is applied to the plant while is not modeled in the companion model.  This specific filter placement is non-subtractable when the error state is calculated because it is not applied in both signal paths (plant and state predictor).
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Direct_MRAC_lowpass_plant.png}
@@ -48,7 +48,7 @@ Conversely, the indirect approach offers an implementation which ensures the low
 
 It can be seen that the low-pass filter in the direct architecture inherently changes the structure of the plant with the cascading of the low-pass filter and plant block diagrams.  This change mathematically is not mirrored in the companion model (state predictor) and therefore is not subtractable.  This means that the state predictor is modeling incomplete information and therefore will incorrectly characterize the system.  However, in the indirect case, the structure of the model is kept intact, and the low-pass filter is applied to both the plant and the state predictor.  This ensures that the low-pass filter is subtractable when calculating the error state and the model's structure is kept intact.  
 
-Many variations of the \Lone adaptive architectures have been derived for various use cases \cite{hovakimyan2010l1}.  Some of the following forms were studied for viability in the fixed wing \ac{UAS} use case with respect to state parameters $(\theta, \omega, \sigma)$ as described in figure~\ref{fig:l1_architecture} and section~\ref{sec:param_estimation}:
+Many variations of the \Lone adaptive architectures have been derived for various use cases \cite{hovakimyan2010l1}.  Some of the following forms were studied for viability in the fixed wing \ac{UAS} use case with respect to state parameters $(\theta, \omega, \sigma)$ as described in Figure~\ref{fig:l1_architecture} and Section~\ref{sec:param_estimation}:
 \begin{itemize}
  \item \ac{SISO} with constant but unknown state parameters
  \item \ac{SISO} with time variant and/or nonlinear unknown bounded state parameters
@@ -56,9 +56,9 @@ Many variations of the \Lone adaptive architectures have been derived for variou
  \item \ac{MIMO} with time variant and/or nonlinear unknown bounded state parameters
 \end{itemize}
 
-\ac{MIMO} control algorithms would potentially afford the controller more ability to cope with system coupling if present.  Fixed wing \ac{UAS} equations of motion, as seen in equation~\ref{eq:aero_torques}, exhibit coupled behavior both in the aerodynamic and inertial coupling.  However, \ac{MIMO} was not chosen due to the added complexity required to architect the algorithm into source code.  Unknown state parameters that are assumed to be constant or time invariant are considered matched uncertainty.  Unknown state parameters that are non-constant (time variant) and/or exhibit non-linear behavior are considered unmatched uncertainty.  The unmatched uncertainty architecture offers a more appealing solution for fixed wing use cases (asymmetric actuator failure, aerodynamic coefficients scaled by dynamic pressure, etc.), but adds a significant amount of complexity to the architecture.  In summary, the \ac{SISO} architecture with matched uncertainty was chosen for this research.  
+\ac{MIMO} control algorithms would potentially afford the controller more ability to cope with system coupling if present.  Fixed wing \ac{UAS} equations of motion, as seen in Equation~\ref{eq:aero_torques}, exhibit coupled behavior both in the aerodynamic and inertial coupling.  However, \ac{MIMO} was not chosen due to the added complexity required to architect the algorithm into source code.  Unknown state parameters that are assumed to be constant or time invariant are considered matched uncertainty.  Unknown state parameters that are non-constant (time variant) and/or exhibit non-linear behavior are considered unmatched uncertainty.  The unmatched uncertainty architecture offers a more appealing solution for fixed wing use cases (asymmetric actuator failure, aerodynamic coefficients scaled by dynamic pressure, etc.), but adds a significant amount of complexity to the architecture.  In summary, the \ac{SISO} architecture with matched uncertainty was chosen for this research.  
 
-The \ac{SISO} controller with matched uncertainty was selected to control pitch rate $(q)$ and roll rate $(p)$ of the aircraft using two separate controllers.  The simplified equations in equation~\ref{eq:body_rate_simplified} assume that there is no aerodynamic or inertial coupling in order to simplify the model.  This simplification was chosen to make the controller as airframe agnostic as possible while enabling very simple applications in code.  Utilizing this simplified architecture may be at the detriment of controller performance, but as seen by the flight test results in section~\ref{sec:flight_test}, the baseline performance is adequate to achieve performance which is better than \ac{PID} in some cases.  In this implementation of the \Lone adaptive controller, the desired state $x$ to be controlled was an individual body rate (\eg $q$, $p$). 
+The \ac{SISO} controller with matched uncertainty was selected to control pitch rate $(q)$ and roll rate $(p)$ of the aircraft using two separate controllers.  The simplified equations in Equation~\ref{eq:body_rate_simplified} assume that there is no aerodynamic or inertial coupling in order to simplify the model.  This simplification was chosen to make the controller as airframe agnostic as possible while enabling very simple applications in code.  Utilizing this simplified architecture may be at the detriment of controller performance, but as seen by the flight test results in Section~\ref{sec:flight_test}, the baseline performance is adequate to achieve performance which is better than \ac{PID} in some cases.  In this implementation of the \Lone adaptive controller, the desired state $x$ to be controlled was an individual body rate (\eg $q$, $p$). 
 
 \begin{figure}[h!]
  \centering
@@ -117,19 +117,19 @@ The last adaptive element used for this research was the estimation of unknown s
 \dot{x}(t)=Ax(t)+b(\omega(t)u(t)+\theta^{\top}(t)x(t)+\sigma(t))
 \end{equation}  
 
-The above model in equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in equation~\ref{eq:simplified_ac_model} as follows for the roll rate model example below:
+The above model in Equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in Equation~\ref{eq:simplified_ac_model} as follows for the roll rate model example below:
 
 \begin{equation}
  \hat{\dot{p}}=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)
 \end{equation}
 
-This final model, with the inclusion of all three estimated parameters $(\hat{\omega}, \hat{\theta}, \hat{\sigma})$, established the architecture tested in this research.  The fundamental assumption that the aerodynamic and inertial coupling was negligible and set to zero as outlined in equation~\ref{eq:body_rate_simplified} is agreeably a gross assumption which may prove to be inadequate for stable flight.  These assumptions presume that the estimated input/output disturbance $(\hat{\sigma})$ would be adequate to compensate for these unmodeled dynamics and were validated by successful flight test in section~\ref{sec:flight_test}.  
+This final model, with the inclusion of all three estimated parameters $(\hat{\omega}, \hat{\theta}, \hat{\sigma})$, established the architecture tested in this research.  The fundamental assumption that the aerodynamic and inertial coupling was negligible and set to zero as outlined in Equation~\ref{eq:body_rate_simplified} is agreeably a gross assumption which may prove to be inadequate for stable flight.  These assumptions presume that the estimated input/output disturbance $(\hat{\sigma})$ would be adequate to compensate for these unmodeled dynamics and were validated by successful flight test in Section~\ref{sec:flight_test}.  
 
 These derivations of the \Lone algorithm guarantees that the error between the model and plant asymptotically approaches zero, but this does not imply the constraint that the estimated parameters are in fact converging to their real values.  The algorithm only guarantees that the parameters are bounded and therefore it is common to observe the parameters never reaching steady-state.  The engineer must ensure that the bounds set on the parameters are sufficient for the controlled system to not become unstable.  In the discrete form, the algorithm can have numerical floating point instability if these projection operator bounds are too high and not throughly tested in simulation.
 
 %---------------------------------------------------
 \section{\Lone Filter - $C(s)$}\label{sec:l1_filter}
-One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  To ensure guaranteed stability of the \Lone algorithm, $C(s)$ must be verified as strictly-proper stable.  With the architecture that includes the system input gain $(\omega)$, one cannot simply apply a stand alone filter.  The inclusion of $\omega$ in the architecture block diagram in figure~\ref{fig:l1_architecture} slightly modifies the signal output and takes the following form:
+One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  To ensure guaranteed stability of the \Lone algorithm, $C(s)$ must be verified as strictly-proper stable.  With the architecture that includes the system input gain $(\omega)$, one cannot simply apply a stand alone filter.  The inclusion of $\omega$ in the architecture block diagram in Figure~\ref{fig:l1_architecture} slightly modifies the signal output and takes the following form:
 \begin{equation}
 u(s)=-kD(s)(\hat{\eta}(s)-k_gr(s))
 \end{equation}
@@ -149,7 +149,7 @@ C(s)&=\frac{\omega k}{s+\omega k}
 \end{split}
 \end{equation}
 
-The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in equation~\ref{eq:l1_filter}, the $C(s)$ transfer function is a function of $k$ that can have significant influence on the controller output.  In actual implementation, $k$ was found to be one of the most influential gains in the architecture and extremely critical in specifying the transition between robustness and performance.
+The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in Equation~\ref{eq:l1_filter}, the $C(s)$ transfer function is a function of $k$ that can have significant influence on the controller output.  In actual implementation, $k$ was found to be one of the most influential gains in the architecture and extremely critical in specifying the transition between robustness and performance.
 
 
 %---------------------------------------------------
@@ -190,7 +190,7 @@ where the bi-linear transform converts s to z via:
  s = \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)
 \end{equation}
 
-$K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in figure~\ref{fig:bi-linear_transform}.
+$K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in Figure~\ref{fig:bi-linear_transform}.
 
 where $\omega T$ is:
 
@@ -222,7 +222,7 @@ The desired form is:
  H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2}}{a_0 + a_1 z^{-1} + a_2 z^{-2}}
 \end{equation}
 
-Reducing equation~\ref{eq:bi-linear} to match the form in equation~\ref{eq:bi-quad} results in the following coefficients:
+Reducing Equation~\ref{eq:bi-linear} to match the form in Equation~\ref{eq:bi-quad} results in the following coefficients:
 
 \begin{equation}
 \begin{split}
@@ -278,7 +278,7 @@ This implementation can be employed as the \Lone low-pass filter and as the comp
 
 \subsection{Simplified Bi-quad First Order Model}
 
-In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in figure~\ref{fig:bi-quad_first_order}.  It can be seen that the first coefficient of the \ac{IIR} filter is kept from this topology.
+In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in Figure~\ref{fig:bi-quad_first_order}.  It can be seen that the first coefficient of the \ac{IIR} filter is kept from this topology.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{bi-quad_first_order.png}
@@ -286,7 +286,7 @@ In the case of the companion model, a first order response may be desired.  As d
   \label{fig:bi-quad_first_order}
 \end{figure}
 
-The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in equation~\ref{eq:first_order_corner_model} when defined by its corner frequency.
+The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in Equation~\ref{eq:first_order_corner_model} when defined by its corner frequency.
 
 \begin{equation}\label{eq:first_order_corner_model}
 H(s)=\frac{\omega_n}{s+\omega_n}
@@ -332,7 +332,7 @@ y_{i+1}&=y_i+\frac{h}{2}[f(t_i,y_i)+f(t_{i+1},\tilde{y}_{i+1})]
 \end{split}
 \end{equation}
 
-Comparing the accuracy of the two numerical methods for discretely calculating the integral of $y=e^t$ can be seen in figure~\ref{fig:trapezoidal_integration}:
+Comparing the accuracy of the two numerical methods for discretely calculating the integral of $y=e^t$ can be seen in Figure~\ref{fig:trapezoidal_integration}:
 
 \begin{figure}[h!]
  \centering
@@ -341,7 +341,7 @@ Comparing the accuracy of the two numerical methods for discretely calculating t
   \label{fig:trapezoidal_integration}
 \end{figure}
 
-As seen in equation~\ref{eq:trapezoidal_integration}, the recursive trapezoidal integration method only adds one more line of complexity to the algorithm for a significant gain in accuracy and therefore will be the chosen method applied for all discrete numerical integration in this research and takes the form: \newline
+As seen in Equation~\ref{eq:trapezoidal_integration}, the recursive trapezoidal integration method only adds one more line of complexity to the algorithm for a significant gain in accuracy and therefore will be the chosen method applied for all discrete numerical integration in this research and takes the form: \newline
 
 \begin{lstlisting}
 float trap_integration(float y0, float y1_dot, float dt, float &y0_dot)
