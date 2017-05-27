@@ -25,7 +25,7 @@ Equation~\ref{eq:rotational_inertia} can be rewritten in the body reference fram
 \tau^b=J\dot{\omega}_{b/i}^b+\omega_{b/i}^b\times\left(J\omega_{b/i}^b\right)
 \end{equation}
 
-The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body frame as viewed in the body frame:
+The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body frame as viewed in the body frame
 
 \begin{equation}
 \dot{\omega}_{b/i}^b=
@@ -36,13 +36,13 @@ The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body fr
 \end{pmatrix}
 \end{equation}
 
-The equation can then be rewritten with respect to $\dot{\omega}_{b/i}^b$:
+The equation can then be rewritten with respect to $\dot{\omega}_{b/i}^b$
 
 \begin{equation}
 \dot{\omega}_{b/i}^b=J^{-1}\left[-\omega_{b/i}^b\times\left(J\omega_{b/i}^b\right)+\tau^b\right]
 \end{equation}
 
-$J$ can be defined as the inertia matrix as follows
+where $J$ is the inertia matrix as follows:
 
 \begin{equation}
 J=
@@ -75,13 +75,13 @@ J^{-1}=
  \end{pmatrix}
 \end{equation}
 
-where,
+where
 
 \begin{equation}
 \Gamma = J_xJ_z-J_{xz}^2
 \end{equation}
 
-Aircraft nomenclature for torques are defined $\tau\triangleq(l,m,n)^T$ and therefore the combined equations derived from first principles take the form:
+Aircraft nomenclature for torques are defined $\tau\triangleq(l,m,n)^T$, and therefore the combined equations derived from first principles take the form
 
 \begin{equation}\label{eq:body_rate_derivation}
 \begin{split}
@@ -144,7 +144,7 @@ Aircraft nomenclature for torques are defined $\tau\triangleq(l,m,n)^T$ and ther
  \end{pmatrix}
  \end{split}  
 \end{equation}
-where,
+where
 
 \begin{equation}
 \begin{split}
@@ -159,7 +159,7 @@ where,
 \end{split}
 \end{equation}
 
-The aerodynamic torques (excluding propulsive torques) can be found to be:
+The aerodynamic torques (excluding propulsive torques) can be found to be
 
 \begin{equation}\label{eq:aero_torques}
 \begin{pmatrix}
@@ -176,7 +176,7 @@ The aerodynamic torques (excluding propulsive torques) can be found to be:
  \end{pmatrix}
 \end{equation}
 
-Substituting the aerodynamic torques found in Equation~\ref{eq:aero_torques} into Equation~\ref{eq:body_rate_derivation} results in \cite{beard2012small}:
+Substituting the aerodynamic torques found in Equation~\ref{eq:aero_torques} into Equation~\ref{eq:body_rate_derivation} results in \cite{beard2012small}
 \begin{equation}\label{eq:body_rate_equations}
 \begin{split}
  \dot{p}&=\Gamma_1pq-\Gamma_2qr+\frac{1}{2}\rho V_a^2Sb\left[C_{p_0}+C_{p_\beta}\beta+C_{p_p}\frac{bp}{2V_a}+C_{p_r}\frac{br}{2V_a}+C_{p_{\delta_a}}\delta_a+C_{p_{\delta_r}}\delta_r\right]\\
@@ -185,7 +185,7 @@ Substituting the aerodynamic torques found in Equation~\ref{eq:aero_torques} int
 \end{split} 
 \end{equation}
 
-Simplifying Equation~\ref{eq:body_rate_equations} assuming no inertial or aerodynamic coupling results in:
+Simplifying Equation~\ref{eq:body_rate_equations} assuming no inertial or aerodynamic coupling results in
 
 \begin{equation}\label{eq:body_rate_simplified}
 \begin{split}
@@ -195,7 +195,7 @@ Simplifying Equation~\ref{eq:body_rate_equations} assuming no inertial or aerody
 \end{split} 
 \end{equation}
 
-The equations in Equation~\ref{eq:body_rate_simplified} are then slightly modified to fit the first order \ac{ODE} model as described in Equation~\ref{eq:state_space_model}.
+The equations in \ref{eq:body_rate_simplified} are then slightly modified to fit the first-order \ac{ODE} model as described in Equation~\ref{eq:state_space_model}
 \begin{equation}\label{eq:simplified_ac_model}
 \begin{split}
 \dot{p}&=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)\\
@@ -203,10 +203,6 @@ The equations in Equation~\ref{eq:body_rate_simplified} are then slightly modifi
 \dot{r}&=A_r\hat{r}+b_r\left(\hat{\omega}_r\delta_r+\hat{\theta}_rr+\hat{\sigma}_r\right)
 \end{split}
 \end{equation}
-where the parameters are as follows,
-\begin{itemize}
- \item[] $\omega$ - input gain coefficient
- \item[] $\theta$ - constant state coefficient
- \item[] $\sigma$ - disturbance estimate
-\end{itemize}
+where $\omega$ is the input gain coefficient, $\theta$ is the constant state coefficient, and $\sigma$ is the disturbance estimate.
+
 

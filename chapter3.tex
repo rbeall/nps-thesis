@@ -107,17 +107,17 @@ The \Lone adaptive control algorithm is primarily used to estimate unknown const
 \dot{x}(t)=Ax(t)+b(u(t)+\theta^{\top}(t)x(t))
 \end{equation}
 
-The second adaptive element is the estimation of the input/output disturbances $(\sigma)$.  This additional parameter is implemented in this research as any unmodeled transient dynamics such as aerodynamic/inertial coupling.  This model takes the form:
+The second adaptive element is the estimation of the input/output disturbances $(\sigma)$.  This additional parameter is implemented in this research as any unmodeled transient dynamics such as aerodynamic/inertial coupling.  This model takes the form
 \begin{equation}
 \dot{x}(t)=Ax(t)+b(u(t)+\theta^{\top}(t)x(t)+\sigma(t))
 \end{equation}
 
-The last adaptive element used for this research was the estimation of unknown system input gain $(\omega)$.  Estimating the unknown system input gain offers the controller the ability to estimate the actuator effectiveness for changes in dynamic pressure or failed control surfaces.  This model takes the form:
+The last adaptive element used for this research was the estimation of unknown system input gain $(\omega)$.  Estimating the unknown system input gain offers the controller the ability to estimate the actuator effectiveness for changes in dynamic pressure or failed control surfaces.  This model takes the form
 \begin{equation}\label{eq:l_one_model}
 \dot{x}(t)=Ax(t)+b(\omega(t)u(t)+\theta^{\top}(t)x(t)+\sigma(t))
 \end{equation}  
 
-The above model in Equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in Equation~\ref{eq:simplified_ac_model} as follows for the roll rate model example below:
+The above model in Equation~\ref{eq:l_one_model} can be paralleled to the aircraft model derived in Equation~\ref{eq:simplified_ac_model}.  As a result, the roll rate model takes the similar form
 
 \begin{equation}
  \hat{\dot{p}}=A_p\hat{p}+b_p\left(\hat{\omega}_p\delta_a+\hat{\theta}_pp+\hat{\sigma}_p\right)
@@ -129,11 +129,11 @@ These derivations of the \Lone algorithm guarantees that the error between the m
 
 %---------------------------------------------------
 \section{\Lone Filter - $C(s)$}\label{sec:l1_filter}
-One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  To ensure guaranteed stability of the \Lone algorithm, $C(s)$ must be verified as strictly-proper stable.  With the architecture that includes the system input gain $(\omega)$, one cannot simply apply a stand alone filter.  The inclusion of $\omega$ in the architecture block diagram in Figure~\ref{fig:l1_architecture} slightly modifies the signal output and takes the following form:
+One of the key features of the \Lone adaptive controller is that the robustness of the controller is decoupled from the adaptation rate.  This is handled in the filter section of the \Lone architecture.  To ensure guaranteed stability of the \Lone algorithm, $C(s)$ must be verified as strictly-proper stable.  With the architecture that includes the system input gain $(\omega)$, one cannot simply apply a stand alone filter.  The inclusion of $\omega$ in the architecture block diagram in Figure~\ref{fig:l1_architecture} slightly modifies the signal output and takes the following form
 \begin{equation}
 u(s)=-kD(s)(\hat{\eta}(s)-k_gr(s))
 \end{equation}
-where $D(s)$ is the new user defined filter and $C(s)$ now takes the form:
+where $D(s)$ is the new user defined filter and $C(s)$ now takes the form
 \begin{equation}
 \begin{split}
 \omega \in \Omega_0 \triangleq [\omega_{l_0},\omega_{u_0}]\\
@@ -141,7 +141,7 @@ C(s)=\frac{\omega kD(s)}{1+\omega kD(s)}
 \end{split}
 \end{equation}
 
-In the case where the user defined function $D(s)$ is a simple integrator, $C(s)$ takes the form:
+In the case where the user defined function $D(s)$ is a simple integrator, $C(s)$ takes the form
 \begin{equation}\label{eq:l1_filter}
 \begin{split}
 D(s)&=\frac{1}{s}\\
@@ -178,13 +178,13 @@ A bilinear Z transform is used to convert the desired S-domain (continuous time 
   \label{fig:bi-linear_transform}
 \end{figure}
 
-This derivation can be seen below for the second order low pass model:
+This derivation can be seen below for the second order low pass model
 
 \begin{equation}
  H(s) = \frac{1}{s^2+\frac{s}{Q}+1}
 \end{equation}
 
-where the bi-linear transform converts s to z via:
+where the bi-linear transform converts s to z via
 
 \begin{equation}
  s = \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)
@@ -192,7 +192,7 @@ where the bi-linear transform converts s to z via:
 
 $K$ is the 'pre-warping' factor which accounts for the transition of the vertical s-plane into the circular z-plane as seen in Figure~\ref{fig:bi-linear_transform}.
 
-where $\omega T$ is:
+where $\omega T$ is
 
 \begin{equation}
  \omega T = 2\pi\left(\frac{F_c}{F_s}\right)
@@ -210,19 +210,19 @@ where $\omega T$ is:
 $F_c$ is the desired corner frequency of the filter and $F_s$ is the sampling rate (or loop rate of the autopilot).
 This 'pre-warping' is critical to ensure that the continuous time cutoff frequency desired is correctly established in the discrete implementation.  It is the engineer's discretion if pre-warping is required for the appropriate application, but the general guidance is to pre-warp the Z-domain coefficients if the desired cut-off frequency is close to Nyquist–Shannon sampling theorem frequency $(\frac{F_s}{2})$.  It was chosen for this application to always pre-warp the coefficients even though the error is small for corner frequencies which are fairly distant from Nyquist–Shannon sampling theorem frequency.  Continuous calculation of the pre-warp coefficient was chosen because calculating the $tan()$ function real time on the CPU adds negligible computational strain but offers ease of tuning for the engineer.
 
-Applying the bi-linear transform to the continuous time second order low pass filter results in:
+Applying the bi-linear transform to the continuous time second order low pass filter results in
 
 \begin{equation}\label{eq:bi-linear}
  H(z) = \frac{1}{ \left[\left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)\right]^2+\frac{ \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)}{Q}+1}
 \end{equation}
 
-The desired form is:
+The desired form is
 
 \begin{equation}\label{eq:bi-quad}
  H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2}}{a_0 + a_1 z^{-1} + a_2 z^{-2}}
 \end{equation}
 
-Reducing Equation~\ref{eq:bi-linear} to match the form in Equation~\ref{eq:bi-quad} results in the following coefficients:
+Reducing Equation~\ref{eq:bi-linear} to match the form in Equation~\ref{eq:bi-quad} results in the following coefficients
 
 \begin{equation}
 \begin{split}
@@ -286,13 +286,13 @@ In the case of the companion model, a first order response may be desired.  As d
   \label{fig:bi-quad_first_order}
 \end{figure}
 
-The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in Equation~\ref{eq:first_order_corner_model} when defined by its corner frequency.
+The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in Equation~\ref{eq:first_order_corner_model} when defined by its corner frequency
 
 \begin{equation}\label{eq:first_order_corner_model}
 H(s)=\frac{\omega_n}{s+\omega_n}
 \end{equation}
 
-therefore the explicit calculation of the Bi-quad coefficients in this case becomes:
+Therefore, the explicit calculation of the Bi-quad coefficients in this case becomes
 
 \begin{equation}\label{eq:first_order_coeffieicnts}
 \begin{split}
@@ -303,13 +303,13 @@ therefore the explicit calculation of the Bi-quad coefficients in this case beco
 
 where $\omega_n$ is the -3dB corner frequency in radians per second and $F_s$ is the sampling frequency in Hz.
 
-Therefore the discrete recursive form of the first order model becomes:
+Therefore, the discrete recursive form of the first order model becomes
 
 \begin{equation}
 y_{i+1}=a_1y_{i-1}+b_0y_i
 \end{equation}
 
-Another form designed to optimize for speed that is commonly seen in software takes the form:
+Another form designed to optimize for speed that is commonly seen in software is
 
 \begin{lstlisting}
 float b_0=exp(-f_c/f_s);
@@ -324,7 +324,7 @@ where $h$ is the uniform step size,
 y_{i+1}=y_i+hf(t_i,y_i)
 \end{equation}
 
-The recursive trapezoidal method takes the form:
+The recursive trapezoidal method takes the form
 \begin{equation}\label{eq:trapezoidal_integration}
 \begin{split}
 \tilde{y}_{i+1}&=y_i+hf(t_i,y_i) \\
@@ -332,7 +332,7 @@ y_{i+1}&=y_i+\frac{h}{2}[f(t_i,y_i)+f(t_{i+1},\tilde{y}_{i+1})]
 \end{split}
 \end{equation}
 
-Comparing the accuracy of the two numerical methods for discretely calculating the integral of $y=e^t$ can be seen in Figure~\ref{fig:trapezoidal_integration}:
+Comparing the accuracy of the two numerical methods for discretely calculating the integral of $y=e^t$ can be seen in Figure~\ref{fig:trapezoidal_integration}
 
 \begin{figure}[h!]
  \centering
@@ -341,7 +341,7 @@ Comparing the accuracy of the two numerical methods for discretely calculating t
   \label{fig:trapezoidal_integration}
 \end{figure}
 
-As seen in Equation~\ref{eq:trapezoidal_integration}, the recursive trapezoidal integration method only adds one more line of complexity to the algorithm for a significant gain in accuracy and therefore will be the chosen method applied for all discrete numerical integration in this research and takes the form: \newline
+As seen in Equation~\ref{eq:trapezoidal_integration}, the recursive trapezoidal integration method only adds one more line of complexity to the algorithm for a significant gain in accuracy and therefore will be the chosen method applied for all discrete numerical integration in this research and takes the form \newline
 
 \begin{lstlisting}
 float trap_integration(float y0, float y1_dot, float dt, float &y0_dot)

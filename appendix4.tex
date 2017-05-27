@@ -1,7 +1,7 @@
 \label{appendix:projection_derivation}
 \section{$Proj(\theta,y)$ Derivation}
 
-In this section, the projection operator will be defined.  Adaptive controllers often use the projection operator in their adaptive laws to ensure uniform boundedness of the system error.  This can aid in faster adaptation and ensure controller closed-loop stability.  The projection operator attempts to mathematically achieve two objectives; ensure the Lyapunov function time derivative remains negative semi-definite, and to keep the estimated parameters uniformly bounded.  Using the projection operator ensures that $\theta$ is locally Lipchitz continuous even though the input $y$ is piecewise continuous.  The projection operator as utilized in this research is defined as:
+In this section, the projection operator will be defined.  Adaptive controllers often use the projection operator in their adaptive laws to ensure uniform boundedness of the system error.  This can aid in faster adaptation and ensure controller closed-loop stability.  The projection operator attempts to mathematically achieve two objectives; ensure the Lyapunov function time derivative remains negative semi-definite, and to keep the estimated parameters uniformly bounded.  Using the projection operator ensures that $\theta$ is locally Lipchitz continuous even though the input $y$ is piecewise continuous.  The projection operator as utilized in this research is defined as
 
 \begin{equation}
 Proj(\theta,y)\triangleq 	
@@ -12,7 +12,7 @@ Proj(\theta,y)\triangleq
 	\end{cases}	
 \end{equation}
 
-where $\epsilon>0$,
+where $\epsilon>0$
 \begin{equation}\label{eq:parabolic_operator}
 	f(\theta)=-\frac{\theta^2-\theta_{\text{max}}^2}{\epsilon \theta_{\text{max}}^2}\\
 \end{equation}
@@ -30,7 +30,7 @@ The projection function chosen for this research is parabolic and has inflection
 
 There may exists systems which need to have projection bounds which are not symmetrical about zero.  This was found to be the case for this research and therefore the following projection function was used to assist the engineer tuning the algorithm:\newline
 \newline
-where $\epsilon>0$,
+where $\epsilon>0$
 \begin{equation}\label{eq:parabolic_operator_offset}
 	f(\theta)=-\frac{4(\theta_{\text{min}}-\theta)(\theta_{\text{max}}-\theta)}{\epsilon(\theta_{\text{max}}-\theta_{\text{min}})^2}\\
 \end{equation}

@@ -12,7 +12,7 @@ To ensure sufficient frequency content was obtained from the aircraft, a linear 
 x(t)=sin\left[\phi_0+2\pi\left(f_0t+\frac{k}{2}t^2\right)\right]
 \end{equation}
 
-where:
+where
 \begin{itemize}
  \item[] $\phi_0$ is the initial phase of the chirp at t=0 (nominally zero degrees)
  \item[] $f_0$ is the initial frequency at t=0
@@ -20,7 +20,7 @@ where:
  \item[] $t$  is time in seconds
 \end{itemize}
 
-An example of this formulation can be seen below:
+An example of this formulation can be seen below
 
 \begin{figure}[!h]
  \centering
@@ -36,7 +36,7 @@ The logged input and output data in discrete form requires shaping to convert cl
 
 After the data is shaped correctly with a uniform sample rate, the discrete data is transformed into a continuous approximation using a \ac{ZOH} technique.  Taking the Laplace transform of the continuous input/output data will convert it into the s-domain, and finally, a non-linear least squares minimization algorithm can be run to find the polynomial coefficients which best fit the data.
 
-The order of the regression (number of polynomials to estimate) is at the discretion of the engineer and their intuition of system's physical representation.  Higher order models will better fit the data, but in most cases, they tend to overfit the data; therefore some tradeoffs should be considered to simplify the model.  Most aircraft models reasonably limit the system to an \ac{LTI} and second order.  These fundamental aerodynamics models divide the modeling into longitudinal and lateral dynamics.  Each axis of the aircraft is assigned two-second order responses.  Pitch, for example, has a second order response in the pitch damping mode (also known as the short period) and also has a second order response in the transition of kinetic energy to potential energy (also known as the long-period or phugoid).  Both first order and second order models were estimated for comparison sake.
+The order of the regression (number of polynomials to estimate) is at the discretion of the engineer and their intuition of system's physical representation.  Higher order models will better fit the data, but in most cases, they tend to overfit the data; therefore some tradeoffs should be considered to simplify the model.  Most aircraft models reasonably limit the system to an \ac{LTI} and second-order.  These fundamental aerodynamics models divide the modeling into longitudinal and lateral dynamics.  Each axis of the aircraft is assigned two-second order responses.  Pitch, for example, has a second order response in the pitch damping mode (also known as the short period) and also has a second order response in the transition of kinetic energy to potential energy (also known as the long-period or phugoid).  Both first order and second order models were estimated for comparison sake.
 
 Results were collected from two flight test events.  The first flight test was conducted under manual control without utilizing the chirp.  The pilot attempted to increase frequency of the input signal manually.  The second set of data collected was via the reverse linear chirp method previously described.  
 
@@ -60,7 +60,7 @@ The above result demonstrates the utility of this technique even if data can onl
 
 The chirp response was physically observed on pre-flight, in actual flight, and in the data-flash logged body rate of the aircraft.  However, the aliased input channel was arbitrarily biasing the regression result.  The significant aliasing in the logged input was not due to insufficient sampling rate as previously discussed.  After inspection,  the peculiar aliasing issue was hardware specific to the Pixhawk 1 autopilot in how the main CPU sends servo commands to the auxiliary I/O  CPU.  The most recent version of firmware, at the time of this test, improperly logs the \ac{PWM} through an aliased prone signal path.  The main and I/O CPU both run at 50Hz with some appreciable clock drift.  This generates a noticeable beat frequency and delay when the actual values in registry are saved for \ac{PWM} values are sent back round trip to the main CPU.  The implication of logging the \ac{PWM} values at the very end of the digital transmission line seems valuable in principle because the values being logged are the undeniable values being sent to the actuators.  However, the cost of logging these values in this manner on the Pixhawk architecture incurs significant aliasing at almost all frequencies.  Logging the commanded \ac{PWM} values before being sent to I/O CPU solved the aliasing discrepancy and produced very frequency rich models.
 
-The manually piloted acquired data provided viable data source for the models even though it is a very simplistic approach.  There were two separate manual tests run on the same aircraft on the same flight, and the following are the results using this regression technique to model a second order system.
+The manually piloted acquired data provided viable data source for the models even though it is a very simplistic approach.  There were two separate manual tests run on the same aircraft on the same flight, and the following are the results using this regression technique to model a second-order system:
 
 \begin{equation}
 H(s)=\frac{10.39}{s^2+31.26s+504.9}\
@@ -72,7 +72,7 @@ and
 H(s)=\frac{10.61}{s^2+29.77s+498.7}\
 \end{equation}
 
-Converting to standard form as described in Equation~\ref{eq:second_order_model}:
+Converting to standard form as described in Equation~\ref{eq:second_order_model} yields
 
 \begin{equation}
 H(s)=\frac{0.0206*22.47^2}{s^2+2*0.69*22.47s+22.47^2}\
@@ -86,7 +86,7 @@ H(s)=\frac{0.0213*22.33^2}{s^2+2*0.67*22.33s+22.33^2}\
 
 It is important to note that this system identification technique run on separate sets of data has produced two models with very similar values for $\omega_n$ and $\zeta$.
 
-This produces the average values of:
+This produces the average values of
 
 $\omega_n=22.4 rad/s$ \newline
 $k = 0.0209$ \newline
@@ -104,7 +104,7 @@ and
 H(s)=\frac{3.295}{s^2+18.82s+296.5}\
 \end{equation}
 
-Converting to standard form as described in Equation~\ref{eq:second_order_model}:
+Converting to standard form as described in Equation~\ref{eq:second_order_model} results in
 
 \begin{equation}
 H(s)=\frac{0.0102*20.75^2}{s^2+2*0.65*20.75s+20.75^2}\
@@ -123,7 +123,7 @@ H(s)=\frac{0.0111*17.21^2}{s^2+2*0.54*17.21s+17.21^2}\
   \label{fig:reverse_chirp_model}
 \end{figure}
 
-This produces the average values of:
+This produces the average values of
 
 $\omega_n=18.98 rad/s$ \newline
 $k = 0.010$ \newline
