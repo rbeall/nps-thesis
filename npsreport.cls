@@ -1113,8 +1113,8 @@
                                         & \hspace{1in} & \@thesisadvisortwo \\
                 \else
                   \iftwoadvisorsreader
-                    Thesis Advisors: & \hspace{1in} & \@thesisadvisorone \\
-                                        & \hspace{1in} & \@thesisadvisortwo \\
+                    Advisor: & \hspace{1in} & \@thesisadvisorone \\
+                    Co-Advisor: & \hspace{1in} & \@thesisadvisortwo \\
                     \iftworeaders
                     Second Readers:     & \hspace{1in} & \@secondreader  \\
                                         & \hspace{1in} & \@secondreadertwo  \\
@@ -1417,10 +1417,10 @@
       \hspace{1.5in}\=\\       % Set the tabs
 
       Approved by:   \> \@@thesisadvisorone \\
-                     \> Thesis Advisor \\[\sigspace]
+                     \> Advisor \\[\sigspace]
 
                      \> \@@thesisadvisortwo \\
-                     \> Thesis Advisor \\[\sigspace]
+                     \> Co-Advisor \\[\sigspace]
 
                      \> \@@secondreader \\
                      \> Second Reader \\[\sigspace]
