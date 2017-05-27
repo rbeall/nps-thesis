@@ -22,7 +22,7 @@ Traditional \ac{MRAC} controllers often refer to the system objective function a
 
 \subsection{\Lone Architecture}
 The \Lone adaptive control algorithm asserts that trying to estimate the plant uncertainties outside of the control actuators' bandwidth is overly ambitious.  The system's actuator bandwidth and the slow dynamics of the plant are most commonly the system's limiting factors, and the estimator's robustness/stability could be in question if unmodeled high-frequency content exists in the plant.  % See RHORs example here? 
-The \Lone adaptive control constrains the objective function by using a low-pass filter (first or second order) to limit the frequency response to meet robustness specifications.  This low-pass filter should be tuned to a frequency response commensurate with the actuator's frequency response.  Through inspection the low-pass filter placement in the controller topology, it becomes clear that the indirect architecture is the only candidate as detailed below.  Figures~\ref{fig:direct_mrac_lowpass} and \ref{fig:indirect_mrac_lowpass} illustrate the placement of the low-pass filter and its implication on the closed loop model. 
+The \Lone adaptive control constrains the objective function by using a low-pass filter (first or second-order) to limit the frequency response to meet robustness specifications.  This low-pass filter should be tuned to a frequency response commensurate with the actuator's frequency response.  Through inspection the low-pass filter placement in the controller topology, it becomes clear that the indirect architecture is the only candidate as detailed below.  Figures~\ref{fig:direct_mrac_lowpass} and \ref{fig:indirect_mrac_lowpass} illustrate the placement of the low-pass filter and its implication on the closed loop model. 
 
 \begin{figure}[h!]
  \centering
@@ -67,13 +67,13 @@ The \ac{SISO} controller with matched uncertainty was selected to control pitch 
   \label{fig:l1_architecture}
 \end{figure}
 
-As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture in block diagram form and the following elements can be identified:
+As seen in Figure~\ref{fig:l1_architecture}, the generalized \Lone architecture in block diagram form and the following elements can be identified
 \begin{itemize}
  \item[] $k_g$ - feed forward input gain
  \item[] $k$ - feedback gain
- \item[] $D(s)$ - user described filter (second order low pass plus integrator)
+ \item[] $D(s)$ - user described filter (second-order low pass plus integrator)
  \item[] $\hat{\eta}$ - \Lone controller state
- \item[] $\dot{x}$ - first order differential equation of state model
+ \item[] $\dot{x}$ - first-order differential equation of state model
  \item[] $\hat{x}$ - state estimate
  \item[] $\tilde{x}$ - state error
  \item[] $u$ - controller output
@@ -96,7 +96,7 @@ In this case, $Pb$ reduces to:
 Pb = \frac{1}{2\omega_n}
 \end{equation}
 
-where $\omega_n$ is the natural frequency in rad/s for the first order companion model in discrete recursive form assuming DC gain of 1.  The proof for this can be found in Appendix~\ref{sec:projection_proof}.
+where $\omega_n$ is the natural frequency in rad/s for the first-order companion model in discrete recursive form assuming DC gain of 1.  The proof for this can be found in Appendix~\ref{sec:projection_proof}.
 
 %---------------------------------------------------
 \section{\Lone Parameter Estimation}\label{sec:param_estimation}
@@ -154,13 +154,13 @@ The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in Eq
 
 %---------------------------------------------------
 \section{\Lone Discrete Time Implementation}
-Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and much more.  In the case of the Pixhawk autopilot, the main loop can run up to 400 Hz.  At a 400 Hz sampling rate, there is a significant insurance that the vehicle's dynamics bandwidth will be completely defined.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely in part due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
+Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and much more.  In the case of the Pixhawk autopilot, the main loop can run up to 400 Hz.  At a 400 Hz sampling rate, there is a significant insurance that the vehicle's dynamics bandwidth will be completely defined.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50 Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely in part due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
 
-The \Lone architecture does not require the algorithm to run in sync with the sensor measurements etc.  Ideally, the autopilot main loop rate would remain at its default value (50Hz), and the adaptation section of the \Lone controller would run as fast as the CPU would allow.  However, the \ac{APM} architecture does not lend itself well to this scheme in its current configuration without significant modification to the code base.  Therefore, the initial tests presumed that the \Lone algorithm is running at the same frequency as the main loop of the autopilot.  The fundamental derivation of the \Lone algorithm proves that performance and adaptation gain are maximized as the loop time $(dt)$ approaches zero.  Increased performance would come from higher adaptation loop rates, but the primary focus was to implement the \Lone algorithm with minimal or no detrimental effects to the current \ac{APM} codebase.
+The \Lone architecture does not require the algorithm to run in sync with the sensor measurements etc.  Ideally, the autopilot main loop rate would remain at its default value (50 Hz), and the adaptation section of the \Lone controller would run as fast as the CPU would allow.  However, the \ac{APM} architecture does not lend itself well to this scheme in its current configuration without significant modification to the code base.  Therefore, the initial tests presumed that the \Lone algorithm is running at the same frequency as the main loop of the autopilot.  The fundamental derivation of the \Lone algorithm proves that performance and adaptation gain are maximized as the loop time $(dt)$ approaches zero.  Increased performance would come from higher adaptation loop rates, but the primary focus was to implement the \Lone algorithm with minimal or no detrimental effects to the current \ac{APM} codebase.
 
 \subsection{Digital Bi-Quad Filter}
 
-The \Lone adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straightforward method for accurately implementing the companion model and the low pass filter discretely using its recursive nature.  It is a second order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring four total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc.) simply by choosing appropriate coefficients.  If a first order filter is needed, then the higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
+The \Lone adaptive control algorithm utilizes two specific elements that will require careful discretization; the companion model and the low pass filter.  The digital bi-quad filter offers a very versatile and straightforward method for accurately implementing the companion model and the low pass filter discretely using its recursive nature.  It is a second-order filter which uses a \ac{FIR} front end and an \ac{IIR} back end requiring four total memory blocks.  This topology allows the designer to create numerous types of filters (low pass, high pass, bandpass, etc.) simply by choosing appropriate coefficients.  If a first-order filter is needed, then the higher order FIR/IIR terms can be set to zero.  Figure~\ref{fig:bi-quad} illustrates this filter's topology where the \ac{FIR} structure is the left two memory blocks and the \ac{IIR} structure is the right two memory blocks.
 
 \begin{figure}[h!]
  \centering
@@ -178,7 +178,7 @@ A bilinear Z transform is used to convert the desired S-domain (continuous time 
   \label{fig:bi-linear_transform}
 \end{figure}
 
-This derivation can be seen below for the second order low pass model
+This derivation can be seen below for the second-order low pass model
 
 \begin{equation}
  H(s) = \frac{1}{s^2+\frac{s}{Q}+1}
@@ -210,7 +210,7 @@ where $\omega T$ is
 $F_c$ is the desired corner frequency of the filter and $F_s$ is the sampling rate (or loop rate of the autopilot).
 This 'pre-warping' is critical to ensure that the continuous time cutoff frequency desired is correctly established in the discrete implementation.  It is the engineer's discretion if pre-warping is required for the appropriate application, but the general guidance is to pre-warp the Z-domain coefficients if the desired cut-off frequency is close to Nyquist–Shannon sampling theorem frequency $(\frac{F_s}{2})$.  It was chosen for this application to always pre-warp the coefficients even though the error is small for corner frequencies which are fairly distant from Nyquist–Shannon sampling theorem frequency.  Continuous calculation of the pre-warp coefficient was chosen because calculating the $tan()$ function real time on the CPU adds negligible computational strain but offers ease of tuning for the engineer.
 
-Applying the bi-linear transform to the continuous time second order low pass filter results in
+Applying the bi-linear transform to the continuous time second-order low pass filter results in
 
 \begin{equation}\label{eq:bi-linear}
  H(z) = \frac{1}{ \left[\left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)\right]^2+\frac{ \left(\frac{1}{K}\right)\left(\frac{z-1}{z+1}\right)}{Q}+1}
@@ -276,17 +276,17 @@ const struct biquad_params &params) {
 
 This implementation can be employed as the \Lone low-pass filter and as the companion model.  It can be seen in the above code segment that $K$, the pre-warp factor, is explicitly calculated every iteration.
 
-\subsection{Simplified Bi-quad First Order Model}
+\subsection{Simplified Bi-quad First-order Model}
 
-In the case of the companion model, a first order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first order model can be derived from a simplified Bi-quad as seen below in Figure~\ref{fig:bi-quad_first_order}.  It can be seen that the first coefficient of the \ac{IIR} filter is kept from this topology.
+In the case of the companion model, a first-order response may be desired.  As described in equations~\ref{eq:first_order_model} and \ref{eq:state_space_model}, the discrete first-order model can be derived from a simplified Bi-quad as seen below in Figure~\ref{fig:bi-quad_first_order}.  It can be seen that the first coefficient of the \ac{IIR} filter is kept from this topology.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{bi-quad_first_order.png}
-  \caption{Digital Bi-quad Simplified First Order Low-pass Filter }
+  \caption{Digital Bi-quad Simplified First-Order Low-pass Filter }
   \label{fig:bi-quad_first_order}
 \end{figure}
 
-The first order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in Equation~\ref{eq:first_order_corner_model} when defined by its corner frequency
+The first-order model can be specified by either its time constant (time in seconds to reach 63\% of steady-state) or its -3dB corner frequency.  The system takes the form as seen in Equation~\ref{eq:first_order_corner_model} when defined by its corner frequency
 
 \begin{equation}\label{eq:first_order_corner_model}
 H(s)=\frac{\omega_n}{s+\omega_n}
@@ -301,9 +301,9 @@ Therefore, the explicit calculation of the Bi-quad coefficients in this case bec
 \end{split}
 \end{equation}
 
-where $\omega_n$ is the -3dB corner frequency in radians per second and $F_s$ is the sampling frequency in Hz.
+where $\omega_n$ is the -3dB corner frequency in radians per second and $F_s$ is the sampling frequency measured in Hertz.
 
-Therefore, the discrete recursive form of the first order model becomes
+Therefore, the discrete recursive form of the first-order model becomes
 
 \begin{equation}
 y_{i+1}=a_1y_{i-1}+b_0y_i

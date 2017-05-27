@@ -1,7 +1,7 @@
 \label{appendix:dynamics_model}
 \section{Fixed Wing Aircraft Dynamics Model}
 
-The following is the nomenclature that will be used to describe the kinematic equations.  Euler angles for pitch $(\theta)$, roll $(\phi)$, and yaw $(\psi)$ will have the units of radians.  The following Figure~\ref{fig:reference_frame} illustrates the \ac{NED} reference frame definitions used for body rotational rates about the $x$ axis $(p)$, $y$ axis $(q)$, and the $z$ axis $(r)$ as well as the body velocities in the $x$ axis $(u)$, $y$ axis $(v)$, and the $z$ axis $(w)$.
+The following is the nomenclature used to describe the fixed-wing kinematic equations.  Euler angles for pitch $(\theta)$, roll $(\phi)$, and yaw $(\psi)$ will have the units of radians.  Figure~\ref{fig:reference_frame} illustrates the \ac{NED} reference frame definitions used for body rotational rates about the $x$ axis $(p)$, $y$ axis $(q)$, and the $z$ axis $(r)$, as well as the body velocities in the $x$ axis $(u)$, $y$ axis $(v)$, and the $z$ axis $(w)$.
 
 \begin{figure}[h!]
  \centering
@@ -175,6 +175,10 @@ The aerodynamic torques (excluding propulsive torques) can be found to be
   b\left[C_{n_0}+C_{n_\beta}\beta+C_{n_p}\frac{b}{2Va}p+C_{n_r}\frac{b}{2V_a}r+C_{n_{\delta_a}}\delta_a+C_{n_{\delta_r}}\delta_r\right]
  \end{pmatrix}
 \end{equation}
+
+where $C_{l_0}, C_{l_\beta}, C_{l_p}, C_{l_r}, C_{l_{\delta_a}}, C_{l_{\delta_r}}, C_{n_0}, C_{n_\beta}, C_{n_p}, C_{n_r}, C_{n_{\delta_a}}, C_{n_{\delta_r}}$ are the lateral aerodynamic coefficients
+
+and $C_{m_0}, C_{m_\alpha}, C_{m_q}, C_{m_{\delta_e}}$ are the longitudinal aerodynamic coefficients.
 
 Substituting the aerodynamic torques found in Equation~\ref{eq:aero_torques} into Equation~\ref{eq:body_rate_derivation} results in \cite{beard2012small}
 \begin{equation}\label{eq:body_rate_equations}

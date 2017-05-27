@@ -54,7 +54,7 @@ The Pixhawk autopilot is a collaborative project among open-source engineers whi
 \item Internal microUSB port and external microUSB port extension
 \end{itemize}
 
-\section{Ground Control Station - \ac{GCS}}
+\section{Ground Control Station}
 
 The \ac{GCS} used for this research was MAVproxy \cite{mavproxy}.  It is an open-source python based \ac{GCS} which provides flexible communication and command with any autopilot utilizing the MAVlink protocol \cite{mavlink}.  Even though MAVproxy is written in Python (\ac{OS} agnostics language), it was found to be cumbersome to operate the \ac{GCS} on any other platform other than Linux.  This is primarily because the source code updates quite rapidly to support new features and the core developer (Andrew Tridgell) exclusively utilizes MAVproxy in Linux.  A significant amount of external libraries are utilized which results in a moderate amount of compatibility debugging for other \ac{OS}'s if desired.
 
