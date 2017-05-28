@@ -71,7 +71,8 @@
 
 % Your abstract.  New paragraphs start after an empty line.
 \abstract{
-The field of adaptive control offers techniques for increasing performance and robustness in numerous settings and applications.  Adaptive control is different than traditional feedback in that it offers a mechanism for adjusting the controller's parameters to reduce plant uncertainty.  Traditional feedback control utilizes parameters, which are specified by the engineer to optimize an ideal use case, which often times requires extensive tuning and testing.  Adaptive controllers adjust their control parameters using various intelligent mechanisms designed to   increase robustness to plant variation or unanticipated disturbances.  Adaptive control has many applications in the aerospace domain to include control strategies when aerodynamic coefficients are unknown or are non-constant, actuator failure, airframe damage, etc.   This research evaluates fixed wing UAS controller performance and robustness using the \Lone adaptive control architecture. 
+Due to the incraesing demand for autonomous unmanned systems, the Department of Defense (DOD) will soon have increased difficulty in managing costs and delievery schedule.  Unmanned Aerial System (UAS) technology has advanced significantly over the past decade accelerating the use of autonomous systems both in the DOD as well as the commerical sector.  As the demand for UAS technology increases, the current Guidance Navigation and Control (GNC) algorithms will prove to poorly scale to meet the demand.  Currently, significant resources are required to certifiy flight controllers on an individual platform basis.  As different airframes are introduced to meet the expanding mission requirements, the resorces required to sustain the GNC certification demand will become a limiting factor in scalability.\newline \newline
+The feasibility of replacing conventional GNC techniques for stabilizing aircraft attitude with modern adaptive control theory was conducted on Commerical off the Shelf (COTS) opensource autopilots.  COTS autopilots and open source software enabled rapid prototyping and integration of an adaptive controller with limited resources.  It was determined that the adaptive control algorithm successfully stabilized aircraft attitude with improved performance over conventional controllers.  The adaptive controller architecture was designed specifically to be aircraft non-specific to ensure the controller easily scales to minimize the resource burden of tuning and certification.  The adaptive controller tested in this research improved performance over the baseline controller and was rapidly integrated on multiple various airframes with minimal resources.
 }
 
 % Switch the below lines around, if FOUO
@@ -145,11 +146,11 @@ The field of adaptive control offers techniques for increasing performance and r
 %
 \NPStableOfContents
 \NPSlistOfFigures
-\NPSlistOfTables
+%\NPSlistOfTables
 \NPSlistOfAcronymsFromFile{acronyms}
 
 \NPSexecsummary{
-Executive Summary Here!..................
+The field of adaptive control offers techniques for increasing performance and robustness in numerous settings and applications.  Adaptive control is different than traditional feedback in that it offers a mechanism for adjusting the controller's parameters to reduce plant uncertainty.  Traditional feedback control utilizes parameters, which are specified by the engineer to optimize an ideal use case, which often times requires extensive tuning and testing.  Adaptive controllers adjust their control parameters using various intelligent mechanisms designed to   increase robustness to plant variation or unanticipated disturbances.  Adaptive control has many applications in the aerospace domain to include control strategies when aerodynamic coefficients are unknown or are non-constant, actuator failure, airframe damage, etc.   This research evaluates fixed wing UAS controller performance and robustness using the \Lone adaptive control architecture. 
 }
 
 \NPSacknowledgements{
@@ -189,11 +190,14 @@ I would like to thank.....
 \chapter{System Identification}
 \input{appendix3}
 
-\chapter{Projection Operator}
+\chapter{Lyapunov Stability Defintion}
 \input{appendix4}
 
-\chapter{Matlab Code}
+\chapter{Projection Operator}
 \input{appendix5}
+
+\chapter{Matlab Code}
+\input{appendix6}
 
 %\chapter{Flight Code}
 %\input{appendix3}

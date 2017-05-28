@@ -1,4 +1,12 @@
-\chapter{Background and Preliminaries}\label{ch:problem}
+\chapter{Overview of Modern Control Techniques}\label{ch:problem}
+
+%---------------------------------------------------------
+\section{Adaptive Control History}\label{history}
+Adaptive control saw its early debut in the NASA North American X-15 hypersonic rocket-powered X-plane experimental aircraft.  The X-15's performance envelope exceeded Mach 6.0 and 300,000 feet \cite{jenkins2000x15specs}.  Engineers realized early on that the linear controllers performed well only at one dynamic pressure, but nowhere near the entire flight envelope.  Scheduling the controller gains with respect to dynamic pressure (gain scheduling) was one method used to help ensure robustness;  the method is still widespread in commercial aviation due to its robustness but requires a significant effort to 'explore' the entire flight envelope.  These non-trivial efforts were what encouraged the exploration of the benefits of adaptive control.
+
+The X-15 program started in 1959 and continued to 1968 flying nearly 200 successful flights \cite{nasa_x15_facts}.  It was considered one of NASA's most successful programs.  The benefit of adaptive control to the X-15 was that the adaptive controller was supposed to adjust the gain parameters online automatically.  If the controller was self-tuning, it could potentially offer increased performance while reducing complexity.  The Honeywell implemented the MH-96 adaptive controller in the X-15-3 as a fly-by-wire controller designed to adaptively adjust the damping in pitch and roll with respect to the desired model response.  The goal was to achieve consistent aircraft response regardless of dynamic pressure and other variables.  During test flights of the MH-96 adaptive control, increased performance was observed especially in the dynamic phases of reentry over that of the linear fixed gain damping system \cite{dydek2010adaptive}.  These early breakthroughs in adaptive control proved the benefits could be viable aerospace solutions.  However, on November 15, 1967, there was a fatal accident caused by the adaptive controller.  The adaptive controller created an out of control flight situation resulting in dynamic pressures exceeding the structural limits and subsequent breakup of the airframe at 65,000 feet \cite{nasa_x15_facts}.
+
+The turbulent start of adaptive control, as implemented on the X-15 program, was due in large part to the early naive understanding of robustness.  Contemporary robust adaptive control strives to encapsulate these deficiencies of robustness in studies and proofs using Lyapunov stability analysis.  In addition to the developments of rigorous stability analysis tools, a number of unique techniques have also been implemented to increase controller robustness.  One such technique utilizes dead band limits on the model adaptation process to avoid system/measurement noise from causing the un-learning of the states and is called 'dead-zone modification' as proposed by B.B. Peterson and K.S Narendra \cite{peterson1982bounded}.  Lavretsky and Wise also reference the '$\sigma$ and $e$ modifications' which adds damping to the adaptation process \cite{lavretsky2013robust}.  The \Lone adaptive control algorithm utilizes a technique which seeks to decouple the adaptation rate from robustness by 'low pass filtering' the contribution of the fast estimator under the premise that estimating the entire frequency spectrum is overly ambitious and should be limited to the bandwidth of the actuator-plant combination.  Many advances have been made in the adaptive control field over the past few decades, and this research sets out to evaluate a small subset of these techniques in the unforgiving aerospace environment.
 %---------------------------------------------------------
 
 \section{Classical Feedback vs Adaptive Control}
@@ -56,66 +64,6 @@ In order for the cost function to be minimized, the negative gradient of the cos
 \end{equation}
 
 The stability of this method is very system dependent and heavily relies on trial and error to ensure the adaptation gain $(\gamma)$ is not too high.  This usually requires low adaptation rates for most systems and may not produce adequate results.  It should also be noted that this method relies on adequate persistence of excitation \cite{aastrom2013adaptive}.  In simple terms, the persistence of excitation condition guarantees some functional correspondence between the error and the unknown parameters $\theta$. If the error signal is sufficiently rich, then the partial derivative is explicitly evaluated by the adaptation process running recursively.  This method does not explicitly guarantee parameter convergence even though correct steady-state gain is achieved for the closed loop system.
-
-\subsection{Lyapunov Stability Criteria}
-
-Aerospace designs tend to use linear controllers as reference models for their simplicity and well-understood robustness characteristics.  This is despite the fact that the applications of these linear controllers are applied to a non-linear dynamical system such as attitude control with varying dynamic pressure.  Adaptive Controllers are non-linear and may offer performance benefits to non-linear systems as seen in aforementioned aerospace applications.  However, non-linear controller's stability properties need to be evaluated.  The Lyapunov stability criteria offer methods of evaluating these controller's boundedness and robustness behavior.
-
-Aleksandr Lyapunov was a Russian mathematician who's work was published in 1892 \cite{lyapunov1892general} concerning the behavior of non-linear systems close to equilibrium without having to rigorously find the unique solutions to difficult differential equations used to model the system.  His work was largely overlooked until the Cold War when aerospace solutions required a more rigorous approach to analyzing non-linear control robustness.  Modern non-linear control engineers extensively utilize Lyapunov's techniques to design and evaluate non-linear controllers.
-
-\subsubsection{Lyapunov Stability Definitions}
-
-According to Lyapunov, the stability properties of a system can be classified as stable, asymptotically stable, and exponentially stable.
-
-Given the following autonomous nonlinear system:
-
- \begin{equation}
-\dot{x}(t)=f(x(t)), \qquad x(0)=x_0
-\end{equation}
-
-where $f$ has equilibrium at $x_e$ :
- \begin{equation}
-f(x_e) = 0
-\end{equation}
-
-then the equilibrium is said to be:
-\begin{enumerate}
- \item \textbf{Lyapunov Stable} \newline
- for every $\epsilon > 0$ there exists a $\delta > 0$ such that, if \: $\norm{x(0) - x_e} < \delta$, then for every $t \geq 0$ we have  $ \norm{x(t) - x_e} < \epsilon$ 
- \item \textbf{Asymptotically Stable} \newline
- if the system is Lyapunov stable and there exists a $\delta > 0$ such that if \: $\norm{x(0) - x_e}  < \delta$, then $\displaystyle \lim_{t\to \infty} \norm{x(t)-x_e} =0$
- \item \textbf{Exponentially Stable} \newline
- if the system is asymptotically stable and there exists $\alpha > 0, \beta > 0, \delta > 0$ such that if $\norm{x(0)-x_e}<\delta$, then \:$\norm{x(t)-x_e} \leq \alpha \norm{x(0)-x_e} e^{-\beta t}$, for all $t \geq 0$
-\end{enumerate}
-
-Being Lyapunov stable infers that if a system is near equilibrium, then it will indefinitely remain near equilibrium.  If the system if found to be asymptotically stable then it eventually will achieve equilibrium as $t\to \infty$ and being exponentially stable implies it reaches equilibrium with a rate of convergence $\beta$.
-
-\subsubsection{Lyapunov's Second Method}
- 
-Lyapunov's second method is also known as Lyapunov stability criteria.  This method offers a less tenuous method for evaluating mathematically non-ideal systems.  Lyapunov analysis of the linearized system around equilibrium can be cumbersome when the eigenvalues are purely imaginary.  In this case, the solutions can rapidly depart to infinity or approach zero with little perturbation to the eigenvalues.  Lyapunov's second method offers an alternative approach for classifying a system's stability using a concept that is similar to how total energy is defined in classical mechanics.
-
-Conceptually, Lyapunov's second method can be compared to the evaluation of mechanical system similar to the modeling of energy in a vibrating spring mass system.  The energy of the unforced spring mass system will dissipate energy due to friction and or damping.  This trend of energy leaving the system towards some 'attractor' is evidence of the system's stability characteristics and identifies that there will be some stable end state.  Likewise, Lyapunov's second method specifies this with the use of a Lyapunov candidate function $V(x)$ which implicitly characterizes the total energy of the system.  It is important to note that Lyapunov realized that the candidate function could be any positive definite and radially unbounded function.  It is then said to be Lyapunov stable if any candidate function is found and meets the stability criteria.  This means that it is only incumbent upon the engineer to find one candidate function to meet the criteria.  This can be an iterative process of trying various energy like equations.  A common approach is to model the Lyapunov candidate equation as kinetic energy $(\frac{1}{2}u^2)$.  Lyapunov realized that characterizing the energy of a nonlinear system could be almost impossible for some cases, but this approach could prove stability without the rigorous knowledge of the true system's energy.
-
-Lyapunov's second method defines a system as Lyapunov Stable for a system $\dot{x}=f(x)$ having an equilibrium point at $x=0$ where the Lyapunov candidate function $V(x):\mathbb{R}^n \rightarrow \mathbb{R}$ such that:
-\begin{itemize}
- \item $V(x)=0$ if and only if $x=0$
- \item $V(x)>0$ if and only if $x\neq0$
- \item $\dot{V}(x)=\frac{d}{dt}V(x)=\sum\limits_{i=1}^{n} \frac{\partial V}{\partial x_i}f_i(x) \leq 0$, for all values of $x\neq 0$  
-\end{itemize}
-
-if $\dot{V}(x) < 0$ for $x\neq 0$ then system is asymptotically stable.
-
-Additionally, it is required to demonstrate the condition of radial unboundedness to ensure the system is globally stable \cite{khalil1996noninear}.
-
-
-
-
-
-
-
-
-
-
 
 
 
