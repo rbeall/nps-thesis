@@ -133,3 +133,95 @@ xlabel('\theta')
 title('Projection Operator')
 hold off
 \end{lstlisting}
+
+\section{System Identification}\label{sec:sysid_matlab}
+%-------------------------------------------------------------------------------------
+\begin{lstlisting}[language=matlab]
+clear, clc, format compact, close all
+
+% Import data file for analysis
+[filename, pathname] = uigetfile('*.m','Choose first MATLAB file');
+run(filename)
+%%
+% Clean tigger PWMs
+for r=1:length(RCIN.data(:,9))    
+    if RCIN.data(r,8) < 1700 %channel 6
+        RCIN.data(r,8) = 1000;
+    end
+    if RCIN.data(r,9) < 1700 %channel 7
+        RCIN.data(r,9) = 1000;
+    end
+end
+
+%Trigger Channel Data
+roll_trigger_data = RCIN.data(:,9);
+pitch_trigger_data = RCIN.data(:,8);
+trigger_data_time = RCIN.data(:,2);
+%Command Data
+roll_command_data = ((RCOU.data(:,3)-1500)+(RCOU.data(:,4)-1500))+1526;
+pitch_command_data = ((RCOU.data(:,3)-1500)-(RCOU.data(:,4)-1500))+1460;
+command_data_time = RCOU.data(:,2);
+%IMU Data
+p = IMU2.data(:,3);
+q = -IMU2.data(:,4);
+IMU_time = IMU2.data(:,2);
+
+% Plot to show sectioned data
+plot(RCIN.data(:,2)*10^-6,RCIN.data(:,8)-1500,IMU2.data(:,2)*10^-6,p*(180/pi),...
+     RCIN.data(:,2)*10^-6,RCIN.data(:,9)-1500,IMU2.data(:,2)*10^-6,q*(180/pi))
+legend('ch6','p','ch7','q')
+xlabel('time (seconds)')
+ylabel('pwm counts')
+
+[start_index, stop_index] = find_trigger(roll_trigger_data, 1700);
+fprintf('Which test would you like to analyze? [Pick a number between 1 and %i]\n',length(start_index));
+num_of_test_desired = input('');
+
+%[ input, output, time ] = section_triggered_data( input_data, input_data_time, output_data, output_data_time, trigger_data, trigger_time, num_of_test_desired )
+[ input, output, time ] = section_triggered_data( roll_command_data, command_data_time, p, IMU_time, roll_trigger_data, trigger_data_time, num_of_test_desired );
+
+%Center controls for SysID and plotting
+input = input-1500; %center stick ouputs 1500
+
+% Theoretical Chirp
+fs = 1/50;
+t = [0:fs:7];
+f0= 0.01;%Hz
+f1= 10; %Hz
+k = (f1-f0)/(t(end));
+phi_0 = 0;
+
+input_theoretical = sin(phi_0+2*pi*(f0*(7-t)+(k/2).*(7-t).^2));
+input_theoretical = input_theoretical*75;
+
+figure
+plot(time,input,'o', time, output*(180/pi),t,input_theoretical)
+legend('roll cmd', 'roll rate')
+
+%% System Identification
+loop_rate = mean(diff(IMU_time))*10^-6;
+time_clean = [0:loop_rate:(length(time)-1)*loop_rate]';
+output_clean = interp1(time,output,time_clean,'pchip');
+%input_clean = interp1(time,input,time_clean,'pchip');
+input_clean = interp1(t,input_theoretical,time_clean,'pchip');
+
+
+figure
+plot(time, input_clean, time, output_clean*(180/pi))
+legend('roll cmd', 'roll rate')
+
+[y,t,x] = estimate_model(input_clean, output_clean, time_clean);
+
+figure
+subplot(2,1,1)
+plot(time_clean,input_clean)
+legend('command')
+xlabel('time (seconds)')
+ylabel('\delta (pwm)')
+title('Roll Analysis')
+subplot(2,1,2)
+plot(t,y,time_clean,output_clean)
+legend('model','measured response')
+xlabel('Time (s)')
+ylabel('Roll rate (rad/s)')
+\end{lstlisting}
