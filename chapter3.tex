@@ -1,4 +1,4 @@
-\chapter{\Lone Adaptive Control Introduction}\label{ch:derivation}
+\chapter{Engineering of Adaptive Control}\label{ch:derivation}
 
 \section{\Lone Adaptive Control}
 The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to control a system with unknown parameters.  The estimates of unknown parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architecture.  The indirect architecture attempts to estimate the system's parameters and can be compared to online system identification.  Alternately, the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
@@ -237,7 +237,7 @@ Reducing Equation~\ref{eq:bi-linear} to match the form in Equation~\ref{eq:bi-qu
 
 The bandwidth of the filter $Q$ can be set by the engineer.  For example, if the pass-band of the filter is desired to be flat (Butterworth) then $Q$ can be set equal to $\frac{1}{\sqrt{2}}$.  For this research, the following C++ code segments were used to explicitly calculate the bi-quad low-pass filter implementation \cite{apm_source_code}: \newline
 
-\begin{lstlisting}
+\begin{lstlisting}[language=c++]
 void DigitalBiquadFilter<T>::compute_params(float sample_freq, 
 float cutoff_freq, biquad_params &ret) {
     ret.cutoff_freq = cutoff_freq;
@@ -255,7 +255,7 @@ float cutoff_freq, biquad_params &ret) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=c++]
 T DigitalBiquadFilter<T>::apply(const T &sample, 
 const struct biquad_params &params) {
     
