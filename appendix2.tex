@@ -1,16 +1,14 @@
 \label{appendix:dynamics_model}
 \section{Fixed Wing Aircraft Dynamics Model}
 
-The following is the nomenclature used to describe the fixed-wing kinematic equations.  Euler angles for pitch $(\theta)$, roll $(\phi)$, and yaw $(\psi)$ will have the units of radians.  Figure~\ref{fig:reference_frame} illustrates the \ac{NED} reference frame definitions used for body rotational rates about the $x$ axis $(p)$, $y$ axis $(q)$, and the $z$ axis $(r)$, as well as the body velocities in the $x$ axis $(u)$, $y$ axis $(v)$, and the $z$ axis $(w)$.
+The following is the nomenclature used to describe the fixed-wing kinematic equations.  Euler angles for pitch $(\theta)$, roll $(\phi)$, and yaw $(\psi)$ have the units of radians.  Figure~\ref{fig:reference_frame} illustrates the \ac{NED} reference frame definitions used for body rotational rates about the $x$ axis $(p)$, $y$ axis $(q)$, and the $z$ axis $(r)$, as well as the body velocities in the $x$ axis $(u)$, $y$ axis $(v)$, and the $z$ axis $(w)$.
 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.65\textwidth]{body_frame_rotations.png}
   \caption{Reference frame - body rates and velocities}
   \label{fig:reference_frame}
-\end{figure}
-
-The primary goal of this research is to implement an algorithm which controls fixed wing aircraft attitude.  Therefore, the focus of the following kinematic and dynamics equations will primarily concentrate on deriving only rotational dynamics from first principles.  
+\end{figure} 
 
 Newton's second law as it pertains to rotational motion can be stated as
 \begin{equation}\label{eq:rotational_inertia}
@@ -27,7 +25,7 @@ Equation~\ref{eq:rotational_inertia} can be rewritten in the body reference fram
 
 The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body frame as viewed in the body frame
 
-\begin{equation}
+\begin{equation}\label{eq:omega_body}
 \dot{\omega}_{b/i}^b=
 \begin{pmatrix}
 \dot{p}\\
@@ -36,7 +34,7 @@ The expression $\dot{\omega}_{b/i}^b$ is the angular acceleration in the body fr
 \end{pmatrix}
 \end{equation}
 
-The equation can then be rewritten with respect to $\dot{\omega}_{b/i}^b$
+The equation can then be rewritten with respect to $\dot{\omega}_{b/i}^b$ in Equation~\ref{eq:omega_body}
 
 \begin{equation}
 \dot{\omega}_{b/i}^b=J^{-1}\left[-\omega_{b/i}^b\times\left(J\omega_{b/i}^b\right)+\tau^b\right]
