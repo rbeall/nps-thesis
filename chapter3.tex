@@ -1,4 +1,5 @@
 \chapter{Engineering of Adaptive Control}\label{ch:adaptive_controller}
+This chapter outlines the pertinent aspects of the \Lone adaptive control architecture used for this research.  The distinction between direct and indirect adaptive control is made in order to illustrate the importance of why the indirect architecture is critical for the \Lone algorithm.  This chapter also defines the parameter estimates provided by the \Lone algorithm with respect to the aerodynamic model simplifications outlined in Appendix~\ref{appendix:dynamics_model}.  Finally, the \Lone adaptive control filter is explained and the methods used for discretizing the algorithm for autopilot integration are discussed.
 
 \section{\Lone Adaptive Control}
 The \Lone adaptive controller is an evolution of the concepts implemented by \ac{MRAC}.  They are similar approaches designed to control a system with unknown parameters.  The estimates of unknown parameters are adjusted to achieve the desired outcome of the error between the actual plant (system) and the referenced system model (state predictor) to asymptotically approach zero.   Adaptive control attempts to estimate the plant's unknown parameters in situ.  Parameter estimation is done using either direct or indirect architecture.  The indirect architecture attempts to estimate the system's parameters and can be compared to online system identification.  Alternately, the easier to implement direct architecture estimates the controller parameters explicitly.  These architectures can be seen below in Figures~\ref{fig:direct_mrac} and \ref{fig:indirect_mrac}.
@@ -153,7 +154,7 @@ The feedback gain $k$ should not be assumed to be 1 in this case.  As seen in Eq
 
 
 %---------------------------------------------------
-\section{\Lone Discrete Time Implementation}
+\section{\Lone Discrete Time Implementation}\label{sec:discrete_time_implementation}
 Implementing any algorithm on actual autopilot hardware will inevitably force some if not all parts of the algorithm to be discretized.  Autopilots like the Pixhawk operate at some scheduled loop rate for executing the litany of subprograms that measure sensors, calculate navigation commands, and much more.  In the case of the Pixhawk autopilot, the main loop can run up to 400 Hz.  At a 400 Hz sampling rate, there is a significant insurance that the vehicle's dynamics bandwidth will be completely defined.  However, the \ac{APM} flight stack records all logged parameters also at this loop rate and can create log files larger than are reasonably desired.  There are a myriad of other reasons why the engineer would not want to run at high loop rates, but successful flight at the lowest (default of 50 Hz) is desired if adequate performance of the adaptive control can be achieved.  Failures in early adaptive control were largely in part due to a very naive understanding of robustness.  Brian Anderson concludes that "it is clear that the identification time scale needs to be faster than the plant variation time scale, else identification cannot keep up" \cite{anderson2005failures}.  
 
 The \Lone architecture does not require the algorithm to run in sync with the sensor measurements etc.  Ideally, the autopilot main loop rate would remain at its default value (50 Hz), and the adaptation section of the \Lone controller would run as fast as the CPU would allow.  However, the \ac{APM} architecture does not lend itself well to this scheme in its current configuration without significant modification to the code base.  Therefore, the initial tests presumed that the \Lone algorithm is running at the same frequency as the main loop of the autopilot.  The fundamental derivation of the \Lone algorithm proves that performance and adaptation gain are maximized as the loop time $(dt)$ approaches zero.  Increased performance would come from higher adaptation loop rates, but the primary focus was to implement the \Lone algorithm with minimal or no detrimental effects to the current \ac{APM} codebase.
@@ -352,6 +353,9 @@ float trap_integration(float y0, float y1_dot, float dt, float &y0_dot)
     return y1;
 }
 \end{lstlisting}
+
+With the \Lone adaptive control algorithm defined in discrete form utilizing the architecture in Figure~\ref{fig:l1_architecture} and the discretization methods outlined in Section~\ref{sec:discrete_time_implementation} enabled the simulation testing found in Chapter~\ref{ch:performance}.  Flight testing was also desired and therefore multiple test aircraft were designed and built as seen in Chapter~\ref{ch:platform} with integrated \ac{COTS} autopilots.
+
 
 
 

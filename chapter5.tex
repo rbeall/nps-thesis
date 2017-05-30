@@ -1,4 +1,5 @@
 \chapter{Flight Testing and Performance Evaluation}\label{ch:performance}
+This chapter utilizes the \ac{APM} \ac{SITL} architecture as well as prototype aircraft to tune and test the \Lone adaptive control algorithm to highlight performance parameters which meet or exceed the underlying requirements established in the problem proposal in Chapter~\ref{ch:intro}.
 
 \section{Simulation Results}
 Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in Figure~\ref{fig:maxi-swift}.
@@ -90,6 +91,7 @@ It can be seen in Figure~\ref{fig:trim_learn} and \ref{fig:trim_learn2} that the
 
 %---------------------------------------------
 \section{Flight Test Results}\label{sec:flight_test}
+After successful results were achieved utilizing the \ac{SITL} environment across multiple aircraft, similar test techniques were conducted on the prototype aircraft described in Chapter~\ref{ch:platform}.
 \subsection{General Observations}
 The FT Spear aircraft was used in all initial flight tests to prove the algorithm's initial robustness and facilitate testing of various tuning scenarios.  Choosing this aircraft proved to be beneficial because it provided 30 or more minutes of endurance.  The flying wing architecture had a slight forward \ac{CG} when configured with two 2200 \ac{mAh} batteries.  This resulted in the aircraft being anemic in pitch response but still adequate for testing the \Lone algorithm.  Various iterations of the algorithm were tested and compared to the results observed in \ac{SITL} as the development progressed.  
 
@@ -136,4 +138,4 @@ To test the nominal flight path stability and roll attitude performance, a recta
 
 Asymmetric flaps were configured by only allowing one servo to lower the left flap while leaving the right flap stationary.  This failure was designed to test the unmodeled roll response from a very asymmetric mechanical failure.  Unfortunately, the roll and pitch excursions caused by this failure were marginal.  Both \ac{PID} and the \Lone handled this failure with adequate reliability. 
 
-
+The overall result of the performance testing of the \Lone algorithm was quite successful.  The results from \ac{SITL} provided confidence in the expected results from actual flight test and proved to be robust representations of the results achieved in flight test.  Flight test were significantly more difficult to conduct, but the mirrored performance between the \ac{SITL} and flight tests proved that more time can be spent utilizing \ad{SITL} to drastically reduce development cost and schedule.

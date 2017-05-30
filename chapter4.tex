@@ -1,5 +1,7 @@
 \chapter{Design of Experimental Platform}\label{ch:platform}
 
+This chapter presents the \ac{COTS} autopilots used in this research as well as outlining the Linux toolchain used to conduct |ac{SITL} and \ac{GCS} operations.  This chapter also introduces the airframes that were prototyped for testing specific performance characteristics discussed in Chapter~\ref{ch:performance}.
+
 \section{Pixhawk Autopilot}
 The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high-performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for various Raspberry Pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot operates using two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a Linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
 
@@ -11,6 +13,7 @@ The Pixhawk autopilot is a collaborative project among open-source engineers whi
 \end{figure}
 
 \subsection{Key Features}
+The Pixhawk 1 Autopilot has the following features:
 \begin{itemize}
 \item 168 MHz / 252 MIPS Cortex-M4F
 \item 14 PWM / Servo outputs (8 with failsafe and manual override, 6 auxiliary, high-power compatible)
@@ -25,6 +28,7 @@ The Pixhawk autopilot is a collaborative project among open-source engineers whi
 \end{itemize}
 
 \subsection{Specifications}
+The Pixhawk 1 Autopilot has the following specifications:
 \subsubsection{Processor}
 \begin{itemize}
 \item 32bit STM32F427 Cortex M4 core with FPU
@@ -161,7 +165,7 @@ The Explorer airframe was chosen because it is a conventional airframe with high
   \label{fig:explorer_electronics}
 \end{figure}
 
-
+The previously discussed \ac{COTS} autopilot, Linux software tool chain for \ac{SITL} and \ac{GCS}, and prototype aircraft were utilized to present the results found in Chapter~\ref{ch:performance}.
 
 
 

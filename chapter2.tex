@@ -1,5 +1,5 @@
 \chapter{Overview of Modern Control Techniques}\label{ch:overview}
-
+This chapter is a general review of the history of adaptive control to include its use cases and previous pitfalls.  A brief overview of algorithm differences between conventional feedback control and \ac{MRAC} architectures is also covered.
 %---------------------------------------------------------
 \section{Adaptive Control History}\label{history}
 Adaptive control saw its early debut in the NASA North American X-15 hypersonic rocket-powered X-plane experimental aircraft.  The X-15's performance envelope exceeded Mach 6.0 and 300,000 feet \cite{jenkins2000x15specs}.  Engineers realized early on that the linear controllers performed well only at one dynamic pressure, but nowhere near the entire flight envelope.  Scheduling the controller gains with respect to dynamic pressure (gain scheduling) was one method used to help ensure robustness;  the method is still widespread in commercial aviation due to its robustness but requires a significant effort to 'explore' the entire flight envelope.  These non-trivial efforts were what encouraged the exploration of the benefits of adaptive control.
@@ -64,6 +64,8 @@ In order for the cost function to be minimized, the negative gradient of the cos
 \end{equation}
 
 The stability of this method is very system dependent and heavily relies on trial and error to ensure the adaptation gain $(\gamma)$ is not too high.  This usually requires low adaptation rates for most systems and may not produce adequate results.  It should also be noted that this method relies on adequate persistence of excitation \cite{aastrom2013adaptive}.  In simple terms, the persistence of excitation condition guarantees some functional correspondence between the error and the unknown parameters $\theta$. If the error signal is sufficiently rich, then the partial derivative is explicitly evaluated by the adaptation process running recursively.  This method does not explicitly guarantee parameter convergence even though correct steady-state gain is achieved for the closed loop system.
+
+With the differences between classical feedback control and adaptive control being discussed, the next chapter applies analytical tools to develop a specific adaptive control architecture to address the requirements outlined in Chapter~\ref{ch:intro}.
 
 
 
