@@ -71,8 +71,7 @@
 
 % Your abstract.  New paragraphs start after an empty line.
 \abstract{
-Due to the increasing demand for autonomous unmanned systems, the Department of Defense (DOD) will soon have increased difficulty in managing costs and delivery schedule.  Unmanned Aerial System (UAS) technology has advanced significantly over the past decade accelerating the use of autonomous systems both in the DOD as well as the commercial sector.  As the demand for UAS technology increases, the current Guidance Navigation, and Control (GNC) algorithms will poorly scale to meet the demand.  Currently, significant resources are required to certify flight controllers on an individual platform basis.  As different airframes are introduced to meet the expanding mission requirements, the resources required to sustain the GNC certification demand will become a limiting factor in scalability.\newline \newline
-The feasibility of replacing conventional GNC techniques for stabilizing aircraft attitude with modern adaptive control theory was conducted on a Commerical off the Shelf (COTS) open source autopilot.  COTS autopilots and open source software enabled rapid prototyping and integration of an adaptive controller with limited resources.  It was determined that the adaptive control algorithm successfully stabilized aircraft attitude with improved performance over conventional controllers.  The adaptive controller architecture was designed specifically to be aircraft non-specific.  This ensures the controller easily integrates into any aircraft, therefore, minimizing the resource burden of tuning and certification.  The adaptive controller tested in this research improved performance over the baseline controller and was rapidly integrated on multiple various airframes with minimal resources.  Drastic improvements in tunability and performance provided by the adaptive control algorithm in this research demonstrate that these new modern control techniques show promise.
+Due to the increasing demand for autonomous unmanned systems, the Department of Defense (DOD) will soon have increased difficulty in managing costs and delivery schedule.  Unmanned Aerial System (UAS) technology has advanced significantly over the past decade accelerating the use of autonomous systems both in the DOD and commercial sector.  As the demand for UAS technology increases, the current Guidance Navigation, and Control (GNC) algorithms will poorly scale to meet the demand.  Currently, significant resources are required to certify flight controllers on an individual platform basis.  As different airframes are introduced to meet the expanding mission requirements, the resources required to sustain the GNC certification demand will become a limiting factor in scalability.  The feasibility of replacing conventional GNC techniques with modern adaptive control theory was conducted on a Commercial off the Shelf (COTS) open source autopilot.  This enabled rapid prototyping and integration of an adaptive controller.  The adaptive controller architecture was designed to be aircraft non-specific.  This ensures the controller easily integrates into any aircraft, therefore, minimizing the resource burden of tuning and certification.  The adaptive controller tested in this research improved performance over the baseline controller and was rapidly integrated on multiple various airframes with minimal resources.
 }
 
 % Switch the below lines around, if FOUO
@@ -83,9 +82,9 @@ The feasibility of replacing conventional GNC techniques for stabilizing aircraf
 % Mandatory fields for the SF298.
 %
 \ReportType{Master's Thesis}
-\ReportDate{[Month Year]}       % for a thesis, graduation date
+\ReportDate{June 2017}       % for a thesis, graduation date
 \SponsoringAgency{N/A}          % really, for technical reports
-\DatesCovered{MM-DD-YYYY to MM-DD-YYYY}
+\DatesCovered{} %MM-DD-YYYY to MM-DD-YYYY}
 \ReportClassification{Unclassified}
 \AbstractClassification{Unclassified}
 \PageClassification{Unclassified}
@@ -131,7 +130,7 @@ The feasibility of replacing conventional GNC techniques for stabilizing aircraf
 \begin{document}
 
 \NPScover                  	% Cover page
-%\NPSsftne                  		% SF298 form
+\NPSsftne                  		% SF298 form
 %\NPSsignature             	% Tech Report page (iii): signature page
 \NPSthesistitle            	% Thesis page (iii): title page
 \NPSabstractpage           	% Abstract Page
@@ -150,18 +149,25 @@ The feasibility of replacing conventional GNC techniques for stabilizing aircraf
 \NPSlistOfAcronymsFromFile{acronyms}
 
 \NPSexecsummary{
+The primary objective of this research was to determine if modern control techniques could provide engineering cost and schedule savings for DOD/NAVY autonomous systems.  A waterfall systems engineering technique was utilized to evaluate the use of adaptive control on fixed-wing umnanned aircraft.  The growing demand for unmanned systems will inherit the costs associated with guidance, navigation, and control.  With the use of modern control techniques, these cost could potentially be reduced if not illimnated as well as gaining improved performance over the classical methods.
+
 The field of adaptive control offers techniques for increasing performance and robustness in numerous settings and applications.  Adaptive control is different than traditional feedback in that it provides a mechanism for adjusting the controller's parameters to reduce plant uncertainty.  Classical feedback control utilizes parameters, which are specified by the engineer to optimize an ideal use case, which often requires extensive tuning and testing.  Adaptive controllers adjust their control parameters using various intelligent mechanisms designed to increase robustness to plant variation or unanticipated disturbances.  Adaptive control has many applications in the aerospace domain to include control strategies when aerodynamic coefficients are unknown or are non-constant, actuator failure, airframe damage, etc.   This research evaluates fixed wing UAS controller performance and robustness using the \Lone adaptive control architecture. 
 
 Successful integration of the \Lone adaptive control algorithm was achieved utilizing discretization techniques on the Pixhawk 1 commercial autopilot.  This algorithm was then prototyped and tested utilizing MavProxy and X-Plane10 as a complete software in the loop toolchain.  This enabled rapid prototyping and testing of the \Lone algorithm in a high fidelity environment ensuring successful integration onto prototype aircraft.
 
 Two different prototype aircraft were constructed to perform flight tests of the \Lone adaptive controller with respect to the main objective of reducing the engineering demand required to achieve successful flight.  Multiple flights were conducted across both prototype aircraft and achieved a drastic reduction the effort to achieve fully autonomous capabilities that also outperformed conventional PID controllers.  
 
-Overall, the \Lone adaptive controller implemented in this research met the primary objective of reducing the engineering demand required of guidance navigation and control architectures.  This key performance benefit is realizable through the use of modern control techniques which also resulted in increased controller performance as well as improved battle damage tolerance as ancillary byproducts of the improved architecture.
+Overall, the \Lone adaptive controller implemented in this research met the primary objective of reducing the engineering demand required of guidance navigation and control architectures.  This key performance benefit is realizable through the use of modern control techniques which also resulted in increased controller performance as well as improved battle damage tolerance as ancillary byproducts of the improved architecture.  Utilizing modern adaptive control techniques  has been shown as a reliable method for improved performance and robust control which could result in immediate cost savings to the DOD/NAVY.
 }
 
 \NPSacknowledgements{
-I would like to thank.....
+First, I would like to thank my beautiful wife.  Her continued support and unwavering love continues to enable me to achieve goals far beyond my own capability.  My parents Nolan and Charmian Beall continue to keep me grounded and remind me to always remember what is important in life.
 
+I would like to thank Oleg Yakimenko for his guidance and mentorship.  His published acumen is unparalleled and set a high goal for me to achieve some day.
+
+Additionally, I would like to thank Vladimir Dobrokhodov who is an expert in all things adaptive control.  His numerous hours dedicated to discussing adaptive control were crucial in solidifying my understanding.
+
+Finally, I would like to thank Andrew Tridgell and the ArduPilotMega Development team for their support and guidance on how to integrate into the APM infrastructure.
 }
 
 % Start layout for the NPS body
