@@ -6,7 +6,7 @@ Adaptive control saw its early debut in the NASA North American X-15 hypersonic 
 
 The X-15 program started in 1959 and continued to 1968 flying nearly 200 successful flights \cite{nasa_x15_facts}.  It was considered one of NASA's most successful programs.  The benefit of adaptive control to the X-15 was that the adaptive controller was supposed to adjust the gain parameters online automatically.  If the controller was self-tuning, it could potentially offer increased performance while reducing complexity.  The Honeywell implemented the MH-96 adaptive controller in the X-15-3 as a fly-by-wire controller designed to adaptively adjust the damping in pitch and roll with respect to the desired model response.  The goal was to achieve consistent aircraft response regardless of dynamic pressure and other variables.  During test flights of the MH-96 adaptive control, increased performance was observed especially in the dynamic phases of reentry over that of the linear fixed gain damping system \cite{dydek2010adaptive}.  These early breakthroughs in adaptive control proved the benefits could be viable aerospace solutions.  However, on November 15, 1967, there was a fatal accident caused by the adaptive controller.  The adaptive controller created an out of control flight situation resulting in dynamic pressures exceeding the structural limits and subsequent breakup of the airframe at 65,000 feet \cite{nasa_x15_facts}.
 
-The turbulent start of adaptive control, as implemented on the X-15 program, was due in large part to the early naive understanding of robustness.  Contemporary robust adaptive control strives to encapsulate these deficiencies of robustness in studies and proofs using Lyapunov stability analysis.  In addition to the developments of rigorous stability analysis tools, a number of unique techniques have also been implemented to increase controller robustness.  One such technique utilizes dead band limits on the model adaptation process to avoid system/measurement noise from causing the un-learning of the states and is called 'dead-zone modification' as proposed by B.B. Peterson and K.S Narendra \cite{peterson1982bounded}.  Lavretsky and Wise also reference the '$\sigma$ and $e$ modifications' which adds damping to the adaptation process \cite{lavretsky2013robust}.  The \Lone adaptive control algorithm utilizes a technique which seeks to decouple the adaptation rate from robustness by 'low pass filtering' the contribution of the fast estimator under the premise that estimating the entire frequency spectrum is overly ambitious and should be limited to the bandwidth of the actuator-plant combination.  Many advances have been made in the adaptive control field over the past few decades, and this research sets out to evaluate a small subset of these techniques in the unforgiving aerospace environment.
+The turbulent start of adaptive control, as implemented on the X-15 program, was due in large part to the early naive understanding of robustness.  Contemporary robust adaptive control strives to encapsulate these deficiencies of robustness in studies and proofs using Lyapunov stability analysis.  In addition to the developments of rigorous stability analysis tools, a number of unique techniques have also been implemented to increase controller robustness.  One such technique utilizes dead band limits on the model adaptation process to avoid system/measurement noise from causing the un-learning of the states and is called "dead-zone modification" as proposed by B.B. Peterson and K.S Narendra \cite{peterson1982bounded}.  Lavretsky and Wise also reference the '$\sigma$ and $e$ modifications' which adds damping to the adaptation process \cite{lavretsky2013robust}.  The \Lone adaptive control algorithm utilizes a technique which seeks to decouple the adaptation rate from robustness by 'low pass filtering' the contribution of the fast estimator under the premise that estimating the entire frequency spectrum is overly ambitious and should be limited to the bandwidth of the actuator-plant combination.  Many advances have been made in the adaptive control field over the past few decades, and this research sets out to evaluate a small subset of these techniques in the unforgiving aerospace environment.
 %---------------------------------------------------------
 
 \section{Classical Feedback vs Adaptive Control}
@@ -22,7 +22,7 @@ Figure~\ref{fig:why_adaptive_control} outlines the decision making process a con
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.5\textwidth]{why_adaptive_control.png}
-  \caption{Determine if adaptive control should be used}
+  \caption{Determine if Adaptive Control Should be Used}
   \label{fig:why_adaptive_control}
 \end{figure}
 
@@ -34,7 +34,7 @@ Figure~\ref{fig:why_adaptive_control} outlines the decision making process a con
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{traditional_MRAC.png}
-  \caption{Traditional \ac{MRAC} architecture }
+  \caption{Traditional \ac{MRAC} Architecture }
   \label{fig:traditional_mrac}
 \end{figure}
 

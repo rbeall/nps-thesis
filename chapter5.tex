@@ -2,12 +2,12 @@
 This chapter utilizes the \ac{APM} \ac{SITL} architecture as well as prototype aircraft to tune and test the \Lone adaptive control algorithm to highlight performance parameters which meet or exceed the underlying requirements established in the problem proposal in Chapter~\ref{ch:intro}.
 
 \section{Simulation Results}
-Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in Figure~\ref{fig:maxi-swift}.
+Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in Figure~\ref{fig:maxi-swift}, a simulation photo.
 
 \begin{figure}[!h]
  \centering
   \includegraphics[width=0.75\textwidth]{maxi-swift.png}
-  \caption{Maxi-Swift Flying Wing Model used in X-Plane10}
+  \caption{Maxi-Swift Flying Wing Model Used in X-Plane10}
   \label{fig:maxi-swift}
 \end{figure}
 This plane did not afford proper testing of elevon mixing, but the fidelity in the model provided utilizing X-Plane10 was surprisingly accurate with respect to the FT-Spear aircraft used for actual flight test.  This drastically increased confidence that anything tested in \ac{SITL} would have a high probability of success in actual flight test.
@@ -35,12 +35,12 @@ When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeab
 \end{figure}
 
 \subsection{Pitch due to Landing Gear and Flaps}
-Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see Figure~\ref{fig:corsair})in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up. 
+Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see Figure~\ref{fig:corsair}) in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up. 
 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{corsair.png}
-  \caption{F4U Corsair model - X-Plane10}
+  \caption{F4U Corsair Model in X-Plane10}
   \label{fig:corsair}
 \end{figure}
 
@@ -48,7 +48,7 @@ The \Lone adaptive controller significantly reduces the attitude excursion due t
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{gear_and_flaps.png}
-  \caption{Pitch Attittude Response due to Gear and Flaps}
+  \caption{Pitch Attittude Response Due to Gear and Flaps}
   \label{fig:gear_and_flaps}
 \end{figure}
 
@@ -113,7 +113,7 @@ The \Lone adaptive controller performed well when compensating for the change in
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{flaps_flight_test.png}
-  \caption{Pitch Attittude Response due to Gear and Flaps}
+  \caption{Pitch Attittude Response Due to Gear and Flaps}
   \label{fig:flaps_flight_test}
 \end{figure}
 

@@ -8,12 +8,12 @@ The Pixhawk autopilot is a collaborative project among open-source engineers whi
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.65\textwidth]{pixhawk_connectors.png}
-  \caption{Pixhawk 1 Autopilot Connection Diagram}
+  \caption{Pixhawk 1 Autopilot Connection Diagram  \cite{apm_org}}
   \label{fig:pixhawk_autopilot}
 \end{figure}
 
 \subsection{Key Features}
-The Pixhawk 1 Autopilot has the following features:
+The Pixhawk 1 Autopilot has the following features as found on \cite{apm_org}:
 \begin{itemize}
 \item 168 MHz / 252 MIPS Cortex-M4F
 \item 14 PWM / Servo outputs (8 with failsafe and manual override, 6 auxiliary, high-power compatible)
@@ -28,7 +28,7 @@ The Pixhawk 1 Autopilot has the following features:
 \end{itemize}
 
 \subsection{Specifications}
-The Pixhawk 1 Autopilot has the following specifications:
+The Pixhawk 1 Autopilot has the following specifications as found on \cite{apm_org}:
 \subsubsection{Processor}
 \begin{itemize}
 \item 32bit STM32F427 Cortex M4 core with FPU
@@ -65,11 +65,11 @@ The \ac{GCS} used for this research was MAVproxy \cite{mavproxy}.  It is an open
 \subsection{MAVproxy Features}
 The following are summaries which proved to be extremely useful for this research \cite{mavproxy_wiki}:
 \begin{itemize}
-\item Command-line, console based application. Plugins included in MAVProxy provide a basic \ac{GUI}.
-\item Can be networked and run over any number of computers.
-\item Portable; capable of running on any POSIX OS with Python, pyserial, and select() function calls, which means Linux, OS X, Windows, and others.
-\item The light-weight design; runs on small netbooks.
-\item Tab-completion of commands.
+\item command-line, console based application. Plugins included in MAVProxy provide a basic \ac{GUI}.
+\item network capable and run over any number of computers.
+\item portable; capable of running on any POSIX OS with Python, pyserial, and select() function calls, which means Linux, OS X, Windows, and others.
+\item light-weight design; runs on small netbooks.
+\item tab-completion of commands.
 \end{itemize}
 
 \section{Simulation}
@@ -77,7 +77,7 @@ The \ac{APM} environment offers three versions of \ac{SITL} simulations.  The lo
 
 The second \ac{SITL} offered in the \ac{APM} environment is X-plane 10.  This is a much higher fidelity simulation, which includes actuator models and environmental modeling.  X-plane 10 is primarily used for simulating full-scale aircraft and therefore is difficult to find models, which accurately represent the dynamics of small fixed-wing \ac{UAS}.  The open-source community provided model called the "maxi-swift" was similar enough to the airframe in this research that it provided adequate \ac{SITL} modeling which ensured robust flight test.
 
-The last \ac{SITL} simulation tested under the \ac{APM} environment was the RealFlight 7.5 \ac{API}.  The RealFlight \ac{RC} airplane simulator offers some of the industry's highest fidelity simulations for small aircraft.  This product requires an \ac{API} key to hook into MAVproxy.  This capability is not yet on the market as of the time of this research, but the \ac{APM} core developers were supportive of this research and ran multiple experiments with the RealFlight \ac{SITL} for early validation.
+The last \ac{SITL} simulation tested under the \ac{APM} environment was the RealFlight 7.5 \ac{API}.  The RealFlight \ac{RC} airplane simulator offers some of the industry's highest fidelity simulations for small aircraft.  This product requires an \ac{API} key to hook into MAVproxy.  This capability is not yet on the market as of the time of this research, but the \ac{APM} core developers were supportive of this research and ran multiple experiments with the RealFlight \ac{SITL} for early validation.  The screenshot in Figure~\ref{fig:realflight_sitl} was captured while conducting testing utilizing the RealFlight \ac{SITL}.
 
 \begin{figure}[h!]
  \centering
@@ -89,7 +89,9 @@ The last \ac{SITL} simulation tested under the \ac{APM} environment was the Real
 
 \section{Airframe}
 
-The aircraft used for this research was the Flitetest Spear and the Flitetest Explorer \cite{flitetest}.  The Spear airframe was chosen for its endurance capability of greater than 45 minutes of flight time and its large capacity fuselage.  The flying-wing architecture keeps the actuation requirement to a minimum of two servos by utilizing an elevon configuration.  
+The aircraft used for this research was the Flitetest Spear and the Flitetest Explorer \cite{flitetest}.  The Spear airframe was chosen for its endurance capability of greater than 45 minutes of flight time and its large capacity fuselage.  The flying-wing architecture keeps the actuation requirement to a minimum of two servos by utilizing an elevon configuration.
+
+Figures~\ref{fig:spear} and \ref{fig:spear_carg} are example photos from the instructional build website \cite{flitetest}.
 
 \begin{figure}[!h]
  \centering
@@ -118,30 +120,30 @@ This plane was constructed out of craft foam board.  The plans were downloaded f
 
 \subsection{Spear Specifications}
 \begin{itemize}
- \item Weight without battery: 1.45 lbs (658 g)
- \item Center of gravity: 3 – 3.5” (76 – 89 mm) in front of firewall
- \item Control surface throws: 16\degrees  deflection – Expo 30\%
- \item Wingspan: 41 inches (1041 mm)
- \item Recommended motor: 425 sized, 1200 kv minimum
- \item Recommended prop: 9 x 4.5 CW (reverse) prop
- \item Recommended ESC: 30 amp minimum
- \item Recommended Battery: (2) 2200 mAH 12.6 volt minimum
- \item Recommended Servos: (2) 9 gram servos 
+ \item weight without battery: 1.45 lbs (658 g)
+ \item center of gravity: 3 – 3.5” (76 – 89 mm) in front of firewall
+ \item control surface throws: 16\degrees  deflection – Expo 30\%
+ \item wingspan: 41 inches (1041 mm)
+ \item motor: 425 sized, 1200 kv minimum
+ \item prop: 9 x 4.5 CW (reverse) prop
+ \item electronic speed control (ESC): 30 amp minimum
+ \item battery: (2) 2200 mAH 12.6 volt minimum
+ \item xervos: (2) 9 gram servos 
 \end{itemize}
 
 The Explorer airframe was chosen because it is a conventional airframe with highly coupled aerodynamics which can be configured in multiple different failure modes.  The sport wing provided in the plans was modified to have independently actuated flaps, and ailerons for a combination of software enabled failure modes.  This aircraft was also configured with a rudder for testing the lateral aerodynamics coupling effects on the adaptive controller.  
 
 \subsection{Explorer Specifications}
 \begin{itemize}
- \item Weight without battery: 1.08 lbs (493 g)
- \item Center of gravity: 2.25” (57 mm) from leading edge of wing
- \item Control surface throws: 12\degrees  deflection – Expo 30\%
- \item Wingspan: 57 inches (1447 mm)
- \item Recommended motor: 425 sized, 1000 kv minimum
- \item Recommended prop: 9 x 6 CW (reverse) prop
- \item Recommended ESC: 30 amp minimum
- \item Recommended Battery: (1) 2200 mAH 12.6 volt minimum
- \item Recommended Servos: (6) 9 gram servos 
+ \item weight without battery: 1.08 lbs (493 g)
+ \item center of gravity: 2.25” (57 mm) from leading edge of wing
+ \item control surface throws: 12\degrees  deflection – Expo 30\%
+ \item wingspan: 57 inches (1447 mm)
+ \item motor: 425 sized, 1000 kv minimum
+ \item prop: 9 x 6 CW (reverse) prop
+ \item ESC: 30 amp minimum
+ \item battery: (1) 2200 mAH 12.6 volt minimum
+ \item servos: (6) 9 gram servos 
 \end{itemize}
 
 \begin{figure}[!h]
@@ -161,7 +163,7 @@ The Explorer airframe was chosen because it is a conventional airframe with high
 \begin{figure}[!h]
  \centering
   \includegraphics[width=0.75\textwidth]{explorer_electronics.png}
-  \caption{Pixhawk autopilot installed on Explorer}
+  \caption{Pixhawk Autopilot Installed on Explorer}
   \label{fig:explorer_electronics}
 \end{figure}
 
