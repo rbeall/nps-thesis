@@ -29,7 +29,7 @@ An example of this formulation can be seen below
   \label{fig:chirp}
 \end{figure}
 
-Specifically for this research, the reverse formulation of the linear chirp was used because it ensured the aircraft wouldn't exceed max roll or pitch limits within the first few cycles of the output.  The reverse chirp was applied in open loop while in "training mode"  which would constrain the angle of bank or pitch by switching into attitude hold mode upon an attitude exceedance.
+Specifically for this research, the reverse formulation of the linear chirp was used because it ensured the aircraft wouldn't exceed max roll or pitch limits within the first few cycles of the output.  The reverse chirp was applied in open loop while in \enquote{training mode}  which would constrain the angle of bank or pitch by switching into attitude hold mode upon an attitude exceedance.
 
 \subsection{z-Domain to s-Domain}
 The logged input and output data in discrete form requires shaping to convert cleanly into an s-domain representation.  The first step is ensuring that the data is of constant sampling rate.  In other words, the time between samples is uniform from sample to sample.  The data provided from the Pixhawk autopilot does not have a uniform sampling rate.  The sample rate is a user-defined rate (50-400Hz) but has a slight amount of jitter $(\pm 0.1\%)$.  \ac{PCHIP} interpolation was used to interpolate the data into a uniform sampling rate.

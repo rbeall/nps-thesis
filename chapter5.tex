@@ -30,7 +30,7 @@ When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeab
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_divergence.png}
-  \caption{PID vs \Lone Adaptive Control Coupled Pitch Resonse Performance}
+  \caption{PID vs \Lone Adaptive Control Coupled Pitch Response Performance}
   \label{fig:pitch_divergence}
 \end{figure}
 
@@ -48,7 +48,7 @@ The \Lone adaptive controller significantly reduces the attitude excursion due t
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{gear_and_flaps.png}
-  \caption{Pitch Attittude Response Due to Gear and Flaps}
+  \caption{Pitch Attitude Response Due to Gear and Flaps}
   \label{fig:gear_and_flaps}
 \end{figure}
 
@@ -58,7 +58,7 @@ Adaptive control offered little improvement to roll performance with respect to 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{roll_perf.png}
-  \caption{Roll Attittude Performance}
+  \caption{Roll Attitude Performance}
   \label{fig:roll_perf}
 \end{figure}
 
@@ -113,7 +113,7 @@ The \Lone adaptive controller performed well when compensating for the change in
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{flaps_flight_test.png}
-  \caption{Pitch Attittude Response Due to Gear and Flaps}
+  \caption{Pitch Attitude Response Due to Gear and Flaps}
   \label{fig:flaps_flight_test}
 \end{figure}
 
@@ -122,13 +122,13 @@ The aircraft max roll angle was set to $\pm$45\degrees to achieve rapid roll whi
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_divergence_flight.png}
-  \caption{PID vs \Lone Adaptive Control Coupled Pitch Resonse Performance}
+  \caption{PID vs \Lone Adaptive Control Coupled Pitch Response Performance}
   \label{fig:pitch_divergence_flight}
 \end{figure}
 
 %---------------------------------------------
 \subsection{Roll Performance}
-To test the nominal flight path stability and roll attitude performance, a rectangular flight plan was established.  Figure~\ref{fig:roll_perf_flight_test} illustrates the \Lone adaptive controller while maintaining the left hand pattern.  The noise in the roll channel was observed in actual flight as turbulence.  The fliter cutoff frequency could be lowered to reduce performance if desired, but these results were not oscillatory which suggested that the filter cutoff frequency was not too high.  These results compare to the noise found on the \ac{PID} channel so the threat of damaging servo by over driving them was not expected.
+To test the nominal flight path stability and roll attitude performance, a rectangular flight plan was established.  Figure~\ref{fig:roll_perf_flight_test} illustrates the \Lone adaptive controller while maintaining the left hand pattern.  The noise in the roll channel was observed in actual flight as turbulence.  The filter cutoff frequency could be lowered to reduce performance if desired, but these results were not oscillatory which suggested that the filter cutoff frequency was not too high.  These results compare to the noise found on the \ac{PID} channel so the threat of damaging servo by over driving them was not expected.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{roll_perf_flight_test.png}

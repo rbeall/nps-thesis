@@ -6,6 +6,8 @@
 \usepackage{amssymb}
 \usepackage{amsmath}  %useful for multi-line equations
 
+\usepackage{csquotes} %for propper quoting
+
 \usepackage{listings} %Used to post C++ code
 \usepackage{xcolor}
 \lstset { %
@@ -51,7 +53,7 @@
 
 % Student info
 \author{Ryan G. Beall}
-\rank{LT, USN}
+\rank{Lieutenant, USN}
 \degree{Master of Science in Systems Engineering}
 \degreeabbreviation{MS}   % Should be MS, MBA or MA
 \prevdegrees{B.S., United States Naval Academy, 2008} % previous degree
@@ -59,7 +61,7 @@
 % Department info
 \department{Department of Systems Engineering}
 \thesisadvisorone{Oleg A. Yakimenko}
-\thesisadvisortwo{Vladimir N. Dobrokhodov}
+\thesisadvisortwo{Vladimir N. Dobrokhodov} 
 \secondreader{Fotis A. Papoulias}
 \departmentchair{Ronald E. Giachetti}
 
@@ -67,11 +69,11 @@
 \degreedate{June 2017}
 
 % See Thesis processor's release form for approved distribution statements.
-\distribution{Approved for public release. Distribution is unlimited}
+\distribution{Approved for public release. Distribution is unlimited.}
 
 % Your abstract.  New paragraphs start after an empty line.
 \abstract{
-Due to the increasing demand for autonomous unmanned systems, the Department of Defense (DOD) will soon have increased difficulty in managing costs and delivery schedule.  Unmanned Aerial System (UAS) technology has advanced significantly over the past decade accelerating the use of autonomous systems both in the DOD and commercial sector.  As the demand for UAS technology increases, the current guidance,navigation, and control (GNC) algorithms will poorly scale to meet the demand.  Currently, significant resources are required to certify flight controllers on an individual platform basis.  As different airframes are introduced to meet the expanding mission requirements, the resources required to sustain the GNC certification demand will become a limiting factor in scalability.  The feasibility of replacing conventional GNC techniques with modern adaptive control theory was conducted on a commercial-off-the-shelf (COTS) open source autopilot.  This enabled rapid prototyping and integration of an adaptive controller.  The adaptive controller architecture was designed to be aircraft non-specific.  This ensures the controller easily integrates into any aircraft, therefore, minimizing the resource burden of tuning and certification.  The adaptive controller tested in this research improved performance over the baseline controller and was rapidly integrated on multiple various airframes with minimal resources.
+Due to the growing demand for autonomous unmanned systems, the Department of Defense (DOD) will soon have increased difficulty in managing costs and delivery schedule.  Unmanned Aerial System (UAS) technology has advanced significantly over the past decade, accelerating the use of autonomous systems both in the DOD and commercial sectors.  As the demand for UAS technology increases, the current guidance,navigation, and control (GNC) algorithms will scale poorly to meet the demand.  Currently, significant resources are required to certify flight controllers on an individual platform basis.  As different airframes are introduced to meet the expanding mission requirements, the resources required to sustain the GNC certification demand will become a limiting factor in scalability.  The feasibility of replacing conventional GNC techniques with modern adaptive control theory was conducted on a commercial-off-the-shelf (COTS) open-source autopilot.  This enabled rapid prototyping and integration of an adaptive controller.  The adaptive controller architecture was designed to be aircraft non-specific.  This ensures the controller easily integrates into any aircraft, therefore minimizing the resource burden of tuning and certification.  The adaptive controller tested in this research improved performance over the baseline controller and was rapidly integrated on multiple various airframes with minimal resources.
 }
 
 % Switch the below lines around, if FOUO
@@ -161,7 +163,7 @@ Overall, the \Lone adaptive controller implemented in this research met the prim
 }
 
 \NPSacknowledgements{
-First, I would like to thank my beautiful wife.  Her continued support and unwavering love continues to enable me to achieve goals far beyond my own capability.  My parents Nolan and Charmian Beall continue to keep me grounded and remind me to always remember what is important in life.
+First, I would like to thank my beautiful wife.  Her continued support and unwavering love continue to enable me to achieve goals far beyond my own capability.  My parents, Nolan and Charmian Beall, continue to keep me grounded and remind me to always remember what is important in life.
 
 I would like to thank Oleg Yakimenko for his guidance and mentorship.  His published acumen is unparalleled and set a high goal for me to achieve some day.
 
@@ -202,7 +204,7 @@ Finally, I would like to thank Andrew Tridgell and the ArduPilotMega Development
 \chapter{System Identification}
 \input{appendix3}
 
-\chapter{Lyapunov Stability Defintion}
+\chapter{Lyapunov Stability Definition}
 \input{appendix4}
 
 \chapter{Projection Operator}

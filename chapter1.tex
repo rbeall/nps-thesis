@@ -6,10 +6,10 @@ The \ac{DOD} conducted an analysis of the role of autonomy, which outlined techn
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{DOD_roadmap.png}
-  \caption{DOD Autonomy Roadmap \cite{dodroadmap}}
+  \caption{DOD Autonomy Roadmap Source:\cite{dodroadmap}}
   \label{fig:dod_roadmap}
 \end{figure}
-The language referenced in the roadmap often recommends that machine learning and/or artificial intelligence is needed for elements such as "Fault Detection."  On the lowest level, the roadmap annotates the use of \ac{GNC} as neither needing improvement or current technology being underutilized.  An in-depth look at the current state of the art with respect to \ac{GNC} reveals that \ac{GNC} is still very costly and arguably antiquated.  Research of adaptive control as applied to \ac{GNC} offers new strategies offering improved performance and future reduced cost.
+The language referenced in the roadmap often recommends that machine learning and/or artificial intelligence is needed for elements such as \enquote{Fault Detection.}  On the lowest level, the roadmap annotates the use of \ac{GNC} as neither needing improvement or current technology being underutilized.  An in-depth look at the current state of the art with respect to \ac{GNC} reveals that \ac{GNC} is still very costly and arguably antiquated.  Research of adaptive control as applied to \ac{GNC} offers new strategies offering improved performance and future reduced cost.
 
 %-----------------------------------
 \section{Challenges in Designing Versatile Controllers}
@@ -23,7 +23,7 @@ Conventional controllers (\ac{PID}) are difficult to tune and achieving an adequ
 In the case where airframes are assembled by the same manufacturer, all aircraft still require a tedious quality assurance check.  Physical aspects of the airframes such as \ac{CG}, control surface deflection/calibration/speed, and airframe alignment all can drastically vary within the same delivered batch of airframes.  Additionally, these miniature \ac{UAS}s experience hard landings, crashes, and/or damage in transportation, which all can affect aerodynamic handling qualities.
 
 \subsection{Unknown Non-Constant Airframe Parameters}
-Aircraft with large airspeed envelopes or various configurations (flaps, retractable landing gear, \ac{VTOL}), exhibit changing dynamics that challenge conventional \ac{PID} robustness.  Because these dynamics are changing drastically, the \ac{PID} controllers either underperform or have to be over designed with ad-hoc gain scheduling techniques which significantly increases the controller's already complex tuning process.  
+Aircraft with large airspeed envelopes or various configurations (\ac{VTOL}, flaps, retractable landing gear), exhibit changing dynamics that challenge conventional \ac{PID} robustness.  Because these dynamics are changing drastically, the \ac{PID} controllers either underperform or have to be over designed with ad-hoc gain scheduling techniques which significantly increases the controller's already complex tuning process.  
 
 \subsection{Fault Tolerance}
 If an aircraft exhibits airframe faults or battle damage, the desirable outcome results in the controller achieving robust performance.  Conventional \ac{PID} controllers have limited to no ability to cope with these types of failures.
@@ -31,7 +31,7 @@ If an aircraft exhibits airframe faults or battle damage, the desirable outcome 
 %-----------------------------------
 \section{Problem Formulation and Thesis Organization}
 
-This thesis addresses a problem of shortening the time for developing and fielding a new autonomous aerial vechilce by utilizing an adaptive controller, which relaxes some of the traditional constraints and assures better robustness in the case of airframe configuration variation, various uncertainties, and faults.  
+This thesis addresses a problem of shortening the time for developing and fielding a new autonomous aerial vehicle by utilizing an adaptive controller, which relaxes some of the traditional constraints and assures better robustness in the case of airframe configuration variation, various uncertainties, and faults.  
 
 To address the formulated problem, this thesis is organized as follows.
 
