@@ -1,5 +1,5 @@
 \chapter{Flight Testing and Performance Evaluation}\label{ch:performance}
-This chapter utilizes the \ac{APM} \ac{SITL} architecture as well as prototype aircraft to tune and test the \Lone adaptive control algorithm to highlight performance parameters which meet or exceed the underlying requirements established in the problem proposal in Chapter~\ref{ch:intro}.
+This chapter utilizes the \ac{APM} \ac{SITL} architecture as well as prototype aircraft to tune and test the \Lone adaptive control algorithm to highlight performance parameters which meet or exceed the underlying requirements established in the problem proposal in Chapter~\ref{ch:intro}.  For all graphs in Chapter~\ref{ch:performance}, the green background identifies when the adaptive control algorithm was being utilized.
 
 \section{Simulation Results}
 Simulation results were captured utilizing the \ac{APM} \ac{SITL} using X-Plane10.  The aircraft model chosen was an open-source flying wing model called the maxi-swift as seen in Figure~\ref{fig:maxi-swift}, a simulation photo.
@@ -15,7 +15,7 @@ This plane did not afford proper testing of elevon mixing, but the fidelity in t
 
 \subsection{Pitch Attitude Performance}
 
-It can be seen in Figure~\ref{fig:pitch_perf} that there exists some steady state error when under \ac{PID} control.  This phenomenon is more pronounced when the desired pitch attitude is negative.  This steady state error is due to the increase in lift caused by the increasing airspeed.  The \ac{PID} controller underperforms in this regime.  However, the adaptive controller is able to compensate for these dynamics fast enough to track the desired attitude with no steady state error.
+It can be seen in Figure~\ref{fig:pitch_perf} that there exists some steady state error when under \ac{PID} control.  This phenomenon is more pronounced when the desired pitch attitude is negative.  This steady state error is due to the increase in lift caused by the increasing airspeed.  The \ac{PID} controller underperforms in this regime.  However, the adaptive controller is able to compensate for these dynamics fast enough to track the desired attitude with no steady state error.  The green background in Figure~\ref{fig:pitch_perf} identifies when the adaptive control was being utilized and the white background was utilizing the \ac{PID} control.
 
 \begin{figure}[h!]
  \centering
