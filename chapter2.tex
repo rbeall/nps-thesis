@@ -10,7 +10,7 @@ The turbulent start of adaptive control, as implemented on the X-15 program, was
 %---------------------------------------------------------
 
 \section{Classical Feedback vs Adaptive Control}
-Control of a system can be categorized into two required elements: the requirement to stabilize the system in the presence of:
+Control of a system can be categorized into two required elements;  the requirement to stabilize the system in the presence of:
 \begin{enumerate}
  \item disturbances that affect the controlled states and outputs (pitch rate perturbation caused by environmental effects)
  \item disturbances that affect the dynamics of the open loop plant (pitch rate effectiveness with respect to dynamic pressure)
@@ -22,7 +22,7 @@ Figure~\ref{fig:why_adaptive_control} outlines the decision making process a con
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.5\textwidth]{why_adaptive_control.png}
-  \caption{Determine if Adaptive Control Should be Used}
+  \caption{Determine if Adaptive Control Should be Used Adapted from:\cite{aastrom2013adaptive}}
   \label{fig:why_adaptive_control}
 \end{figure}
 
@@ -35,7 +35,7 @@ Figure~\ref{fig:traditional_mrac} illustrates a topology where a traditional fee
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{traditional_MRAC.png}
-  \caption{Traditional \ac{MRAC} Architecture }
+  \caption{Traditional \ac{MRAC} Architecture Adapted from:\cite{aastrom2013adaptive}}
   \label{fig:traditional_mrac}
 \end{figure}
 The outer loop attempts to minimize the error between the reference model output and the plant output.  Two primary methods for using this error to learn the system parameters are: gradient descent and Lyapunov stability theory.
@@ -63,7 +63,7 @@ In order for the cost function to be minimized, the negative gradient of the cos
 \frac{d\theta}{dt}=-\gamma \frac{\partial{J}}{\partial{\theta}} =-\gamma e\frac{\partial{e}}{\partial{\theta}}
 \end{equation}
 
-The stability of this method is very system dependent and heavily relies on trial and error to ensure the adaptation gain $(\gamma)$ is not too high.  This usually requires low adaptation rates for most systems and may not produce adequate results.  It should also be noted that this method relies on adequate persistence of excitation \cite{aastrom2013adaptive}.  In simple terms, the persistence of excitation condition guarantees some functional correspondence between the error and the unknown parameters $\theta$. If the error signal is sufficiently rich, then the partial derivative is explicitly evaluated by the adaptation process running recursively.  This method does not explicitly guarantee parameter convergence even though correct steady-state gain is achieved for the closed loop system.
+The stability of this method is very system dependent and heavily relies on trial and error to ensure the adaptation gain $(\gamma)$ is not too high.  This usually requires low adaptation rates for most systems and may not produce adequate results.  It should also be noted that this method relies on adequate persistence of excitation \cite{aastrom2013adaptive}.  In simple terms, the persistence of excitation condition guarantees some functional correspondence between the error and the unknown parameters $\theta$. If the error signal is sufficiently rich, then the partial derivative is explicitly evaluated by the adaptation process running recursively.  Additionally, gradient descents are subject to local extreme convergence for non-convex manifolds.  Therefore, this method does not explicitly guarantee parameter convergence even though correct steady-state gain is achieved for the closed loop system.  
 
 With the differences between classical feedback control and adaptive control being discussed, the next chapter applies analytical tools to develop a specific adaptive control architecture to address the requirements outlined in Chapter~\ref{ch:intro}.
 
