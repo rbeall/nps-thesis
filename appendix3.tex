@@ -1,5 +1,6 @@
 \label{appendix:system_identification}
 \section{System Identification}
+System identification was performed to scope the author's expectation for the bandwidth of small fixed wing unmanned airframes.  This was conducted in order to properly establish cutoff frequencies for the companion model.  These results are also mirrored in Figure~\ref{fig:bode_analysis} and discussed in Chapter~\ref{ch:recomendations}.
 
 \subsection{Data Collection}
 The Pixhawk autopilot was used to capture roll and pitch rates $(\dot{p},\dot{q})$ for the test vehicle as well as the pilot's command inputs.  These outputs and inputs were the essential building blocks for creating pitch rate and roll rate models for the test vehicle.  The autopilot is capable of logging data at 50-400 Hz that is represented as a discrete time domain signal.  This data should ultimately be manipulated into the s-domain.  The mathematics for this procedure are well defined, and numerous tools can be used to simplify this process \cite{tfest_matlab}.  
