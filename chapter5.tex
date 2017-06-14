@@ -35,7 +35,7 @@ When rapidly rolling the maxi-swift aircraft in simulation, there was a noticeab
 \end{figure}
 
 \subsection{Pitch due to Landing Gear and Flaps}
-Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see Figure~\ref{fig:corsair}) in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up. 
+Lowering the landing gear and flaps entering the landing phase of flight causes un-commanded deviation in pitch.  The F4U Corsair (see Figure~\ref{fig:corsair}) in X-Plane10 was used to evaluate the attitude hold retention performance.  This un-modeled aerodynamics can cause the integrator in a \ac{PID} controller to saturate or wind up.  Figure~\ref{fig:gear_and_flaps} illustrates the pitch performance during the actuation of flaps and gear with and with out adaptive control.
 
 \begin{figure}[h!]
  \centering
@@ -54,7 +54,7 @@ The \Lone adaptive controller significantly reduces the attitude excursion due t
 
 %---------------------------------------------
 \subsection{Roll Performance}
-Adaptive control offered little improvement to roll performance with respect to the nominal attitude retention.  The roll axis for multiple aircraft was typically seen to have higher cutoff frequencies with respect to pitch and therefore required higher values for the $D(s)$ cut off frequencies.
+Adaptive control offered little improvement to roll performance with respect to the nominal attitude retention.  The roll axis for multiple aircraft was typically seen to have higher cutoff frequencies with respect to pitch and therefore required higher values for the $D(s)$ cut off frequencies.  Figure~\ref{fig:roll_perf} illustrates that the adaptive controller is capable of achieving equal or improved performance over the \ac{PID} controller.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.85\textwidth]{roll_perf.png}
@@ -100,7 +100,7 @@ The first observation was that the algorithm, even when poorly tuned, was bounde
 Once the algorithm was well understood and properly implemented in code, flight tests were then conducted on the FT Explorer aircraft.  This aircraft provided more test opportunities because multiple aircraft configurations could be tested with various combinations of flaps and rudder.  
 
 \subsection{Pitch Performance}
-As demonstrated in Figure~\ref{fig:pitch_perf}, the simulation results almost identically matched the flight test results for pitch response.  As the aircraft pitches down, the airspeed builds and causes a building steady state error that the integrator time constant struggles to out pace.  This was observed both in simulation and in flight test.  The \Lone adaptive controller's fast adaptation was sufficient to counteract this unmodeled pitching moment.  These results drastically increased the confidence both in the \ac{SITL} fidelity as well as the \Lone adaptive controller.
+As demonstrated in Figure~\ref{fig:pitch_perf_flight_test}, the simulation results almost identically matched the flight test results for pitch response.  As the aircraft pitches down, the airspeed builds and causes a building steady state error that the integrator time constant struggles to out pace.  This was observed both in simulation and in flight test.  The \Lone adaptive controller's fast adaptation was sufficient to counteract this unmodeled pitching moment.  These results drastically increased the confidence both in the \ac{SITL} fidelity as well as the \Lone adaptive controller.
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1\textwidth]{pitch_perf_flight_test.png}

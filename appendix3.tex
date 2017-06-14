@@ -20,7 +20,7 @@ where
  \item[] $t$  is time in seconds
 \end{itemize}
 
-An example of this formulation can be seen below
+An example of this method can be seen in Figure~\ref{fig:chirp}.
 
 \begin{figure}[!h]
  \centering
@@ -40,7 +40,7 @@ The order of the regression (number of polynomials to estimate) is at the discre
 
 Results were collected from two flight test events.  The first flight test was conducted under manual control without utilizing the chirp.  The pilot attempted to increase frequency of the input signal manually.  The second set of data collected was via the reverse linear chirp method previously described.  
 
-The manually piloted acquired data was expected to have insufficient frequency content in the signal.  However, the manual flight test provided moderate results for modeling the aircraft.
+The manually piloted acquired data was expected to have insufficient frequency content in the signal.  However, the manual flight test provided moderate results for modeling the aircraft as seen in Figure~\ref{fig:roll_model} .
 
 \begin{figure}[!h]
  \centering
@@ -49,7 +49,7 @@ The manually piloted acquired data was expected to have insufficient frequency c
   \label{fig:roll_model}
 \end{figure}
 
-The above result demonstrates the utility of this technique even if data can only be acquired from manual pilot inputs.  It can be seen that the second order model starts to misrepresent the data at higher frequencies.  Figure~\ref{fig:chirp_model} illustrates the data recorded from the reverse chirp experiment run at 50Hz.  The $\delta$ \ac{PWM} input channel data clearly does not represent the software calculated chirp.  The highest frequency designed to be outputted during this experiment was 10Hz.  10 Hz is significantly less than the frequency required to meet Nyquist sampling criterion (25Hz)  for this data sampling rate.  However, there are clear patterns of aliasing in the input signal as recorded by the data flash logger.  
+The results in Figure~\ref{fig:roll_model} demonstrates the utility of this technique even if data can only be acquired from manual pilot inputs.  It can be seen that the second order model starts to misrepresent the data at higher frequencies.  Figure~\ref{fig:chirp_model} illustrates the data recorded from the reverse chirp experiment run at 50Hz.  The $\delta$ \ac{PWM} input channel data clearly does not represent the software calculated chirp.  The highest frequency designed to be outputted during this experiment was 10Hz.  10 Hz is significantly less than the frequency required to meet Nyquist sampling criterion (25Hz)  for this data sampling rate.  However, there are clear patterns of aliasing in the input signal as recorded by the data flash logger.  
 
 \begin{figure}[!h]
  \centering
@@ -115,6 +115,8 @@ and
 \begin{equation}
 H(s)=\frac{0.0111*17.21^2}{s^2+2*0.54*17.21s+17.21^2}\
 \end{equation}
+
+The comparison of the model to recorded results is seen in Figure~\ref{fig:reverse_chirp_model}.
 
 \begin{figure}[!h]
  \centering

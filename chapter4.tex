@@ -5,6 +5,8 @@ This chapter presents the \ac{COTS} autopilots used in this research as well as 
 \section{Pixhawk Autopilot}
 The Pixhawk autopilot is a collaborative project among open-source engineers which resulted in a high-performance autopilot which is capable of controlling aircraft, ground vehicles, and many others.  The primary reason this autopilot was chosen was because of the vast amount of support in the developer community.  The Pixhawk 1 autopilot hardware is effectively obsolete at the time of this writing, but the open-source code base is extremely flexible and continues to be ported to new hardware as it becomes available.  This has been the case for various Raspberry Pi autopilots as well as the Pixhawk 2.  The Pixhawk autopilot operates using two flight stacks (code base/operating systems); the PX4 flight stack and the \ac{APM} flight stack.  This research was implemented on the \ac{APM} flight stack primarily because the author's familiarity with the developer team which offers unparalleled assistance to the academic community.  The \ac{APM} codebase also offers a litany of open-source tools such as a Linux based \ac{GCS}, \ac{SITL} simulator, log analysis tools, and an \ac{API} for the RealFlight 7.5 simulator (high fidelity airframe simulation for small aircraft).
 
+Figure~\ref{fig:pixhawk_autopilot} illustrates the connection diagram for the Pixhawk 1 autopilot.
+
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.65\textwidth]{pixhawk_connectors.png}
@@ -91,7 +93,7 @@ The last \ac{SITL} simulation tested under the \ac{APM} environment was the Real
 
 The aircraft used for this research was the Flitetest Spear and the Flitetest Explorer \cite{flitetest}.  The Spear airframe was chosen for its endurance capability of greater than 45 minutes of flight time and its large capacity fuselage.  The flying-wing architecture keeps the actuation requirement to a minimum of two servos by utilizing an elevon configuration.
 
-Figures~\ref{fig:spear} and \ref{fig:spear_cargo} are example photos from the instructional build website \cite{flitetest}.
+Figures~\ref{fig:spear} and \ref{fig:spear_cargo} are example photos from the instructional build website \cite{flitetest}.  Figure~\ref{fig:spear_build} illustrates the process of building the Spear aircraft.  The large blunt nose provides adequate space for two 2,200 mAh (12.6volts) lithium polymer batteries wired in parallel.  The remaining cargo space was used for accommodating the Pixhawk autopilot.
 
 \begin{figure}[!h]
  \centering
@@ -99,8 +101,6 @@ Figures~\ref{fig:spear} and \ref{fig:spear_cargo} are example photos from the in
   \caption{Spear Airframe.  Source \cite{flitetest}.}
   \label{fig:spear}
 \end{figure}
-
-The large blunt nose provides adequate space for two 2,200 mAh (12.6volts) lithium polymer batteries wired in parallel.  The remaining cargo space was used for accommodating the Pixhawk autopilot.
 
 \begin{figure}[!h]
  \centering
@@ -131,7 +131,7 @@ This plane was constructed out of craft foam board.  The plans were downloaded f
  \item servos: (2) 9 gram servos 
 \end{itemize}
 
-The Explorer airframe was chosen because it is a conventional airframe with highly coupled aerodynamics which can be configured in multiple different failure modes.  The sport wing provided in the plans was modified to have independently actuated flaps, and ailerons for a combination of software enabled failure modes.  This aircraft was also configured with a rudder for testing the lateral aerodynamics coupling effects on the adaptive controller.  
+The Explorer airframe was chosen because it is a conventional airframe with highly coupled aerodynamics which can be configured in multiple different failure modes.  The sport wing provided in the plans was modified to have independently actuated flaps, and ailerons for a combination of software enabled failure modes.  This aircraft was also configured with a rudder for testing the lateral aerodynamics coupling effects on the adaptive controller.  Figure~\ref{fig:explorer} illustrates the completed Explorer airframe used in this research.  Figures~\ref{fig:explorer_parts} and \ref{fig:explorer_electronics} are examples of the Explorer build process and autopilot integration.
 
 \subsection{Explorer Specifications}
 \begin{itemize}
@@ -150,7 +150,7 @@ The Explorer airframe was chosen because it is a conventional airframe with high
  \centering
   \includegraphics[width=0.90\textwidth]{explorer.png}
   \caption{FliteTest Explorer.  Source \cite{flitetest}.}
-  \label{fig:explorer_parts}
+  \label{fig:explorer}
 \end{figure}
 
 \begin{figure}[!h]

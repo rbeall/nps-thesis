@@ -31,12 +31,12 @@ The \Lone adaptive control constrains the objective function by using a low-pass
   \caption{Direct MRAC Architecture with Low-Pass Filter }
   \label{fig:direct_mrac_lowpass}
 \end{figure}
- It can be seen in Figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The companion model (state predictor) is defined using aerodynamic model and the stability is verified for a Lyapunov candidate function.  However, these underpinnings designed in the companion model become nonsensical in the implementation found in Figure~\ref{fig:direct_mrac_lowpass} because the filter is applied to the plant and not modeled in the companion model.  This specific filter placement is non-subtractable when the error state is calculated because it is not applied in both signal paths (plant and state predictor).
+ It can be seen in Figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The companion model (state predictor) is defined using aerodynamic model and the stability is verified for a Lyapunov candidate function.  However, these underpinnings designed in the companion model become nonsensical in the implementation found in Figure~\ref{fig:direct_mrac_lowpass_plant} because the filter is applied to the plant and not modeled in the companion model.  This specific filter placement is non-subtractable when the error state is calculated because it is not applied in both signal paths (plant and state predictor).
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Direct_MRAC_lowpass_plant.png}
   \caption{Non-Subtractable Low-Pass Implementation - Direct Architecture}
-  \label{fig:direct_mrac_lowpass}
+  \label{fig:direct_mrac_lowpass_plant}
 \end{figure}
 
 Conversely, the indirect approach offers an implementation which ensures the low-pass filter is applied to both the companion model (state predictor) and the plant ensuring that the interaction of the filter is subtractable when calculating the error state.
