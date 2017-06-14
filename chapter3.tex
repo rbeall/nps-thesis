@@ -7,14 +7,14 @@ The \Lone adaptive controller is an evolution of the concepts implemented by \ac
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Direct_MRAC.png}
-  \caption{Direct \ac{MRAC} Architecture }
+  \caption{Direct MRAC Architecture }
   \label{fig:direct_mrac}
 \end{figure}
 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Indirect_MRAC.png}
-  \caption{Indirect \ac{MRAC} Architecture }
+  \caption{Indirect MRAC Architecture }
   \label{fig:indirect_mrac}
 \end{figure}
 
@@ -28,7 +28,7 @@ The \Lone adaptive control constrains the objective function by using a low-pass
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Direct_MRAC_lowpass.png}
-  \caption{Direct \ac{MRAC} Architecture with Low-Pass Filter }
+  \caption{Direct MRAC Architecture with Low-Pass Filter }
   \label{fig:direct_mrac_lowpass}
 \end{figure}
  It can be seen in Figure~\ref{fig:direct_mrac_lowpass} that the direct architecture implementation of the low-pass filter introduces difficulties.  The companion model (state predictor) is defined using aerodynamic model and the stability is verified for a Lyapunov candidate function.  However, these underpinnings designed in the companion model become nonsensical in the implementation found in Figure~\ref{fig:direct_mrac_lowpass} because the filter is applied to the plant and not modeled in the companion model.  This specific filter placement is non-subtractable when the error state is calculated because it is not applied in both signal paths (plant and state predictor).
@@ -43,7 +43,7 @@ Conversely, the indirect approach offers an implementation which ensures the low
 \begin{figure}[h!]
  \centering
   \includegraphics[width=0.75\textwidth]{Indirect_MRAC_lowpass.png}
-  \caption{Indirect \ac{MRAC} Architecture with Low-Pass Filter }
+  \caption{Indirect MRAC Architecture with Low-Pass Filter }
   \label{fig:indirect_mrac_lowpass}
 \end{figure}
 
@@ -64,7 +64,7 @@ The \ac{SISO} controller with matched uncertainty was selected to control pitch 
 \begin{figure}[h!]
  \centering
   \includegraphics[width=1.0\textwidth]{L1_architecture.png}
-  \caption{\Lone Architecture with Matched Uncertainty Block Diagram Source:\cite{hovakimyan2010l1} }
+  \caption{\Lone Architecture with Matched Uncertainty Block Diagram.  Source \cite{hovakimyan2010l1}.}
   \label{fig:l1_architecture}
 \end{figure}
 
